@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo1"
+    tools:context=".PrincipalActivity" >
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:onClick="muestraMantenimientos"
+        android:text="@string/lbl_mantenimiento" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:onClick="muestraReparaciones"
+        android:text="@string/lbl_reparaciones" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:onClick="muestraAccidentes"
+        android:text="@string/lbl_accidentes" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button2"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:onClick="muestraDatos"
+        android:text="@string/lbl_datos" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button3"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:onClick="muestraEstadisticas"
+        android:text="@string/lbl_estadisticas" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button4"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:onClick="muestraOpciones"
+        android:text="@string/lbl_opciones" />
+
+    <LinearLayout
+		android:id="@+id/linearLayout2"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentBottom="true"
+		android:orientation="vertical"
+		android:weightSum="1">
+	</LinearLayout>
+
+</RelativeLayout>
