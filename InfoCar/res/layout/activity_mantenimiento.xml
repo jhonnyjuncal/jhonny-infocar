@@ -1,56 +1,26 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_mantenimiento"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/fondo1"
-    tools:context=".MantenimientoActivity" >
-
-    <TextView
-        android:id="@+id/mant_textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="Seleccione un vehiculo" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/mant_textView1"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp" />
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/spinner1"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="5dp" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-        </LinearLayout>
-    </ScrollView>
+    android:layout_height="match_parent" >
     
-    <LinearLayout
-		android:id="@+id/linearLayout2"
-		android:layout_width="fill_parent"
-		android:layout_height="50dp"
-		android:layout_alignParentBottom="true"
-		android:orientation="vertical"
-		android:weightSum="1">
-	</LinearLayout>
-
-</RelativeLayout>
+	<!-- The main content view -->
+    <FrameLayout
+        android:id="@+id/container_mantenimiento"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.jhonny.infocar.MantenimientoActivity"
+        tools:ignore="MergeRootFrame" />
+	
+	<!-- The navigation drawer -->
+    <fragment
+        android:id="@+id/fragment_menu"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.jhonny.infocar.MenuOpciones" />
+	
+</android.support.v4.widget.DrawerLayout>

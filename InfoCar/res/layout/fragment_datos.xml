@@ -1,0 +1,30 @@
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jhonny.infocar.DatosActivity$PlaceholderFragment" >
+    
+    <ImageView
+        android:id="@+id/fondo_principal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo1" />
+
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	    
+	    <LinearLayout
+			android:id="@+id/linearLayout2"
+			android:layout_width="fill_parent"
+			android:layout_height="50dp"
+			android:layout_alignParentBottom="true"
+			android:orientation="vertical"
+			android:weightSum="1">
+		</LinearLayout>
+	
+	</RelativeLayout>
+	
+</FrameLayout>

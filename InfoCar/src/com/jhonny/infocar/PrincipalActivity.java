@@ -4,27 +4,35 @@ import com.millennialmedia.android.MMAdView;
 import com.millennialmedia.android.MMRequest;
 import com.millennialmedia.android.MMSDK;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
-public class PrincipalActivity extends Activity {
+public class PrincipalActivity extends ActionBarActivity {
 	
 	private static final int IAB_LEADERBOARD_WIDTH = 728;
 	private static final int MED_BANNER_WIDTH = 480;
 	private static final int BANNER_AD_WIDTH = 320;
 	private static final int BANNER_AD_HEIGHT = 50;
 	
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_principal);
+		
+		if(savedInstanceState == null){
+			getSupportFragmentManager().beginTransaction().add(R.id.container_principal, new PlaceholderFragment()).commit();
+		}
+		//MMSDK.setLogLevel(MMSDK.LOG_LEVEL_DEBUG);
 	}
 
 	@Override
@@ -36,6 +44,7 @@ public class PrincipalActivity extends Activity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		MenuOpciones.context = this;
 		cargaPublicidad();
 	}
 	
@@ -97,5 +106,21 @@ public class PrincipalActivity extends Activity {
 		int adWidthPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, adWidth, getResources().getDisplayMetrics());
 		DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 		return metrics.widthPixels >= adWidthPx;
+	}
+	
+	
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
+			return rootView;
+		}
 	}
 }

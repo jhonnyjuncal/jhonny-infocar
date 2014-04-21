@@ -17,5 +17,7 @@
     <string name="title_activity_datos">DatosActivity</string>
     <string name="title_activity_estadisticas">EstadisticasActivity</string>
     <string name="title_activity_opciones">OpcionesActivity</string>
+    <string name="title_activity_configuracion">ConfiguracionActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
 
 </resources>

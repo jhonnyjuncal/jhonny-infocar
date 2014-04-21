@@ -3,16 +3,19 @@ package com.jhonny.infocar;
 import com.millennialmedia.android.MMAdView;
 import com.millennialmedia.android.MMRequest;
 import com.millennialmedia.android.MMSDK;
-
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
-public class MantenimientoActivity extends Activity {
+public class MantenimientoActivity extends ActionBarActivity {
 	
 	private static final int IAB_LEADERBOARD_WIDTH = 728;
 	private static final int MED_BANNER_WIDTH = 480;
@@ -24,6 +27,10 @@ public class MantenimientoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mantenimiento);
+		
+		if(savedInstanceState == null){
+			getSupportFragmentManager().beginTransaction().add(R.id.container_mantenimiento, new PlaceholderFragment()).commit();
+		}
 	}
 
 	@Override
@@ -35,6 +42,7 @@ public class MantenimientoActivity extends Activity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		MenuOpciones.context = this;
 		cargaPublicidad();
 	}
 	
@@ -66,5 +74,21 @@ public class MantenimientoActivity extends Activity {
 		int adWidthPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, adWidth, getResources().getDisplayMetrics());
 		DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 		return metrics.widthPixels >= adWidthPx;
+	}
+	
+	
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
+			return rootView;
+		}
 	}
 }
