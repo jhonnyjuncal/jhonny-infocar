@@ -1,9 +1,10 @@
 <FrameLayout 
+    android:id="@+id/fragment_principal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jhonny.infocar.PrincipalActivity$PlaceholderFragment" >
+    tools:context="com.jhonny.infocar.PrincipalActivity">
     
     <ImageView
         android:id="@+id/fondo_principal"
@@ -24,6 +25,7 @@
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="20dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraMantenimientos"
 	        android:text="@string/lbl_mantenimiento" />
 	
@@ -35,6 +37,7 @@
 	        android:layout_alignParentTop="true"
 	        android:layout_marginRight="5dp"
 	        android:layout_marginTop="20dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraReparaciones"
 	        android:text="@string/lbl_reparaciones" />
 	
@@ -45,6 +48,7 @@
 	        android:layout_below="@+id/button1"
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="30dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraAccidentes"
 	        android:text="@string/lbl_accidentes" />
 	
@@ -56,6 +60,7 @@
 	        android:layout_below="@+id/button2"
 	        android:layout_marginRight="5dp"
 	        android:layout_marginTop="30dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraDatos"
 	        android:text="@string/lbl_datos" />
 	
@@ -67,6 +72,7 @@
 	        android:layout_below="@+id/button3"
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="30dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraEstadisticas"
 	        android:text="@string/lbl_estadisticas" />
 	
@@ -78,6 +84,7 @@
 	        android:layout_below="@+id/button4"
 	        android:layout_marginRight="5dp"
 	        android:layout_marginTop="30dp"
+	        android:minHeight="42dp"
 	        android:onClick="muestraOpciones"
 	        android:text="@string/lbl_opciones" />
 	

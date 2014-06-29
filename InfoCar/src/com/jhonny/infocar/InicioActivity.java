@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class InicioActivity extends Activity {
 	
-	private long splashDelay = 6000; //6 segundos
+	private long splashDelay = 6000; //segundos
 	
 
 	@Override

@@ -1,9 +1,9 @@
-<FrameLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_mantenimiento"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jhonny.infocar.MantenimientoActivity$PlaceholderFragment" >
+    tools:context="com.jhonny.infocar.fragments.MantenimientosFragment" >
     
     <ImageView
         android:id="@+id/fondo_principal"
@@ -13,8 +13,30 @@
         android:src="@drawable/fondo1" />
 
 	<RelativeLayout 
+	    android:id="@+id/mant_relativeLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
+	    
+	    <Spinner
+	        android:id="@+id/mant_spinner1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="30dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginLeft="10dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginTop="25dp" />
+
+	    <TextView
+	        android:id="@+id/mant_textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="5dp"
+	        android:text="Seleccione un vehiculo" />
+	    
 	    
 	    <LinearLayout
 			android:id="@+id/linearLayout2"
@@ -22,8 +44,17 @@
 			android:layout_height="50dp"
 			android:layout_alignParentBottom="true"
 			android:orientation="vertical"
-			android:weightSum="1">
-		</LinearLayout>
+			android:weightSum="1" />
+
+	    <ListView
+	        android:id="@+id/listView1"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_below="@+id/mant_spinner1"
+	        android:layout_marginBottom="50dp"
+	        android:layout_marginTop="5dp" >
+
+	    </ListView>
 	
 	</RelativeLayout>
 	
