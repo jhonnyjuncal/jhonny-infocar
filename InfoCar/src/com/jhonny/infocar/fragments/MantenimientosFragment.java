@@ -5,16 +5,18 @@ import java.util.Date;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.adapters.DetalleMantenimientosAdapter;
 import com.jhonny.infocar.model.DetalleMantenimiento;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 
 public class MantenimientosFragment extends Fragment {
 	
+	private FrameLayout fragmento;
 	private ListView listaVehiculos;
 	private DetalleMantenimientosAdapter adapter;
 	private ArrayList<DetalleMantenimiento> mantenimientos;
@@ -27,11 +29,12 @@ public class MantenimientosFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
-//        listaVehiculos = (ListView)rootView.findViewById(R.id.fragment_mantenimiento);
-//        mantenimientos = recuperaDatosMantenimiento();
-//        adapter = new DetalleMantenimientosAdapter(rootView.getContext(), mantenimientos);
-//        
-//        listaVehiculos.setAdapter(adapter);
+        fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
+        listaVehiculos = (ListView)fragmento.findViewById(R.id.mant_listView1);
+        mantenimientos = recuperaDatosMantenimiento();
+        adapter = new DetalleMantenimientosAdapter(rootView.getContext(), mantenimientos);
+        
+        listaVehiculos.setAdapter(adapter);
         
         return rootView;
     }

@@ -4,7 +4,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.animation.Animation;
@@ -16,7 +18,7 @@ public class InicioActivity extends Activity {
 	
 	private long splashDelay = 6000; //segundos
 	
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,4 +55,23 @@ public class InicioActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		try {
+			SharedPreferences prop = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+			if(prop != null) {
+				if(!prop.contains(Constantes.PRIMERA_VEZ)) {
+					SharedPreferences.Editor editor = prop.edit();
+					editor.putBoolean(Constantes.PRIMERA_VEZ, true);
+					editor.putBoolean(Constantes.INTRO_PERSONALES, false);
+					editor.putBoolean(Constantes.INTRO_VEHICULO, false);
+					editor.commit();
+				}
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

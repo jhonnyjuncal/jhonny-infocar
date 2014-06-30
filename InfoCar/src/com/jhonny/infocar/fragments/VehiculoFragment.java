@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class OpcionesFragment extends Fragment {
+public class VehiculoFragment extends Fragment {
 	
-	public OpcionesFragment() {
+	public VehiculoFragment() {
 		
 	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_opciones, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_vehiculo, container, false);
         return rootView;
     }
 }

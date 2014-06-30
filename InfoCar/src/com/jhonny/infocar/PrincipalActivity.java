@@ -9,14 +9,19 @@ import com.jhonny.infocar.fragments.MantenimientosFragment;
 import com.jhonny.infocar.fragments.OpcionesFragment;
 import com.jhonny.infocar.fragments.PrincipalFragment;
 import com.jhonny.infocar.fragments.ReparacionesFragment;
+import com.jhonny.infocar.fragments.VehiculoFragment;
 import com.jhonny.infocar.model.NavDrawerItem;
-import android.app.Fragment;
-import android.app.FragmentManager;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -29,14 +34,11 @@ import android.widget.ListView;
 
 public class PrincipalActivity extends FragmentActivity {
 	
-	private static final int IAB_LEADERBOARD_WIDTH = 728;
-	private static final int MED_BANNER_WIDTH = 480;
-	private static final int BANNER_AD_WIDTH = 320;
-	private static final int BANNER_AD_HEIGHT = 50;
-	
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private ArrayList<NavDrawerItem> navDrawerItems;
+	private NavDrawerListAdapter adapter;
 	
 	// nav drawer title
     private CharSequence mDrawerTitle;
@@ -47,9 +49,6 @@ public class PrincipalActivity extends FragmentActivity {
     // slide menu items
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
-    
-    private ArrayList<NavDrawerItem> navDrawerItems;
-    private NavDrawerListAdapter adapter;
     
 	
 	@Override
@@ -89,8 +88,12 @@ public class PrincipalActivity extends FragmentActivity {
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
         
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        if(android.os.Build.VERSION.SDK_INT >= 11) {
+        	habilitaDisplayBarraDeAccion();
+        }
+        if(android.os.Build.VERSION.SDK_INT >= 14) {
+        	habilitaBotonBarraDeAccion();
+        }
         
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -101,24 +104,45 @@ public class PrincipalActivity extends FragmentActivity {
                 ) {
         	
             public void onDrawerClosed(View view) {
-            	getActionBar().setTitle(mTitle);
-            	// calling onPrepareOptionsMenu() to show action bar icons
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            	if(android.os.Build.VERSION.SDK_INT >= 11) {
+            		setTituloBarraDeAccion(mTitle);
+            		invalidarOpcionesDeMenu();
+            	}
             }
 
             public void onDrawerOpened(View drawerView) {
-            	getActionBar().setTitle(mDrawerTitle);
-            	// calling onPrepareOptionsMenu() to hide action bar icons
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            	if(android.os.Build.VERSION.SDK_INT >= 11) {
+            		setTituloBarraDeAccion(mDrawerTitle);
+            		invalidarOpcionesDeMenu();
+            	}
             }
         };
         
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         
+        // lectura del fichero de configuracion de la aplicacion
+        SharedPreferences propiedades = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+        
+        // redireccion si fuese necesario
+        if(propiedades != null) {
+        	if(propiedades.contains(Constantes.INTRO_PERSONALES)) {
+        		boolean personales = propiedades.getBoolean(Constantes.INTRO_PERSONALES, false);
+        		boolean vehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
+        		
+        		// si no se han introducido los datos personales
+        		if(personales == false) {
+        			displayView(4, true);
+    				
+				// si no hay ningun vehiculo
+        		}else if(vehiculo == false) {
+        			displayView(7, false);
+        		}
+        	}
+        }
         if(savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            displayView(0, true);
         }
 	}
 	
@@ -156,7 +180,9 @@ public class PrincipalActivity extends FragmentActivity {
 	@Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        if(android.os.Build.VERSION.SDK_INT >= 11) {
+        	setTituloBarraDeAccion(mTitle);
+        }
     }
 	
 	/**
@@ -177,7 +203,7 @@ public class PrincipalActivity extends FragmentActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     
-    private void displayView(int position) {
+    private void displayView(int position, boolean estaEnMenu) {
     	// update the main content by replacing fragments
     	Fragment fragment = null;
     	
@@ -203,17 +229,22 @@ public class PrincipalActivity extends FragmentActivity {
     		case 6:
     			fragment = new OpcionesFragment();
     			break;
+    		case 7:
+    			fragment = new VehiculoFragment();
+    			break;
     		default:
     			break;
     	}
     	
     	if(fragment != null) {
-    		FragmentManager fragmentManager = getFragmentManager();
+    		FragmentManager fragmentManager = getSupportFragmentManager();
     		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
     		
-    		// update selected item and title, then close the drawer
-    		mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);
+    		if(estaEnMenu) {
+    			// update selected item and title, then close the drawer
+    			mDrawerList.setItemChecked(position, true);
+    			mDrawerList.setSelection(position);
+    		}
             setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
             
@@ -223,7 +254,25 @@ public class PrincipalActivity extends FragmentActivity {
     	}
     }
     
+    @TargetApi(14)
+    public void habilitaBotonBarraDeAccion() {
+    	getActionBar().setHomeButtonEnabled(true);
+    }
     
+    @TargetApi(11)
+    public void habilitaDisplayBarraDeAccion() {
+    	getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    
+    @TargetApi(11)
+    public void setTituloBarraDeAccion(CharSequence titulo) {
+    	getActionBar().setTitle(mTitle);
+    }
+    
+    @TargetApi(11)
+    public void invalidarOpcionesDeMenu() {
+    	invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+    }
     
     
     
@@ -232,7 +281,7 @@ public class PrincipalActivity extends FragmentActivity {
     	@Override
     	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     		// display view for the selected nav drawer item
-    		displayView(position);
+    		displayView(position, true);
     	}
     }
 }

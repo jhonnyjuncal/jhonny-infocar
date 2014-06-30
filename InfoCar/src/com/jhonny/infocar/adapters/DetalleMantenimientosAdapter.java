@@ -54,15 +54,15 @@ public class DetalleMantenimientosAdapter extends BaseAdapter {
 			TextView txtTitulo = (TextView)convertView.findViewById(R.id.det_textView1);
 			txtTitulo.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(fecha));
 			TextView txtFecha = (TextView)convertView.findViewById(R.id.det_textView3);
-			txtTitulo.setText(DateFormat.getInstance().format(fecha));
+			txtFecha.setText(DateFormat.getInstance().format(fecha));
 			TextView txtKms = (TextView)convertView.findViewById(R.id.det_textView5);
-			txtTitulo.setText(dm.getKms().toString());
+			txtKms.setText(dm.getKms().toString());
 			TextView txtCoste = (TextView)convertView.findViewById(R.id.det_textView7);
-			txtTitulo.setText(dm.getPrecio().toString());
+			txtCoste.setText(dm.getPrecio().toString());
 			TextView txtTipo = (TextView)convertView.findViewById(R.id.det_textView9);
-			txtTitulo.setText(dm.getTipo());
+			txtTipo.setText(dm.getTipo());
 			TextView txtTaller = (TextView)convertView.findViewById(R.id.det_textView11);
-			txtTitulo.setText(dm.getTaller());
+			txtTaller.setText(dm.getTaller());
 		}
 		return convertView;
 	}
