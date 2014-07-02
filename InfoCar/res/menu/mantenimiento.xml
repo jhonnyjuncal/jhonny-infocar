@@ -4,13 +4,11 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Nuevo"/>
-    
 	<item
         android:id="@+id/action_resumen"
         android:orderInCategory="101"
         android:showAsAction="never"
         android:title="Resumen"/>
-	
 	<item
         android:id="@+id/action_ayuda"
         android:orderInCategory="102"

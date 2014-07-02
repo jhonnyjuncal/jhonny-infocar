@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -61,6 +63,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
 		try {
 			rootView = inflater.inflate(R.layout.fragment_nuevo_vehiculo, container, false);
 			spinnerMarcas = (Spinner)rootView.findViewById(R.id.nue_veh_spinner1);
@@ -193,6 +196,12 @@ public class NuevoVehiculoFragment extends Fragment {
 			ex.printStackTrace();
 		}
 		return rootView;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.nuevo_vehiculo, menu);
 	}
 	
 	

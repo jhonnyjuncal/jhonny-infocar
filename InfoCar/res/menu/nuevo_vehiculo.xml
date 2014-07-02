@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:id="@+id/menu_nue_veh_nuevo"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/lbl_menu_nuevo" />
+	<item
+		android:id="@+id/menu_nue_veh_guardar"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/boton_guardar" />
+	<item
+		android:id="@+id/menu_nue_veh_despues"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/boton_guardar_desp" />
+</menu>

@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,9 +50,16 @@ public class DatosFragment extends Fragment {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.datos, menu);
+	}
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
         rootView = inflater.inflate(R.layout.fragment_datos, container, false);
         spinnerEdades = (Spinner)rootView.findViewById(R.id.datos_spinner1);
         editNombre = (EditText)rootView.findViewById(R.id.datos_editText1);

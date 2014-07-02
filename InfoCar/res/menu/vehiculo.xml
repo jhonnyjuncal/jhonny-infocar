@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:id="@+id/menu_nue_nuevo"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/lbl_menu_nuevo" />
+	<item
+		android:id="@+id/menu_nue_eliminar"
+		android:orderInCategory="100"
+		android:showAsAction="never"
+		android:title="@string/lbl_menu_eliminar" />
+</menu>

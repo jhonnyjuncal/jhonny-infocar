@@ -8,6 +8,8 @@ import com.jhonny.infocar.model.DetalleMantenimiento;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -29,19 +31,24 @@ public class MantenimientosFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
+        setHasOptionsMenu(true);
         fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
         listaVehiculos = (ListView)fragmento.findViewById(R.id.mant_listView1);
         mantenimientos = recuperaDatosMantenimiento();
         adapter = new DetalleMantenimientosAdapter(rootView.getContext(), mantenimientos);
-        
         listaVehiculos.setAdapter(adapter);
         
         return rootView;
     }
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.mantenimiento, menu);
+	}
+	
 	private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {
 		ArrayList<DetalleMantenimiento> detalles = null;
-		
 		try {
 			detalles = new ArrayList<DetalleMantenimiento>();
 			

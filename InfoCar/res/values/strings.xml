@@ -58,6 +58,8 @@
     <string name="lbl_compra">Fecha compra:</string>
     <string name="lbl_tipo">Tipo:</string>
     <string name="lbl_combustible">Combustible</string>
+    <string name="lbl_menu_nuevo">Nuevo vehiculo</string>
+    <string name="lbl_menu_eliminar">Eliminar</string>
     <string-array name="MARCAS_VEHICULO">
         <item>Seleccione un vehiculo</item>
         <item>Audi</item>
