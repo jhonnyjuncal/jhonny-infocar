@@ -23,75 +23,92 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="31dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
             android:text="@string/lbl_nombre" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/datos_editText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView1"
-            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/textView1"
-            android:ems="10"
             android:inputType="textPersonName" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_toRightOf="@+id/textView1" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_below="@+id/textView2"
-            android:layout_marginTop="42dp"
-            android:text="@string/lbl_sexo" />
-
+        
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView1"
-            android:layout_below="@+id/editText1"
-            android:layout_marginTop="45dp"
+            android:layout_below="@id/textView1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/lbl_telefono" />
+
+        <EditText
+            android:id="@+id/datos_editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView2"
+            android:inputType="phone" />
+        
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
             android:text="@string/lbl_edad" />
+        
+        <Spinner
+            android:id="@+id/datos_spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView3" />
+        
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView3"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/lbl_sexo" />
 
         <RadioGroup
             android:id="@+id/radioGroup1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/spinner1"
-            android:layout_alignTop="@+id/textView3"
-            android:layout_marginLeft="14dp" >
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_toRightOf="@+id/textView4">
 
             <RadioButton
-                android:id="@+id/radio0"
+                android:id="@+id/datos_radioHombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/sexo_hombre" />
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/datos_radioMujer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sexo_mujer" />
         </RadioGroup>
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/datos_button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/radioGroup1"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="150dp"
             android:text="@string/boton_guardar" />
 		
         <LinearLayout
@@ -101,8 +118,9 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             android:weightSum="1" >
+
         </LinearLayout>
-        
+
     </RelativeLayout>
 
 </FrameLayout>

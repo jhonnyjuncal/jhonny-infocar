@@ -6,12 +6,12 @@ import com.jhonny.infocar.fragments.AccidentesFragment;
 import com.jhonny.infocar.fragments.DatosFragment;
 import com.jhonny.infocar.fragments.EstadisticasFragment;
 import com.jhonny.infocar.fragments.MantenimientosFragment;
+import com.jhonny.infocar.fragments.NuevoVehiculoFragment;
 import com.jhonny.infocar.fragments.OpcionesFragment;
 import com.jhonny.infocar.fragments.PrincipalFragment;
 import com.jhonny.infocar.fragments.ReparacionesFragment;
 import com.jhonny.infocar.fragments.VehiculoFragment;
 import com.jhonny.infocar.model.NavDrawerItem;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -73,6 +73,7 @@ public class PrincipalActivity extends FragmentActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1), true, "+50"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
         
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -132,11 +133,13 @@ public class PrincipalActivity extends FragmentActivity {
         		
         		// si no se han introducido los datos personales
         		if(personales == false) {
-        			displayView(4, true);
+        			displayView(5, true);
+        			return;
     				
 				// si no hay ningun vehiculo
         		}else if(vehiculo == false) {
-        			displayView(7, false);
+        			displayView(8, false);
+        			return;
         		}
         	}
         }
@@ -212,25 +215,28 @@ public class PrincipalActivity extends FragmentActivity {
     			fragment = new PrincipalFragment();
     			break;
     		case 1:
-    			fragment = new MantenimientosFragment();
+    			fragment = new VehiculoFragment();
     			break;
     		case 2:
-    			fragment = new ReparacionesFragment();
+    			fragment = new MantenimientosFragment();
     			break;
     		case 3:
-    			fragment = new AccidentesFragment();
+    			fragment = new ReparacionesFragment();
     			break;
     		case 4:
-    			fragment = new DatosFragment();
+    			fragment = new AccidentesFragment();
     			break;
     		case 5:
-    			fragment = new EstadisticasFragment();
+    			fragment = new DatosFragment();
     			break;
     		case 6:
-    			fragment = new OpcionesFragment();
+    			fragment = new EstadisticasFragment();
     			break;
     		case 7:
-    			fragment = new VehiculoFragment();
+    			fragment = new OpcionesFragment();
+    			break;
+    		case 8:
+    			fragment = new NuevoVehiculoFragment();
     			break;
     		default:
     			break;
@@ -245,9 +251,8 @@ public class PrincipalActivity extends FragmentActivity {
     			mDrawerList.setItemChecked(position, true);
     			mDrawerList.setSelection(position);
     		}
-            setTitle(navMenuTitles[position]);
-            mDrawerLayout.closeDrawer(mDrawerList);
-            
+    		setTitle(navMenuTitles[position]);
+    		mDrawerLayout.closeDrawer(mDrawerList);
     	}else {
     		// error in creating fragment
             Log.e("MainActivity", "Error creando el fragmento");

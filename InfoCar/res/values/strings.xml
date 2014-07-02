@@ -18,20 +18,23 @@
     <string name="title_activity_reparaciones">ReparacionesActivity</string>
     <string name="title_activity_configuracion">ConfiguracionActivity</string>
     <string name="title_activity_vehiculo">VehiculoActivity</string>
+    <string name="title_activity_nuevo_vehiculo">NuevoVehiculoActivity</string>
     <string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
 	<string-array name="menu_array">
 	    <item>Principal</item>
+        <item>Vehiculos</item>
         <item>Mantenimientos</item>
         <item>Reparaciones</item>
         <item>Accidentes</item>
         <item>Datos</item>
         <item>Estadisticas</item>
         <item>Opciones</item>
-        <item>Vehiculo</item>
+        <item>Nuevo vehiculo</item>
     </string-array>
     <string-array name="menu_iconos">
         <item>@drawable/im_network</item>
+        <item>@drawable/im_ferrari</item>
         <item>@drawable/im_bujia</item>
         <item>@drawable/im_caja_herramientas</item>
         <item>@drawable/im_accidente</item>
@@ -43,8 +46,36 @@
     <string name="sexo_hombre">Hombre</string>
     <string name="sexo_mujer">Mujer</string>
     <string name="boton_guardar">Guardar</string>
+    <string name="boton_guardar_desp">Guardar despues</string>
     <string name="boton_cancelar">Cancelar</string>
     <string name="lbl_edad">Edad</string>
     <string name="lbl_sexo">Sexo</string>
     <string name="lbl_nombre">Nombre</string>
+    <string name="lbl_telefono">Telefono</string>
+    <string name="lbl_marca">Marca:</string>
+    <string name="lbl_modelo">Modelo:</string>
+    <string name="lbl_kms">Kms:</string>
+    <string name="lbl_compra">Fecha compra:</string>
+    <string name="lbl_tipo">Tipo:</string>
+    <string name="lbl_combustible">Combustible</string>
+    <string-array name="MARCAS_VEHICULO">
+        <item>Seleccione un vehiculo</item>
+        <item>Audi</item>
+        <item>Citroen</item>
+        <item>Ford</item>
+    </string-array>
+    <string-array name="TIPOS_VEHICULO">
+        <item>Seleccione un tipo</item>
+        <item>Automovil</item>
+        <item>Moto</item>
+        <item>Camion</item>
+    </string-array>
+    <string-array name="TIPOS_CARBURANTE">
+        <item>Seleccione un carburante</item>
+        <item>Gasolina</item>
+        <item>Diesel</item>
+        <item>Gas/Gasolina</item>
+        <item>Hibrido</item>
+        <item>Eléctrico</item>
+    </string-array>
 </resources>

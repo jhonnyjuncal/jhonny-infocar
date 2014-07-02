@@ -80,12 +80,6 @@
         </activity>
         
         <activity
-            android:name="com.jhonny.infocar.fragments.NuevoVehiculoFragment"
-            android:label="@string/title_activity_nuevo_vehiculo"
-            android:launchMode="singleInstance" >
-        </activity>
-        
-        <activity
             android:name="com.millennialmedia.android.MMActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >

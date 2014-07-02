@@ -1,5 +1,6 @@
 package com.jhonny.infocar;
 
+
 public class Constantes {
 	
 	public static final int IAB_LEADERBOARD_WIDTH = 728;
@@ -13,5 +14,9 @@ public class Constantes {
 	public static final String PRIMERA_VEZ = "primeraEjecucion";
 	public static final String INTRO_PERSONALES = "datosPersonalesIntro";
 	public static final String INTRO_VEHICULO = "datosVehiculoIntro";
+	
+	/** TABLA DATOS **/
+	public static final String TABLA_DATOS = "datos";
+	public static final String TABLA_VEHICULOS = "vehiculos";
 	
 }

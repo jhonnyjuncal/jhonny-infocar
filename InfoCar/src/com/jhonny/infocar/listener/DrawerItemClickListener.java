@@ -1,9 +1,6 @@
 package com.jhonny.infocar.listener;
 
 import com.jhonny.infocar.R;
-import com.jhonny.infocar.R.id;
-import com.jhonny.infocar.R.layout;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
