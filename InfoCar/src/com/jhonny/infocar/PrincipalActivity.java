@@ -89,11 +89,12 @@ public class PrincipalActivity extends FragmentActivity {
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
         
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        if(android.os.Build.VERSION.SDK_INT >= 11) {
-        	habilitaDisplayBarraDeAccion();
-        }
         if(android.os.Build.VERSION.SDK_INT >= 14) {
         	habilitaBotonBarraDeAccion();
+        }
+        
+        if(android.os.Build.VERSION.SDK_INT >= 11) {
+        	habilitaDisplayBarraDeAccion();
         }
         
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -127,24 +128,19 @@ public class PrincipalActivity extends FragmentActivity {
         
         // redireccion si fuese necesario
         if(propiedades != null) {
-        	if(propiedades.contains(Constantes.INTRO_PERSONALES)) {
-        		boolean personales = propiedades.getBoolean(Constantes.INTRO_PERSONALES, false);
-        		boolean vehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
-        		
-        		// si no se han introducido los datos personales
-        		if(personales == false) {
-        			displayView(5, true);
-        			return;
-    				
-				// si no hay ningun vehiculo
-        		}else if(vehiculo == false) {
-        			displayView(8, false);
-        			return;
-        		}
+        	boolean dPersonales = propiedades.getBoolean(Constantes.INTRO_PERSONALES, false);
+        	if(dPersonales == false) {
+        		displayView(5, true);
+        		return;
+        	}
+        	
+        	boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
+        	if(dVehiculo == false) {
+        		displayView(8, false);
+        		return;
         	}
         }
         if(savedInstanceState == null) {
-            // on first time display view for first nav item
             displayView(0, true);
         }
 	}
@@ -211,6 +207,7 @@ public class PrincipalActivity extends FragmentActivity {
     private void displayView(int position, boolean estaEnMenu) {
     	// update the main content by replacing fragments
     	Fragment fragment = null;
+    	Bundle arguments = new Bundle();
     	
     	switch(position) {
     		case 0:
@@ -229,7 +226,8 @@ public class PrincipalActivity extends FragmentActivity {
     			fragment = new AccidentesFragment();
     			break;
     		case 5:
-    			fragment = new DatosFragment();
+    	        arguments.putBoolean("mostrarBotonDespues", true);
+    	        fragment = DatosFragment.newInstance(arguments);
     			break;
     		case 6:
     			fragment = new EstadisticasFragment();
@@ -238,7 +236,8 @@ public class PrincipalActivity extends FragmentActivity {
     			fragment = new OpcionesFragment();
     			break;
     		case 8:
-    			fragment = new NuevoVehiculoFragment();
+    	        arguments.putBoolean("mostrarBotonDespues", true);
+    	        fragment = NuevoVehiculoFragment.newInstance(arguments);
     			break;
     		default:
     			break;
@@ -255,6 +254,7 @@ public class PrincipalActivity extends FragmentActivity {
     		}
     		setTitle(navMenuTitles[position]);
     		mDrawerLayout.closeDrawer(mDrawerList);
+    		
     	}else {
     		// error in creating fragment
             Log.e("MainActivity", "Error creando el fragmento");
@@ -263,17 +263,20 @@ public class PrincipalActivity extends FragmentActivity {
     
     @TargetApi(14)
     public void habilitaBotonBarraDeAccion() {
-    	getActionBar().setHomeButtonEnabled(true);
+    	if(getActionBar() != null)
+    		getActionBar().setHomeButtonEnabled(true);
     }
     
     @TargetApi(11)
     public void habilitaDisplayBarraDeAccion() {
-    	getActionBar().setDisplayHomeAsUpEnabled(true);
+    	if(getActionBar() != null)
+    		getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
     @TargetApi(11)
     public void setTituloBarraDeAccion(CharSequence titulo) {
-    	getActionBar().setTitle(mTitle);
+    	if(getActionBar() != null)
+    		getActionBar().setTitle(mTitle);
     }
     
     @TargetApi(11)

@@ -50,7 +50,6 @@ public class InicioActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.inicio, menu);
 		return true;
 	}
@@ -62,8 +61,9 @@ public class InicioActivity extends Activity {
 		try {
 			SharedPreferences prop = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
 			if(prop != null) {
+				SharedPreferences.Editor editor = prop.edit();
+				
 				if(!prop.contains(Constantes.PRIMERA_VEZ)) {
-					SharedPreferences.Editor editor = prop.edit();
 					editor.putBoolean(Constantes.PRIMERA_VEZ, true);
 					editor.putBoolean(Constantes.INTRO_PERSONALES, false);
 					editor.putBoolean(Constantes.INTRO_VEHICULO, false);

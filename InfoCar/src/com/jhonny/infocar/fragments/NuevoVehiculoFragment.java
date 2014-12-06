@@ -3,6 +3,7 @@ package com.jhonny.infocar.fragments;
 import java.util.ArrayList;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.listener.FragmentIterationListener;
 import com.jhonny.infocar.sql.NuevoVehiculoSQLiteHelper;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -49,11 +50,22 @@ public class NuevoVehiculoFragment extends Fragment {
 	
 	private SQLiteDatabase baseDatos;
 	private FragmentActivity myContext;
+	private FragmentIterationListener mCallback = null;
+	private SharedPreferences propiedades;
 	
+	
+	public static NuevoVehiculoFragment newInstance(Bundle arguments){
+		NuevoVehiculoFragment f = new NuevoVehiculoFragment();
+        if(arguments != null){
+            f.setArguments(arguments);
+        }
+        return f;
+    }
 	
 	public NuevoVehiculoFragment() {
 		
 	}
+	
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -76,6 +88,9 @@ public class NuevoVehiculoFragment extends Fragment {
 			editModelo = (EditText)rootView.findViewById(R.id.nue_veh_editText1);
 			editKms = (EditText)rootView.findViewById(R.id.nue_veh_editText2);
 			editFecha = (EditText)rootView.findViewById(R.id.nue_veh_editText3);
+			
+			Bundle bundle = getArguments();
+			boolean mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
 			
 			/** Spinner de marcas de vehiculos */
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
@@ -106,10 +121,10 @@ public class NuevoVehiculoFragment extends Fragment {
 			ArrayList<String> listaTipos = new ArrayList<String>();
 			for(int i=0; i<arrayTipos.length(); i++)
 				listaTipos.add(arrayTipos.getString(i));
+			
 			adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTipos);
 			spinnerTipo.setAdapter(adapterTipo);
 			spinnerTipo.setOnItemSelectedListener(new OnItemSelectedListener() {
-				
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					String tipoSeleccionado = arrayTipos.getString(position);
@@ -129,10 +144,10 @@ public class NuevoVehiculoFragment extends Fragment {
 			ArrayList<String> listaCarburantes = new ArrayList<String>();
 			for(int i=0; i<arrayCarburantes.length(); i++)
 				listaCarburantes.add(arrayCarburantes.getString(i));
+			
 			adapterCarburante = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaCarburantes);
 			spinnerCombustible.setAdapter(adapterCarburante);
 			spinnerCombustible.setOnItemSelectedListener(new OnItemSelectedListener() {
-				
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					String carburanteSeleccionado = arrayCarburantes.getString(position);
@@ -149,7 +164,6 @@ public class NuevoVehiculoFragment extends Fragment {
 			/** Boton guardar */
 			Button botonGuardar = (Button)rootView.findViewById(R.id.btn_nuevo_veh);
 			botonGuardar.setOnClickListener(new OnClickListener() {
-				
 				@Override
 				public void onClick(View v) {
 					try {
@@ -171,27 +185,29 @@ public class NuevoVehiculoFragment extends Fragment {
 			
 			/** Boton guardar despues */
 			Button botonDespues = (Button)rootView.findViewById(R.id.btn_nuevo_despues);
-			botonDespues.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					try {
-						SharedPreferences prop = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
-						if(prop != null) {
-							SharedPreferences.Editor editor = prop.edit();
-							editor.putBoolean(Constantes.INTRO_VEHICULO, true);
-							editor.commit();
+			if(mostrarBotonDespues) {
+				botonDespues.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						try {
+							propiedades = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+							if(propiedades != null) {
+								SharedPreferences.Editor editor = propiedades.edit();
+								editor.putBoolean(Constantes.INTRO_VEHICULO, true);
+								editor.putBoolean(Constantes.PRIMERA_VEZ, false);
+								editor.commit();
+							}
+							
+							Fragment fragment = new PrincipalFragment();
+							FragmentManager manager = myContext.getSupportFragmentManager();
+							manager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+							
+						}catch(Exception ex) {
+							ex.printStackTrace();
 						}
-						
-						Fragment fragment = new PrincipalFragment();
-						FragmentManager manager = myContext.getSupportFragmentManager();
-						manager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-						
-					}catch(Exception ex) {
-						ex.printStackTrace();
 					}
-				}
-			});
+				});
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}

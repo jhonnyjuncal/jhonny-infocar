@@ -18,7 +18,7 @@
 	    android:layout_height="match_parent" >
 	    
 	    <Button
-	        android:id="@+id/button1"
+	        android:id="@+id/btnMantenimientos"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentLeft="true"
@@ -45,7 +45,7 @@
 	        android:id="@+id/button3"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/button1"
+	        android:layout_below="@+id/btnMantenimientos"
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="30dp"
 	        android:minHeight="42dp"
