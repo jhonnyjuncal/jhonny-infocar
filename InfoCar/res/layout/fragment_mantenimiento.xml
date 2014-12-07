@@ -36,15 +36,6 @@
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="5dp"
 	        android:text="Seleccione un vehiculo" />
-	    
-	    
-	    <LinearLayout
-			android:id="@+id/linearLayout2"
-			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_alignParentBottom="true"
-			android:orientation="vertical"
-			android:weightSum="1" />
 
 	    <ListView
 	        android:id="@+id/mant_listView1"
@@ -55,6 +46,14 @@
 	        android:layout_marginTop="5dp" >
 
 	    </ListView>
+	    
+	    <LinearLayout
+			android:id="@+id/linearLayout2"
+			android:layout_width="fill_parent"
+			android:layout_height="50dp"
+			android:layout_alignParentBottom="true"
+			android:orientation="vertical"
+			android:weightSum="1" />
 	
 	</RelativeLayout>
 	

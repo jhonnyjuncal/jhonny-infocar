@@ -14,14 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 
 public class MantenimientosFragment extends Fragment {
 	
 	private FrameLayout fragmento;
-	private ListView listaVehiculos;
+	private ListView listaMantenimientos;
 	private DetalleMantenimientosAdapter adapter;
 	private ArrayList<DetalleMantenimiento> mantenimientos;
+	private Spinner filtro;
 	
 	
 	public MantenimientosFragment() {
@@ -32,11 +34,13 @@ public class MantenimientosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
         setHasOptionsMenu(true);
+        
         fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
-        listaVehiculos = (ListView)fragmento.findViewById(R.id.mant_listView1);
+        filtro = (Spinner)fragmento.findViewById(R.id.mant_spinner1);
+        listaMantenimientos = (ListView)fragmento.findViewById(R.id.mant_listView1);
         mantenimientos = recuperaDatosMantenimiento();
         adapter = new DetalleMantenimientosAdapter(rootView.getContext(), mantenimientos);
-        listaVehiculos.setAdapter(adapter);
+        listaMantenimientos.setAdapter(adapter);
         
         return rootView;
     }
@@ -48,10 +52,9 @@ public class MantenimientosFragment extends Fragment {
 	}
 	
 	private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {
-		ArrayList<DetalleMantenimiento> detalles = null;
+		ArrayList<DetalleMantenimiento> detalles = new ArrayList<DetalleMantenimiento>();
+		
 		try {
-			detalles = new ArrayList<DetalleMantenimiento>();
-			
 			DetalleMantenimiento dm1 = new DetalleMantenimiento();
 			dm1.setId(0);
 			dm1.setFecha(new Date());

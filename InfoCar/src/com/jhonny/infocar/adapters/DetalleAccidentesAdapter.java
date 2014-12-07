@@ -3,7 +3,9 @@ package com.jhonny.infocar.adapters;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleMantenimiento;
 import android.app.Activity;
 import android.content.Context;
@@ -14,13 +16,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
-public class DetalleMantenimientosAdapter extends BaseAdapter {
+public class DetalleAccidentesAdapter extends BaseAdapter {
 	
 	private Context context;
-	private ArrayList<DetalleMantenimiento> detalles;
+	private ArrayList<DetalleAccidente> detalles;
 	
 	
-	public DetalleMantenimientosAdapter(Context context, ArrayList<DetalleMantenimiento> detalles) {
+	public DetalleAccidentesAdapter(Context context, ArrayList<DetalleAccidente> detalles) {
 		this.context = context;
 		this.detalles = detalles;
 	}
@@ -39,30 +41,26 @@ public class DetalleMantenimientosAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView == null) {
 			LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.detalle_mantenimiento, null);
+            convertView = mInflater.inflate(R.layout.detalle_accidente, null);
 		}
 		
 		if(detalles != null && !detalles.isEmpty()) {
-			DetalleMantenimiento dm = detalles.get(position);
-			Date fecha = dm.getFecha();
+			DetalleAccidente da = detalles.get(position);
+			Date fecha = da.getFecha();
 			
-			TextView txtTitulo = (TextView)convertView.findViewById(R.id.det_mant_textView1);
+			TextView txtTitulo = (TextView)convertView.findViewById(R.id.det_acc_textView1);
 			txtTitulo.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(fecha));
-			TextView txtFecha = (TextView)convertView.findViewById(R.id.det_mant_textView3);
-			txtFecha.setText(DateFormat.getInstance().format(fecha));
-			TextView txtKms = (TextView)convertView.findViewById(R.id.det_mant_textView5);
-			txtKms.setText(dm.getKms().toString());
-			TextView txtCoste = (TextView)convertView.findViewById(R.id.det_mant_textView7);
-			txtCoste.setText(dm.getPrecio().toString());
-			TextView txtTipo = (TextView)convertView.findViewById(R.id.det_mant_textView9);
-			txtTipo.setText(dm.getTipo());
-			TextView txtTaller = (TextView)convertView.findViewById(R.id.det_mant_textView11);
-			txtTaller.setText(dm.getTaller());
+			TextView txtFecha = (TextView)convertView.findViewById(R.id.det_acc_textView3);
+			txtFecha.setText(da.getKilometros().toString());
+			TextView txtKms = (TextView)convertView.findViewById(R.id.det_acc_textView5);
+			txtKms.setText(da.getLugar());
+			TextView txtCoste = (TextView)convertView.findViewById(R.id.det_acc_textView7);
+			txtCoste.setText(da.getObservaciones());
 		}
 		return convertView;
 	}

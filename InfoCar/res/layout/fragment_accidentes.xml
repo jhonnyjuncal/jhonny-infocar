@@ -1,7 +1,6 @@
-<FrameLayout 
-    android:id="@+id/fragment_accidentes"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_accidentes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.jhonny.infocar.fragments.AccidentesFragment" >
@@ -16,6 +15,43 @@
 	<RelativeLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
+		
+		<Button
+		    android:id="@+id/button1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="15dp"
+		    android:text="Nuevo" />
+
+	    <ScrollView
+	        android:id="@+id/acc_scrollView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginBottom="50dp"
+	        android:layout_marginTop="70dp" >
+	        
+	        <LinearLayout
+	            android:id="@+id/acc_linear"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+	        </LinearLayout>
+			
+<!--
+	        <ListView
+	            android:id="@+id/listView1"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" >
+	        </ListView>
+-->
+			
+	    </ScrollView>
+	
 	    
 	    <LinearLayout
 			android:id="@+id/linearLayout2"
@@ -25,7 +61,6 @@
 			android:orientation="vertical"
 			android:weightSum="1">
 		</LinearLayout>
-	
 	</RelativeLayout>
 	
 </FrameLayout>
