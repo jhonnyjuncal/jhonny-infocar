@@ -2,10 +2,7 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.jhonny.infocar.R;
-import com.jhonny.infocar.adapters.DetalleAccidentesAdapter;
-import com.jhonny.infocar.adapters.DetalleMantenimientosAdapter;
 import com.jhonny.infocar.model.DetalleAccidente;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +25,6 @@ public class AccidentesFragment extends Fragment {
 	private FrameLayout fragmento;
 	private ScrollView vistaAccidentes;
 	private LinearLayout layoutAccidentes;
-	private DetalleAccidentesAdapter adapter;
 	private ArrayList<DetalleAccidente> accidentes;
 	private View rootView;
 	
@@ -87,15 +82,6 @@ public class AccidentesFragment extends Fragment {
 					Toast.makeText(rootView.getContext(), "borrar: " + view.getId() + " - lista: " + da.getIdDetalleAccidente(), Toast.LENGTH_SHORT).show();
 				}
 			});
-			/*
-			vista.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View vista) {
-					DetalleAccidente da = accidentes.get(vista.getId());
-					Toast.makeText(rootView.getContext(), "vista: " + vista.getId() + " - lista: " + da.getIdDetalleAccidente(), Toast.LENGTH_SHORT).show();
-				}
-			});
-			*/
         	layoutAccidentes.addView(vista, i);
         	i++;
         }
@@ -138,6 +124,24 @@ public class AccidentesFragment extends Fragment {
 			da3.setObservaciones("mas observacionnes de pruebas de para el desarrollo de mi aplicacion que me hara ganar dinero");
 			da3.setIdVehiculo(0);
 			detalles.add(da3);
+			
+			DetalleAccidente da4 = new DetalleAccidente();
+			da4.setIdDetalleAccidente(3);
+			da4.setFecha(new Date());
+			da4.setLugar("la ultima");
+			da4.setKilometros(99000.0);
+			da4.setObservaciones("ultima prueba para probar la maquetacion de los componentes añadidos");
+			da4.setIdVehiculo(0);
+			detalles.add(da4);
+			
+			DetalleAccidente da5 = new DetalleAccidente();
+			da5.setIdDetalleAccidente(4);
+			da5.setFecha(new Date());
+			da5.setLugar("la ultima");
+			da5.setKilometros(120000.0);
+			da5.setObservaciones("otra ultima prueba de datos y de maquetacion para el componente de lalista de accidentes");
+			da5.setIdVehiculo(0);
+			detalles.add(da5);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
