@@ -1,10 +1,9 @@
-<FrameLayout 
-    android:id="@+id/fragment_datos"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_vehiculo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jhonny.infocar.fragments.DatosFragment" >
+    tools:context="com.jhonny.infocar.fragments.VehiculoFragment" >
     
     <ImageView
         android:id="@+id/fondo_principal"
@@ -16,6 +15,35 @@
 	<RelativeLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
+		
+		<Button
+		    android:id="@+id/button1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="15dp"
+		    android:text="Nuevo" />
+
+	    <ScrollView
+	        android:id="@+id/veh_scrollView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginBottom="50dp"
+	        android:layout_marginTop="70dp" >
+	        
+	        <LinearLayout
+	            android:id="@+id/veh_linear"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+	        </LinearLayout>
+			
+	    </ScrollView>
+	
 	    
 	    <LinearLayout
 			android:id="@+id/linearLayout2"
@@ -25,7 +53,6 @@
 			android:orientation="vertical"
 			android:weightSum="1">
 		</LinearLayout>
-	
 	</RelativeLayout>
 	
 </FrameLayout>
