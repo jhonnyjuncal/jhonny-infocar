@@ -178,7 +178,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/edit" />
+                    android:src="@drawable/im_itv" />
 
             </LinearLayout>
 
@@ -192,7 +192,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/edit" />
+                    android:src="@drawable/im_seguro" />
 
             </LinearLayout>
 
@@ -219,7 +219,7 @@
                     android:id="@+id/imageView5"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/edit" />
+                    android:src="@drawable/delete" />
                 	
             </LinearLayout>
 

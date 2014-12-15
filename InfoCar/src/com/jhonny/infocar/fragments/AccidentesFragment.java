@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.model.DetalleAccidente;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,12 +15,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class AccidentesFragment extends Fragment {
@@ -27,6 +31,7 @@ public class AccidentesFragment extends Fragment {
 	private LinearLayout layoutAccidentes;
 	private ArrayList<DetalleAccidente> accidentes;
 	private View rootView;
+	private Dialog editDialog;
 	
 	
 	public AccidentesFragment() {
@@ -43,6 +48,7 @@ public class AccidentesFragment extends Fragment {
 		layoutAccidentes = (LinearLayout)vistaAccidentes.findViewById(R.id.acc_linear);
 		accidentes = recuperaDatosAccidentes();
 		
+		
 		int i = 0;
 		for(DetalleAccidente acc : accidentes) {
 			View vista = inflater.inflate(R.layout.detalle_accidente, layoutAccidentes, false);
@@ -58,28 +64,67 @@ public class AccidentesFragment extends Fragment {
 			tv4.setText(acc.getObservaciones());
 			
 			ImageView imgEditar = (ImageView)vista.findViewById(R.id.imageView_editar);
-			imgEditar.setOnClickListener(new OnClickListener() {
+			imgEditar.setOnClickListener(new android.view.View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					LinearLayout linear1 = (LinearLayout)view.getParent();
 					LinearLayout linear2 = (LinearLayout)linear1.getParent();
 					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					
 					DetalleAccidente da = accidentes.get(linear3.getId());
-					Toast.makeText(rootView.getContext(), "editar: " + linear3.getId() + " - lista: " + da.getIdDetalleAccidente(), Toast.LENGTH_SHORT).show();
+					
+					editDialog = new Dialog(rootView.getContext());
+					editDialog.setContentView(R.layout.edicion_accidente);
+					editDialog.setTitle("Edicion de accidente");
+					
+					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_acc_fecha);
+					textFecha.setText(da.getFecha().toString());
+					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_acc_kms);
+					textKms.setText(da.getKilometros().toString());
+					EditText textLugar = (EditText)editDialog.findViewById(R.id.edit_acc_lugar);
+					textLugar.setText(da.getLugar());
+					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_acc_obs);
+					textObservaciones.setText(da.getObservaciones());
+					
+					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_acc_btn_guardar);
+					btnGuardar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View vista) {
+							
+						}
+					});
+					
+					Button btnCancelar = (Button)editDialog.findViewById(R.id.edit_acc_btn_cancelar);
+					btnCancelar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View vista) {
+							editDialog.cancel();
+						}
+					});
+					editDialog.show();
 				}
 			});
 			
 			ImageView imgBorrar = (ImageView)vista.findViewById(R.id.imageView_borrar);
-			imgBorrar.setOnClickListener(new OnClickListener() {
+			imgBorrar.setOnClickListener(new android.view.View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					LinearLayout linear1 = (LinearLayout)view.getParent();
-					LinearLayout linear2 = (LinearLayout)linear1.getParent();
-					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					
-					DetalleAccidente da = accidentes.get(linear3.getId());
-					Toast.makeText(rootView.getContext(), "borrar: " + view.getId() + " - lista: " + da.getIdDetalleAccidente(), Toast.LENGTH_SHORT).show();
+					AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+					builder.setCancelable(true);
+					builder.setTitle("Eliminar registro");
+					builder.setMessage("¿Seguro que desea borrar este accidente?");
+					builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					});
+					builder.show();
 				}
 			});
         	layoutAccidentes.addView(vista, i);
