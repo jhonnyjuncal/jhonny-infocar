@@ -3,8 +3,10 @@ package com.jhonny.infocar.fragments;
 import java.util.ArrayList;
 import java.util.Date;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import android.support.v4.app.Fragment;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,10 +14,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -26,6 +31,7 @@ public class VehiculoFragment extends Fragment {
 	private LinearLayout layoutVehiculos;
 	private ArrayList<DetalleVehiculo> vehiculos;
 	private View rootView;
+	private Dialog editDialog;
 	
 	
 	public VehiculoFragment() {
@@ -81,8 +87,49 @@ public class VehiculoFragment extends Fragment {
         	ImageView imgEditar = (ImageView)vista.findViewById(R.id.imageView4);
         	imgEditar.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View vista) {
+					LinearLayout linear1 = (LinearLayout)vista.getParent();
+					LinearLayout linear2 = (LinearLayout)linear1.getParent();
+					LinearLayout linear3 = (LinearLayout)linear2.getParent();
+					LinearLayout linear4 = (LinearLayout)linear3.getParent();
+					DetalleVehiculo dv = vehiculos.get(linear4.getId());
 					
+					editDialog = new Dialog(rootView.getContext());
+					editDialog.setContentView(R.layout.edicion_vehiculo);
+					editDialog.setTitle("Edicion de vehiculo");
+					
+					Spinner spinnerMarca = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_marca);
+					spinnerMarca.setSelection(dv.getMarca());
+					EditText textModelo = (EditText)editDialog.findViewById(R.id.edit_veh_editText1);
+					textModelo.setText(dv.getModelo());
+					EditText textKilometros = (EditText)editDialog.findViewById(R.id.edit_veh_editText2);
+					textKilometros.setText(dv.getKilometros().toString());
+					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_veh_editText3);
+					textFecha.setText(dv.getFechaCompra().toString());
+					Spinner spinnerTipoVeh = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_tipo);
+					spinnerTipoVeh.setSelection(dv.getTipoVehiculo());
+					Spinner spinnerCarburante = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_carburante);
+					spinnerCarburante.setSelection(dv.getTipoCarburante());
+					EditText textMatricula = (EditText)editDialog.findViewById(R.id.edit_veh_editText4);
+					textMatricula.setText(dv.getMatricula());
+					
+					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_veh_button_guardar);
+					btnGuardar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							editDialog.dismiss();
+						}
+					});
+					
+					Button btnCancelar = (Button)editDialog.findViewById(R.id.edit_veh_button_cancelar);
+					btnCancelar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							editDialog.cancel();
+						}
+					});
+					
+					editDialog.show();
 				}
 			});
         	
