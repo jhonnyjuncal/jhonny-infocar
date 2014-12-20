@@ -13,39 +13,36 @@
         android:src="@drawable/fondo1" />
 
 	<RelativeLayout 
-	    android:id="@+id/mant_relativeLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
-	    
-	    <Spinner
-	        android:id="@+id/mant_spinner1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="30dp"
-	        android:layout_alignParentTop="true"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginLeft="10dp"
-	        android:layout_marginRight="10dp"
-	        android:layout_marginTop="25dp" />
 
-	    <TextView
-	        android:id="@+id/mant_textView1"
+		<Button
+		    android:id="@+id/button1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="15dp"
+		    android:text="Nuevo" />
+
+		<ScrollView
+	        android:id="@+id/mant_scrollView1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
 	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
 	        android:layout_alignParentTop="true"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="5dp"
-	        android:text="Seleccione un vehiculo" />
-
-	    <ListView
-	        android:id="@+id/mant_listView1"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:layout_below="@+id/mant_spinner1"
 	        android:layout_marginBottom="50dp"
-	        android:layout_marginTop="5dp" >
+	        android:layout_marginTop="70dp" >
 
-	    </ListView>
+		    <LinearLayout
+		        android:id="@+id/mant_linear"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:orientation="vertical" >
+
+		    </LinearLayout>
+		</ScrollView>
 	    
 	    <LinearLayout
 			android:id="@+id/linearLayout2"

@@ -1,29 +1,37 @@
 package com.jhonny.infocar.fragments;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import com.jhonny.infocar.R;
-import com.jhonny.infocar.adapters.DetalleMantenimientosAdapter;
 import com.jhonny.infocar.model.DetalleMantenimiento;
 import android.support.v4.app.Fragment;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 public class MantenimientosFragment extends Fragment {
 	
 	private FrameLayout fragmento;
-	private ListView listaMantenimientos;
-	private DetalleMantenimientosAdapter adapter;
+	private ScrollView vistaMantenimientos;
+	private LinearLayout layoutMantenimientos;
 	private ArrayList<DetalleMantenimiento> mantenimientos;
-	private Spinner filtro;
+	private View rootView;
+	private Dialog editDialog;
 	
 	
 	public MantenimientosFragment() {
@@ -32,16 +40,91 @@ public class MantenimientosFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
+        rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
         setHasOptionsMenu(true);
         
         fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
-        filtro = (Spinner)fragmento.findViewById(R.id.mant_spinner1);
-        listaMantenimientos = (ListView)fragmento.findViewById(R.id.mant_listView1);
+        vistaMantenimientos = (ScrollView)fragmento.findViewById(R.id.mant_scrollView1);
+        layoutMantenimientos = (LinearLayout)vistaMantenimientos.findViewById(R.id.mant_linear);
         mantenimientos = recuperaDatosMantenimiento();
-        adapter = new DetalleMantenimientosAdapter(rootView.getContext(), mantenimientos);
-        listaMantenimientos.setAdapter(adapter);
         
+        
+        int i = 0;
+        for(DetalleMantenimiento dm : mantenimientos) {
+        	View vista = inflater.inflate(R.layout.detalle_mantenimiento, layoutMantenimientos, false);
+        	
+        	vista.setId(i);
+        	TextView tv1 = (TextView)vista.findViewById(R.id.det_mant_textView1);
+        	tv1.setText(dm.getFecha().toString());
+        	TextView tv2 = (TextView)vista.findViewById(R.id.det_mant_textView3);
+        	DateFormat df = DateFormat.getDateInstance();
+        	tv2.setText(df.format(dm.getFecha()));
+        	TextView tv3 = (TextView)vista.findViewById(R.id.det_mant_textView5);
+        	tv3.setText(dm.getKms().toString());
+        	TextView tv4 = (TextView)vista.findViewById(R.id.det_mant_textView7);
+        	tv4.setText(dm.getPrecio().toString());
+        	TextView tv5 = (TextView)vista.findViewById(R.id.det_mant_textView9);
+        	tv5.setText(dm.getTipo());
+        	TextView tv6 = (TextView)vista.findViewById(R.id.det_mant_textView11);
+        	tv6.setText(dm.getTaller());
+        	
+        	ImageView imgEditar = (ImageView)vista.findViewById(R.id.imageView_editar);
+        	imgEditar.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					LinearLayout linear1 = (LinearLayout)view.getParent();
+					LinearLayout linear2 = (LinearLayout)linear1.getParent();
+					LinearLayout linear3 = (LinearLayout)linear2.getParent();
+					DetalleMantenimiento dm = mantenimientos.get(linear3.getId());
+					
+					editDialog = new Dialog(rootView.getContext());
+					editDialog.setContentView(R.layout.edicion_mantenimineto);
+					editDialog.setTitle("Edicion de mantenimiento");
+					
+					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_mant_editText1);
+					DateFormat df = DateFormat.getDateInstance();
+					textFecha.setText(df.format(dm.getFecha()));
+					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_mant_editText2);
+					textKms.setText(dm.getKms().toString());
+					EditText textPrecio = (EditText)editDialog.findViewById(R.id.edit_mant_editText3);
+					textPrecio.setText(dm.getPrecio().toString());
+					//Spinner tipoMantenimiento = (Spinner)editDialog.findViewById(R.id.edit_mant_spinner_tipo);
+					//tipoMantenimiento.setSelection(Integer.valueOf(dm.getTipo()));
+					EditText textTaller = (EditText)editDialog.findViewById(R.id.edit_mant_editText4);
+					textTaller.setText(dm.getTaller());
+					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_mant_editText5);
+					textObservaciones.setText(dm.getObservaciones());
+					
+					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_mant_button_guardar);
+					btnGuardar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View vista) {
+							editDialog.dismiss();
+						}
+					});
+					
+					Button btnCancelar = (Button)editDialog.findViewById(R.id.edit_mant_button_cancelar);
+					btnCancelar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View vista) {
+							editDialog.cancel();
+						}
+					});
+					editDialog.show();
+				}
+			});
+        	
+        	ImageView imgBorrar = (ImageView)vista.findViewById(R.id.imageView_borrar);
+        	imgBorrar.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					
+				}
+			});
+        	
+        	layoutMantenimientos.addView(vista, i);
+        	i++;
+        }
         return rootView;
     }
 	
