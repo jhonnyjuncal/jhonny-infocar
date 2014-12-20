@@ -78,7 +78,7 @@ public class MantenimientosFragment extends Fragment {
 					DetalleMantenimiento dm = mantenimientos.get(linear3.getId());
 					
 					editDialog = new Dialog(rootView.getContext());
-					editDialog.setContentView(R.layout.edicion_mantenimineto);
+					editDialog.setContentView(R.layout.edicion_mantenimiento);
 					editDialog.setTitle("Edicion de mantenimiento");
 					
 					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_mant_editText1);

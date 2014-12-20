@@ -1,10 +1,14 @@
 package com.jhonny.infocar.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.model.DetalleReparacion;
 import android.support.v4.app.Fragment;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,10 +16,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +34,7 @@ public class ReparacionesFragment extends Fragment {
 	private LinearLayout layoutReparaciones;
 	private ArrayList<DetalleReparacion> reparaciones;
 	private View rootView;
+	private Dialog editDialog;
 	
 	
 	public ReparacionesFragment() {
@@ -49,7 +57,7 @@ public class ReparacionesFragment extends Fragment {
 			
 			vista.setId(i);
 			TextView tv1 = (TextView)vista.findViewById(R.id.det_rep_textView1);
-			tv1.setText(detalle.getFecha().toString());
+			tv1.setText(Constantes.SDF.format(detalle.getFecha()));
 			TextView tv2 = (TextView)vista.findViewById(R.id.det_rep_textView3);
 			tv2.setText(String.valueOf(detalle.getFecha().getTime()));
 			TextView tv3 = (TextView)vista.findViewById(R.id.det_rep_textView5);
@@ -68,9 +76,42 @@ public class ReparacionesFragment extends Fragment {
 					LinearLayout linear1 = (LinearLayout)view.getParent();
 					LinearLayout linear2 = (LinearLayout)linear1.getParent();
 					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					
 					DetalleReparacion dr = reparaciones.get(linear3.getId());
-					Toast.makeText(rootView.getContext(), "editar: " + linear3.getId() + " - lista: " + dr.getIdDetalleReparacion(), Toast.LENGTH_SHORT).show();
+					
+					editDialog = new Dialog(rootView.getContext());
+					editDialog.setContentView(R.layout.edicion_reparacion);
+					editDialog.setTitle("Edicion de reparacion");
+					
+					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_rep_fecha);
+					textFecha.setText(Constantes.SDF.format(dr.getFecha()));
+					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_rep_kms);
+					textKms.setText(dr.getKilometros().toString());
+					EditText textPrecio = (EditText)editDialog.findViewById(R.id.edit_rep_coste);
+					textPrecio.setText(dr.getPrecio().toString());
+					Spinner spinnerTipo = (Spinner)editDialog.findViewById(R.id.edit_rep_spinner_tipo);
+					//spinnerTipo.setSelection();
+					EditText textTaller = (EditText)editDialog.findViewById(R.id.edit_rep_taller);
+					textTaller.setText(dr.getTaller());
+					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_rep_obs);
+					textObservaciones.setText(dr.getObservaciones());
+					
+					Button botonGuardar = (Button)editDialog.findViewById(R.id.edit_rep_btn_guardar);
+					botonGuardar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							editDialog.dismiss();
+						}
+					});
+					
+					Button botonCancelar = (Button)editDialog.findViewById(R.id.edit_rep_btn_cancelar);
+					botonCancelar.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							editDialog.cancel();
+						}
+					});
+					
+					editDialog.show();
 				}
 			});
 			

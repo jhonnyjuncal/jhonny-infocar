@@ -1,5 +1,7 @@
 package com.jhonny.infocar;
 
+import java.text.SimpleDateFormat;
+
 
 public class Constantes {
 	
@@ -9,6 +11,7 @@ public class Constantes {
 	public static final int BANNER_AD_HEIGHT = 50;
 	
 	public static final String CONFIGURACION = "configuracion";
+	public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
 	
 	/** Propiedades de la aplicacion **/
 	public static final String PRIMERA_VEZ = "primeraEjecucion";
