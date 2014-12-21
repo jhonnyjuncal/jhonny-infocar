@@ -5,21 +5,21 @@ import java.util.Date;
 
 public class DetalleReparacion {
 	
-	private int idDetalleReparacion;
+	private Integer idDetalleReparacion;
 	private Date fecha;
 	private Double kilometros;
 	private Double precio;
-	private int idTipoReparacion;
+	private Integer idTipoReparacion;
 	private String taller;
 	private String observaciones;
-	private int idVehiculo;
+	private Integer idVehiculo;
 	
 	
-	public int getIdDetalleReparacion() {
+	public Integer getIdDetalleReparacion() {
 		return idDetalleReparacion;
 	}
 	
-	public void setIdDetalleReparacion(int idDetalleReparacion) {
+	public void setIdDetalleReparacion(Integer idDetalleReparacion) {
 		this.idDetalleReparacion = idDetalleReparacion;
 	}
 	
@@ -47,11 +47,11 @@ public class DetalleReparacion {
 		this.precio = precio;
 	}
 	
-	public int getIdTipoReparacion() {
+	public Integer getIdTipoReparacion() {
 		return idTipoReparacion;
 	}
 	
-	public void setIdTipoReparacion(int idTipoReparacion) {
+	public void setIdTipoReparacion(Integer idTipoReparacion) {
 		this.idTipoReparacion = idTipoReparacion;
 	}
 	
@@ -71,11 +71,11 @@ public class DetalleReparacion {
 		this.observaciones = observaciones;
 	}
 	
-	public int getIdVehiculo() {
+	public Integer getIdVehiculo() {
 		return idVehiculo;
 	}
 	
-	public void setIdVehiculo(int idVehiculo) {
+	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
 }

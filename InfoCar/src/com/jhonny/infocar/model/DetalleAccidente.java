@@ -5,19 +5,19 @@ import java.util.Date;
 
 public class DetalleAccidente {
 	
-	private int idDetalleAccidente;
+	private Integer idDetalleAccidente;
 	private Date fecha;
 	private String lugar;
 	private Double kilometros;
 	private String observaciones;
-	private int idVehiculo;
+	private Integer idVehiculo;
 	
 	
-	public int getIdDetalleAccidente() {
+	public Integer getIdDetalleAccidente() {
 		return idDetalleAccidente;
 	}
 	
-	public void setIdDetalleAccidente(int idDetalleAccidente) {
+	public void setIdDetalleAccidente(Integer idDetalleAccidente) {
 		this.idDetalleAccidente = idDetalleAccidente;
 	}
 	
@@ -53,11 +53,11 @@ public class DetalleAccidente {
 		this.observaciones = observaciones;
 	}
 	
-	public int getIdVehiculo() {
+	public Integer getIdVehiculo() {
 		return idVehiculo;
 	}
 	
-	public void setIdVehiculo(int idVehiculo) {
+	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
 }

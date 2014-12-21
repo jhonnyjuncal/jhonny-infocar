@@ -72,12 +72,31 @@
         <item>Moto</item>
         <item>Camion</item>
     </string-array>
-    <string-array name="TIPOS_CARBURANTE">
-        <item>Seleccione un carburante</item>
-        <item>Gasolina</item>
-        <item>Diesel</item>
-        <item>Gas/Gasolina</item>
-        <item>Hibrido</item>
-        <item>Eléctrico</item>
-    </string-array>
+	<string-array name="TIPOS_CARBURANTE">
+		<item>Seleccione un carburante</item>
+		<item>Gasolina</item>
+		<item>Diesel</item>
+		<item>Gas/Gasolina</item>
+		<item>Hibrido</item>
+		<item>Eléctrico</item>
+	</string-array>
+	<string-array name="TIPOS_MANTENIMIENTOS">
+		<item>Seleccione un tipo</item>
+		<item>Cambio de aceite</item>
+		<item>Cambio de filtros</item>
+		<item>Cambio de aceite y filtros</item>
+		<item>Cambio de bujias</item>
+		<item>Cambio de bateria</item>
+		<item>Cambio de neumaticos</item>
+		<item>Cambio de escobillas</item>
+		<item>Otros</item>
+	</string-array>
+	<string-array name="TIPOS_REPARACIONES">
+		<item>Seleccione un tipo</item>
+		<item>Reparacion de chapa</item>
+		<item>Reparacion de interior</item>
+		<item>Reparacion de llantas</item>
+		<item>Reparacion de cristal</item>
+		<item>Otros</item>
+	</string-array>
 </resources>

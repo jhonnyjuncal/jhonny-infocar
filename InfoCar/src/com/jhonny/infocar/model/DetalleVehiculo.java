@@ -5,16 +5,16 @@ import java.util.Date;
 
 public class DetalleVehiculo {
 	
-	private int idVehiculo;
-	private int marca;
+	private Integer idVehiculo;
+	private Integer marca;
 	private String modelo;
 	private Double kilometros;
 	private Date fechaCompra;
 	private String matricula;
-	private int tipoVehiculo;
-	private int tipoCarburante;
-	private int idSeguro;
-	private int idItv;
+	private Integer tipoVehiculo;
+	private Integer tipoCarburante;
+	private Integer idSeguro;
+	private Integer idItv;
 	
 	
 	public int getIdVehiculo() {

@@ -45,7 +45,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	private ArrayAdapter<String> adapterTipo;
 	private ArrayAdapter<String> adapterCarburante;
 	private TypedArray arrayMarcas;
-	private TypedArray arrayTipos;
+	private TypedArray arrayTiposVehiculos;
 	private TypedArray arrayCarburantes;
 	
 	private SQLiteDatabase baseDatos;
@@ -116,18 +116,18 @@ public class NuevoVehiculoFragment extends Fragment {
 			});
 			
 			/** Spinner de tipos de vehiculos */
-			arrayTipos = getResources().obtainTypedArray(R.array.TIPOS_VEHICULO);
-			arrayTipos.recycle();
+			arrayTiposVehiculos = getResources().obtainTypedArray(R.array.TIPOS_VEHICULO);
+			arrayTiposVehiculos.recycle();
 			ArrayList<String> listaTipos = new ArrayList<String>();
-			for(int i=0; i<arrayTipos.length(); i++)
-				listaTipos.add(arrayTipos.getString(i));
+			for(int i=0; i<arrayTiposVehiculos.length(); i++)
+				listaTipos.add(arrayTiposVehiculos.getString(i));
 			
 			adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTipos);
 			spinnerTipo.setAdapter(adapterTipo);
 			spinnerTipo.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					String tipoSeleccionado = arrayTipos.getString(position);
+					String tipoSeleccionado = arrayTiposVehiculos.getString(position);
 					String texto = "Tipo seleccionado: " + tipoSeleccionado;
 					Log.d("NuevoVehiculoFragment", texto);
 				}

@@ -5,21 +5,22 @@ import java.util.Date;
 
 public class DetalleMantenimiento {
 	
-	private Integer id;
+	private Integer idDetalleMantenimiento;
 	private Date fecha;
-	private String tipo;
-	private Double kms;
+	private Integer tipoMantenimiento;
+	private Double kilometros;
 	private String taller;
 	private Double precio;
 	private String observaciones;
+	private Integer idVehiculo;
 	
 	
-	public Integer getId() {
-		return id;
+	public Integer getIdDetalleMantenimiento() {
+		return idDetalleMantenimiento;
 	}
 	
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdDetalleMantenimiento(Integer id) {
+		this.idDetalleMantenimiento = id;
 	}
 	
 	public Date getFecha() {
@@ -30,20 +31,20 @@ public class DetalleMantenimiento {
 		this.fecha = fecha;
 	}
 	
-	public String getTipo() {
-		return tipo;
+	public Integer getTipoMantenimiento() {
+		return tipoMantenimiento;
 	}
 	
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setTipoMantenimiento(Integer tipo) {
+		this.tipoMantenimiento = tipo;
 	}
 	
-	public Double getKms() {
-		return kms;
+	public Double getKilometros() {
+		return kilometros;
 	}
 	
-	public void setKms(Double kms) {
-		this.kms = kms;
+	public void setKilometros(Double kms) {
+		this.kilometros = kms;
 	}
 	
 	public String getTaller() {
@@ -68,5 +69,13 @@ public class DetalleMantenimiento {
 	
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+	
+	public Integer getIdVehiculo() {
+		return idVehiculo;
+	}
+	
+	public void setIdVehiculo(Integer idVehiculo) {
+		this.idVehiculo = idVehiculo;
 	}
 }

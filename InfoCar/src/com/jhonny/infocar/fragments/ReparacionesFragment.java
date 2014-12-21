@@ -1,21 +1,24 @@
 package com.jhonny.infocar.fragments;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.model.DetalleReparacion;
 import android.support.v4.app.Fragment;
 import android.app.Dialog;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -35,6 +38,10 @@ public class ReparacionesFragment extends Fragment {
 	private ArrayList<DetalleReparacion> reparaciones;
 	private View rootView;
 	private Dialog editDialog;
+	private TypedArray arrayTiposReparaciones;
+	private ArrayAdapter<String> adapterReparaciones;
+	private Spinner spinnerTipo;
+	ArrayList<String> listaReparaciones = new ArrayList<String>();
 	
 	
 	public ReparacionesFragment() {
@@ -51,6 +58,11 @@ public class ReparacionesFragment extends Fragment {
 		layoutReparaciones = (LinearLayout)vistaReparaciones.findViewById(R.id.rep_linear);
 		reparaciones = recuperaDatosReparaciones();
 		
+		arrayTiposReparaciones = getResources().obtainTypedArray(R.array.TIPOS_REPARACIONES);
+		arrayTiposReparaciones.recycle();
+		for(int i=0; i<arrayTiposReparaciones.length(); i++)
+			listaReparaciones.add(arrayTiposReparaciones.getString(i));
+		
 		int i = 0;
 		for(DetalleReparacion detalle : reparaciones) {
 			View vista = inflater.inflate(R.layout.detalle_reparacion, layoutReparaciones, false);
@@ -59,13 +71,14 @@ public class ReparacionesFragment extends Fragment {
 			TextView tv1 = (TextView)vista.findViewById(R.id.det_rep_textView1);
 			tv1.setText(Constantes.SDF.format(detalle.getFecha()));
 			TextView tv2 = (TextView)vista.findViewById(R.id.det_rep_textView3);
-			tv2.setText(String.valueOf(detalle.getFecha().getTime()));
+			tv2.setText(Constantes.SDF.format(detalle.getFecha()));
 			TextView tv3 = (TextView)vista.findViewById(R.id.det_rep_textView5);
 			tv3.setText(detalle.getKilometros().toString());
 			TextView tv4 = (TextView)vista.findViewById(R.id.det_rep_textView7);
 			tv4.setText(detalle.getPrecio().toString());
 			TextView tv5 = (TextView)vista.findViewById(R.id.det_rep_textView9);
-			tv5.setText(String.valueOf(detalle.getIdTipoReparacion()));
+			String tipoReparacionSeleccionada = listaReparaciones.get(detalle.getIdTipoReparacion());
+			tv5.setText(tipoReparacionSeleccionada);
 			TextView tv6 = (TextView)vista.findViewById(R.id.det_rep_textView11);
 			tv6.setText(detalle.getTaller());
 			
@@ -88,8 +101,24 @@ public class ReparacionesFragment extends Fragment {
 					textKms.setText(dr.getKilometros().toString());
 					EditText textPrecio = (EditText)editDialog.findViewById(R.id.edit_rep_coste);
 					textPrecio.setText(dr.getPrecio().toString());
-					Spinner spinnerTipo = (Spinner)editDialog.findViewById(R.id.edit_rep_spinner_tipo);
-					//spinnerTipo.setSelection();
+					
+					spinnerTipo = (Spinner)editDialog.findViewById(R.id.edit_rep_spinner_tipo);
+					adapterReparaciones = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaReparaciones);
+					spinnerTipo.setAdapter(adapterReparaciones);
+					spinnerTipo.setOnItemSelectedListener(new OnItemSelectedListener() {
+						@Override
+						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+							String reparacionSeleccionada = arrayTiposReparaciones.getString(position);
+							String texto = "Reparacion seleccionada: " + reparacionSeleccionada;
+							Log.d("ReparacionesFragment", texto);
+						}
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
+							Log.d("ReparacionesFragment", "Nada seleccionado...");
+						}
+					});
+					spinnerTipo.setSelection(dr.getIdTipoReparacion());
+					
 					EditText textTaller = (EditText)editDialog.findViewById(R.id.edit_rep_taller);
 					textTaller.setText(dr.getTaller());
 					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_rep_obs);
