@@ -27,7 +27,7 @@
             android:ems="10" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/edit_acc_imageView1"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/im_calendario" />

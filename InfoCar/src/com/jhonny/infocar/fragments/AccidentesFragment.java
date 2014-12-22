@@ -1,14 +1,25 @@
 package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.model.DetalleAccidente;
+import com.jhonny.infocar.sql.AccidentesSQLiteHelper;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +27,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class AccidentesFragment extends Fragment {
@@ -32,6 +45,16 @@ public class AccidentesFragment extends Fragment {
 	private ArrayList<DetalleAccidente> accidentes;
 	private View rootView;
 	private Dialog editDialog;
+	private Context myContext;
+	
+	private EditText textFecha;
+	private EditText textKms;
+	private EditText textLugar;
+	private EditText textObservaciones;
+	
+	private SQLiteDatabase baseDatos;
+	private DetalleAccidente detalleEnEdicion;
+	private AccidentesSQLiteHelper accidentesHelper;
 	
 	
 	public AccidentesFragment() {
@@ -47,6 +70,16 @@ public class AccidentesFragment extends Fragment {
 		vistaAccidentes = (ScrollView)fragmento.findViewById(R.id.acc_scrollView1);
 		layoutAccidentes = (LinearLayout)vistaAccidentes.findViewById(R.id.acc_linear);
 		accidentes = recuperaDatosAccidentes();
+		
+		Button btnNuevo = (Button)fragmento.findViewById(R.id.acc_boton_nuevo);
+		btnNuevo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Fragment fragment = new NuevoAccidenteFragment();
+				FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+	    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+			}
+		});
 		
 		
 		int i = 0;
@@ -70,26 +103,55 @@ public class AccidentesFragment extends Fragment {
 					LinearLayout linear1 = (LinearLayout)view.getParent();
 					LinearLayout linear2 = (LinearLayout)linear1.getParent();
 					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					DetalleAccidente da = accidentes.get(linear3.getId());
+					detalleEnEdicion = accidentes.get(linear3.getId());
 					
 					editDialog = new Dialog(rootView.getContext());
 					editDialog.setContentView(R.layout.edicion_accidente);
 					editDialog.setTitle("Edicion de accidente");
 					
-					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_acc_fecha);
-					textFecha.setText(da.getFecha().toString());
-					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_acc_kms);
-					textKms.setText(da.getKilometros().toString());
-					EditText textLugar = (EditText)editDialog.findViewById(R.id.edit_acc_lugar);
-					textLugar.setText(da.getLugar());
-					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_acc_obs);
-					textObservaciones.setText(da.getObservaciones());
+					textFecha = (EditText)editDialog.findViewById(R.id.edit_acc_fecha);
+					textFecha.setText(detalleEnEdicion.getFecha().toString());
+					textKms = (EditText)editDialog.findViewById(R.id.edit_acc_kms);
+					textKms.setText(detalleEnEdicion.getKilometros().toString());
+					textLugar = (EditText)editDialog.findViewById(R.id.edit_acc_lugar);
+					textLugar.setText(detalleEnEdicion.getLugar());
+					textObservaciones = (EditText)editDialog.findViewById(R.id.edit_acc_obs);
+					textObservaciones.setText(detalleEnEdicion.getObservaciones());
+					
+					ImageView imgFecha = (ImageView)editDialog.findViewById(R.id.edit_acc_imageView1);
+					imgFecha.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							final Calendar c = Calendar.getInstance();
+							int year = c.get(Calendar.YEAR);
+							int month = c.get(Calendar.MONTH);
+							int day = c.get(Calendar.DAY_OF_MONTH);
+							
+							DatePickerDialog dp = new DatePickerDialog(rootView.getContext(), new OnDateSetListener() {
+								@Override
+								public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+									textFecha.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+								}
+							}, year, month, day);
+							dp.show();
+						}
+					});
 					
 					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_acc_btn_guardar);
 					btnGuardar.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View vista) {
+							DetalleAccidente accidente = new DetalleAccidente();
+							accidente.setIdDetalleAccidente(detalleEnEdicion.getIdDetalleAccidente());
+							String fechaIntroducida = textFecha.getText().toString();
+							String[] valores = fechaIntroducida.split("/");
+							accidente.setFecha(new Date(Integer.valueOf(valores[2]), Integer.valueOf(valores[1]), Integer.valueOf(valores[0])));
+							accidente.setKilometros(Double.valueOf(textKms.getText().toString()));
+							accidente.setLugar(textLugar.getText().toString());
+							accidente.setObservaciones(textObservaciones.getText().toString());
+							accidente.setIdVehiculo(detalleEnEdicion.getIdVehiculo());
 							
+							guardaDatosDelAccidente(accidente);
 						}
 					});
 					
@@ -143,53 +205,71 @@ public class AccidentesFragment extends Fragment {
 		ArrayList<DetalleAccidente> detalles = new ArrayList<DetalleAccidente>();
 		
 		try {
-			DetalleAccidente da1 = new DetalleAccidente();
-			da1.setIdDetalleAccidente(0);
-			da1.setFecha(new Date());
-			da1.setLugar("lugar de prueba");
-			da1.setKilometros(54010.0);
-			da1.setObservaciones("Prueba de observaciones para el desarollo");
-			da1.setIdVehiculo(0);
-			detalles.add(da1);
-			
-			DetalleAccidente da2 = new DetalleAccidente();
-			da2.setIdDetalleAccidente(1);
-			da2.setFecha(new Date());
-			da2.setLugar("otra de prueba");
-			da2.setKilometros(64900.0);
-			da2.setObservaciones("otra observaciones para mis pruebas");
-			da2.setIdVehiculo(0);
-			detalles.add(da2);
-			
-			DetalleAccidente da3 = new DetalleAccidente();
-			da3.setIdDetalleAccidente(2);
-			da3.setFecha(new Date());
-			da3.setLugar("mas pruebas");
-			da3.setKilometros(79512.8);
-			da3.setObservaciones("mas observacionnes de pruebas de para el desarrollo de mi aplicacion que me hara ganar dinero");
-			da3.setIdVehiculo(0);
-			detalles.add(da3);
-			
-			DetalleAccidente da4 = new DetalleAccidente();
-			da4.setIdDetalleAccidente(3);
-			da4.setFecha(new Date());
-			da4.setLugar("la ultima");
-			da4.setKilometros(99000.0);
-			da4.setObservaciones("ultima prueba para probar la maquetacion de los componentes añadidos");
-			da4.setIdVehiculo(0);
-			detalles.add(da4);
-			
-			DetalleAccidente da5 = new DetalleAccidente();
-			da5.setIdDetalleAccidente(4);
-			da5.setFecha(new Date());
-			da5.setLugar("la ultima");
-			da5.setKilometros(120000.0);
-			da5.setObservaciones("otra ultima prueba de datos y de maquetacion para el componente de lalista de accidentes");
-			da5.setIdVehiculo(0);
-			detalles.add(da5);
+			abrirBaseDeDatos();
+			detalles.addAll(accidentesHelper.getAccidentes());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return detalles;
+	}
+	
+	private void guardaDatosDelAccidente(DetalleAccidente accidente) {
+		try {
+			boolean resp = abrirBaseDeDatos();
+			if(resp == false) {
+				String texto = "Error al abrir o crear la tabla 'Accidentes'";
+				Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			boolean resultado = insertarFila(accidente);
+			String texto = new String();
+			if(resultado)
+				texto = "Datos guardados correctamente";
+			else
+				texto = "Error al guardar los datos";
+			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
+			
+			editDialog.dismiss();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private boolean abrirBaseDeDatos() {
+		boolean resultado = false;
+		try {
+			accidentesHelper = new AccidentesSQLiteHelper(rootView.getContext(), Constantes.TABLA_ACCIDENTES, null, 1);
+			baseDatos = accidentesHelper.getWritableDatabase();
+			resultado = true;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	private boolean insertarFila(DetalleAccidente da) {
+		boolean resp = false;
+		try {
+			ContentValues values = new ContentValues();
+			values.put("idDetalleAccidente", da.getIdDetalleAccidente());
+			values.put("fecha", da.getFecha().getTime());
+			values.put("lugar", da.getLugar());
+			values.put("kilometros", da.getKilometros());
+			values.put("observaciones", da.getObservaciones());
+			values.put("idVehiculo", da.getIdVehiculo());
+			
+			resp = (baseDatos.insert(Constantes.TABLA_ACCIDENTES, null, values) > 0);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return resp;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		myContext = (FragmentActivity)activity;
+		super.onAttach(activity);
 	}
 }
