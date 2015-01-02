@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
-import com.jhonny.infocar.listener.FragmentIterationListener;
 import com.jhonny.infocar.sql.DatosSQLiteHelper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -35,12 +34,11 @@ public class DatosFragment extends Fragment {
 	private EditText editNombre = null;
 	private EditText editTelefono = null;
 	private Spinner spinnerEdades = null;
-	private RadioButton radioHombre = null;
+	private RadioButton radioSexo = null;
 	private View rootView = null;
 	
 	private SQLiteDatabase baseDatos;
 	private FragmentActivity myContext;
-	private FragmentIterationListener mCallback = null;
 	private SharedPreferences propiedades = null;
     
 	
@@ -59,12 +57,7 @@ public class DatosFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		try{
-	        mCallback = (FragmentIterationListener)activity;
-	        myContext = (FragmentActivity)activity;
-	    }catch(Exception ex){
-	        ex.printStackTrace();
-	    }
+		myContext = (FragmentActivity)activity;
 	}
 	
 	@Override
@@ -76,84 +69,94 @@ public class DatosFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
-        rootView = inflater.inflate(R.layout.fragment_datos, container, false);
-        spinnerEdades = (Spinner)rootView.findViewById(R.id.datos_spinner1);
-        editNombre = (EditText)rootView.findViewById(R.id.datos_editText1);
-        editTelefono = (EditText)rootView.findViewById(R.id.datos_editText2);
-        radioHombre = (RadioButton)rootView.findViewById(R.id.datos_radioHombre);
+		
+		try {
+			rootView = inflater.inflate(R.layout.fragment_datos, container, false);
         
-        Bundle bundle = getArguments();
-        boolean mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
-        
-        Button botonGuardar = (Button)rootView.findViewById(R.id.datos_button1);
-        botonGuardar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				// comprobacion de los datos
-				String nombre = (String)editNombre.getText().toString();
-				String telefono = (String)editTelefono.getText().toString();
-				
-				if(nombre == null || nombre.length() == 0) {
-					String texto = new String("Debe introducir un nombre");
-					Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
-					return;
-					
-				}else if(telefono == null || telefono.length() == 0) {
-					String texto = new String("Debe introducir el telefono");
-					Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
-					return;
-				}
-				Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
-				boolean hombre = radioHombre.isChecked();
-				
-				// guardado de datos
-				guardaDatosPersonales(nombre, telefono, edad, hombre);
-			}
-        });
-        
-        Button botonGuardarDespues = (Button)rootView.findViewById(R.id.datos_button2);
-        if(mostrarBotonDespues) {
-        	botonGuardarDespues.setOnClickListener(new OnClickListener() {
+			editNombre = (EditText)rootView.findViewById(R.id.datos_editText1);
+			editTelefono = (EditText)rootView.findViewById(R.id.datos_editText2);
+	        spinnerEdades = (Spinner)rootView.findViewById(R.id.datos_spinner1);
+	        radioSexo = (RadioButton)rootView.findViewById(R.id.datos_radioHombre);
+	        
+	        boolean mostrarBotonDespues = false;
+	        if(getArguments() != null) {
+	        	Bundle bundle = getArguments();
+	        	mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+	        }
+	        
+	        Button botonGuardar = (Button)rootView.findViewById(R.id.datos_button1);
+	        botonGuardar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					propiedades = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
-					if(propiedades != null) {
-						SharedPreferences.Editor editor = propiedades.edit();
-						editor.putBoolean(Constantes.INTRO_PERSONALES, true);
-						editor.commit();
+					// comprobacion de los datos
+					String nombre = (String)editNombre.getText().toString();
+					String telefono = (String)editTelefono.getText().toString();
+					
+					if(nombre == null || nombre.length() == 0) {
+						String texto = new String("Debe introducir un nombre");
+						Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
+						return;
 						
-						Fragment fragment = null;
-						boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
-						
-						if(dVehiculo == false) {
-							// redireccion a nuevoVehiculoFragment
-							Bundle arguments = new Bundle();
-							arguments.putBoolean("mostrarBotonDespues", true);
-			    	        fragment = NuevoVehiculoFragment.newInstance(arguments);
-							
-						}else {
-							// redireccion a la pantalla principal
-							fragment = new PrincipalFragment();
-						}
-						
-						FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-						fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-			        }
+					}else if(telefono == null || telefono.length() == 0) {
+						String texto = new String("Debe introducir el telefono");
+						Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
+						return;
+					}
+					Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
+					boolean hombre = radioSexo.isChecked();
+					
+					// guardado de datos
+					guardaDatosPersonales(nombre, telefono, edad, hombre);
 				}
-			});
-        }else{
-        	botonGuardarDespues.setVisibility(0);
-        }
+	        });
         
-        ArrayList<Integer> edades = new ArrayList<Integer>();
-        for(int i=1; i<= 99; i++) {
-        	edades.add(i);
-        }
-        
-        adapter = new ArrayAdapter<Integer>(rootView.getContext(), android.R.layout.simple_spinner_item, edades);
-        spinnerEdades.setAdapter(adapter);
-        spinnerEdades.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-        spinnerEdades.setSelection(17);
+	        Button botonGuardarDespues = (Button)rootView.findViewById(R.id.datos_button2);
+	        if(mostrarBotonDespues) {
+	        	botonGuardarDespues.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						propiedades = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+						if(propiedades != null) {
+							SharedPreferences.Editor editor = propiedades.edit();
+							editor.putBoolean(Constantes.INTRO_PERSONALES, true);
+							editor.commit();
+							
+							Fragment fragment = null;
+							boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
+							
+							if(dVehiculo == false) {
+								// redireccion a nuevoVehiculoFragment
+								Bundle arguments = new Bundle();
+								arguments.putBoolean("mostrarBotonDespues", true);
+				    	        fragment = NuevoVehiculoFragment.newInstance(arguments);
+								
+							}else {
+								// redireccion a la pantalla principal
+								fragment = new PrincipalFragment();
+							}
+							
+							FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+							fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+				        }
+					}
+				});
+	        }else{
+	        	botonGuardarDespues.setVisibility(View.INVISIBLE);
+	        }
+	        
+	        ArrayList<Integer> edades = new ArrayList<Integer>();
+	        for(int i=1; i<= 99; i++) {
+	        	edades.add(i);
+	        }
+	        
+	        adapter = new ArrayAdapter<Integer>(rootView.getContext(), android.R.layout.simple_spinner_item, edades);
+	        spinnerEdades.setAdapter(adapter);
+	        spinnerEdades.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+	        spinnerEdades.setSelection(17);
+	        
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
         
         return rootView;
     }

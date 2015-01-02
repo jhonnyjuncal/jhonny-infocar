@@ -1,11 +1,16 @@
 package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
-import com.jhonny.infocar.listener.FragmentIterationListener;
-import com.jhonny.infocar.sql.NuevoVehiculoSQLiteHelper;
+import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +20,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +30,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,6 +44,8 @@ public class NuevoVehiculoFragment extends Fragment {
 	private EditText editModelo = null;
 	private EditText editKms = null;
 	private EditText editFecha = null;
+	private ImageView imagenCalendario = null;
+	private EditText editMatricula = null;
 	private Spinner spinnerTipo = null;
 	private Spinner spinnerCombustible = null;
 	
@@ -50,7 +58,6 @@ public class NuevoVehiculoFragment extends Fragment {
 	
 	private SQLiteDatabase baseDatos;
 	private FragmentActivity myContext;
-	private FragmentIterationListener mCallback = null;
 	private SharedPreferences propiedades;
 	
 	
@@ -82,15 +89,33 @@ public class NuevoVehiculoFragment extends Fragment {
 			editModelo = (EditText)rootView.findViewById(R.id.nue_veh_editText1);
 			editKms = (EditText)rootView.findViewById(R.id.nue_veh_editText2);
 			editFecha = (EditText)rootView.findViewById(R.id.nue_veh_editText3);
+			editMatricula = (EditText)rootView.findViewById(R.id.nue_veh_editText4);
 			spinnerTipo = (Spinner)rootView.findViewById(R.id.nue_veh_spinner2);
 			spinnerCombustible = (Spinner)rootView.findViewById(R.id.nue_veh_spinner3);
+			imagenCalendario = (ImageView)rootView.findViewById(R.id.nue_veh_imageView1);
+			imagenCalendario.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Calendar c = Calendar.getInstance();
+					int year = c.get(Calendar.YEAR);
+					int month = c.get(Calendar.MONTH);
+					int day = c.get(Calendar.DAY_OF_MONTH);
+					
+					DatePickerDialog dp = new DatePickerDialog(rootView.getContext(), new OnDateSetListener() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+							editFecha.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+						}
+					}, year, month, day);
+					dp.show();
+				}
+			});
 			
-			editModelo = (EditText)rootView.findViewById(R.id.nue_veh_editText1);
-			editKms = (EditText)rootView.findViewById(R.id.nue_veh_editText2);
-			editFecha = (EditText)rootView.findViewById(R.id.nue_veh_editText3);
-			
-			Bundle bundle = getArguments();
-			boolean mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+			boolean mostrarBotonDespues = false;
+			if(getArguments() != null) {
+				Bundle bundle = getArguments();
+				mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+			}
 			
 			/** Spinner de marcas de vehiculos */
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
@@ -105,8 +130,6 @@ public class NuevoVehiculoFragment extends Fragment {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					String marcaSeleccionada = arrayMarcas.getString(position);
-					String texto = "Marca seleccionada: " + marcaSeleccionada;
-					Log.d("NuevoVehiculoFragment", texto);
 				}
 
 				@Override
@@ -128,8 +151,6 @@ public class NuevoVehiculoFragment extends Fragment {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					String tipoSeleccionado = arrayTiposVehiculos.getString(position);
-					String texto = "Tipo seleccionado: " + tipoSeleccionado;
-					Log.d("NuevoVehiculoFragment", texto);
 				}
 				
 				@Override
@@ -151,8 +172,6 @@ public class NuevoVehiculoFragment extends Fragment {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					String carburanteSeleccionado = arrayCarburantes.getString(position);
-					String texto = "Carburante seleccionado: " + carburanteSeleccionado;
-					Log.d("NuevoVehiculoFragment", texto);
 				}
 				
 				@Override
@@ -167,15 +186,18 @@ public class NuevoVehiculoFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					try {
-						Integer marca = (Integer)spinnerMarcas.getSelectedItemPosition();
-						String modelo = editModelo.getText().toString();
-						String kms = editKms.getText().toString();
-						String fecha = editFecha.getText().toString();
-						Integer tipo = (Integer)spinnerTipo.getSelectedItemPosition();
-						Integer combustible = (Integer)spinnerCombustible.getSelectedItemPosition();
+						DetalleVehiculo dv = new DetalleVehiculo();
+						dv.setIdVehiculo(null);
+						dv.setMarca(spinnerMarcas.getSelectedItemPosition());
+						dv.setModelo(editModelo.getText().toString());
+						dv.setKilometros(Double.valueOf(editKms.getText().toString()));
+						dv.setFechaCompra(Util.convierteStringEnDate(editFecha.getText().toString()));
+						dv.setMatricula(editMatricula.getText().toString());
+						dv.setTipoVehiculo(spinnerTipo.getSelectedItemPosition());
+						dv.setTipoCarburante(spinnerCombustible.getSelectedItemPosition());
 						
-						if(comprobacionDatos(marca, modelo, kms, fecha, tipo, combustible)) {
-							guardaDatosDelVehiculo(marca, modelo, kms, fecha, tipo, combustible);
+						if(comprobacionDatos(dv)) {
+							guardaDatosDelVehiculo(dv);
 						}
 					}catch(Exception ex) {
 						ex.printStackTrace();
@@ -207,6 +229,8 @@ public class NuevoVehiculoFragment extends Fragment {
 						}
 					}
 				});
+			}else {
+				botonDespues.setVisibility(View.INVISIBLE);
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -221,30 +245,25 @@ public class NuevoVehiculoFragment extends Fragment {
 	}
 	
 	
-	private boolean comprobacionDatos(Integer marca, String modelo, String kms, String fecha, Integer tipo, Integer combustible) {
+	private boolean comprobacionDatos(DetalleVehiculo dv) {
 		boolean resultado = true;
 		try {
-			if(marca == null || marca == 0) {
+			if(dv.getMarca() == null || dv.getMarca() == 0) {
 				mostrarTexto("Debe seleccionar la marca del vehiculo");
 				resultado = false;
-				
-			}else if(modelo == null || modelo.length() == 0) {
+			}else if(dv.getModelo() == null || dv.getModelo().length() == 0) {
 				resultado = false;
 				mostrarTexto("Debe introducir el modelo del vehiculo");
-				
-			}else if(kms == null || kms.length() == 0) {
+			}else if(dv.getKilometros() == null || dv.getKilometros() <= 0) {
 				mostrarTexto("Debe introducir los kilómetros del vehiculo");
 				resultado = false;
-				
-			}else if(fecha == null || fecha.length() == 0) {
+			}else if(dv.getFechaCompra() == null) {
 				mostrarTexto("Debe introducir la fecha de compra del vehiculo");
 				resultado = false;
-				
-			}else if(tipo == null || tipo == 0) {
+			}else if(dv.getTipoVehiculo() == null || dv.getTipoVehiculo() == 0) {
 				mostrarTexto("Debe seleccionar el tipo de vehiculo");
 				resultado = false;
-				
-			}else if(combustible == null || combustible == 0) {
+			}else if(dv.getTipoCarburante() == null || dv.getTipoCarburante() == 0) {
 				mostrarTexto("Debe seleccionar el tipo de combustible");
 				resultado = false;
 			}
@@ -260,7 +279,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	}
 	
 	
-	private void guardaDatosDelVehiculo(Integer marca, String modelo, String kms, String fecha, Integer tipo, Integer combustible) {
+	private void guardaDatosDelVehiculo(DetalleVehiculo dv) {
 		try {
 			boolean resp = abrirBaseDeDatos();
 			if(resp == false) {
@@ -269,7 +288,7 @@ public class NuevoVehiculoFragment extends Fragment {
 				return;
 			}
 			
-			boolean resultado = insertarFila(marca, modelo, kms, fecha, tipo, combustible);
+			boolean resultado = insertarFila(dv);
 			String texto = new String();
 			if(resultado) {
 				texto = "Datos guardados correctamente";
@@ -299,7 +318,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	private boolean abrirBaseDeDatos() {
 		boolean resultado = false;
 		try {
-			NuevoVehiculoSQLiteHelper nuevoHelper = new NuevoVehiculoSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
+			VehiculosSQLiteHelper nuevoHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
 			baseDatos = nuevoHelper.getWritableDatabase();
 			resultado = true;
 		}catch(Exception ex) {
@@ -309,16 +328,17 @@ public class NuevoVehiculoFragment extends Fragment {
 	}
 	
 	
-	private boolean insertarFila(Integer marca, String modelo, String kms, String fecha, Integer tipo, Integer combustible) {
+	private boolean insertarFila(DetalleVehiculo dv) {
 		boolean resp = false;
 		try {
 			ContentValues values = new ContentValues();
-			values.put("marca", marca);
-			values.put("modelo", modelo);
-			values.put("kms", kms);
-			values.put("fecha", fecha);
-			values.put("tipoVehiculo", tipo);
-			values.put("tipoCarburante", combustible);
+			values.put("marca", dv.getMarca());
+			values.put("modelo", dv.getModelo());
+			values.put("kms", dv.getKilometros());
+			values.put("fecha", dv.getFechaCompra().getTime());
+			values.put("matricula", dv.getMatricula());
+			values.put("tipoVehiculo", dv.getTipoVehiculo());
+			values.put("tipoCarburante", dv.getTipoCarburante());
 			
 			resp = (baseDatos.insert(Constantes.TABLA_VEHICULOS, null, values) > 0);
 		}catch(Exception ex) {

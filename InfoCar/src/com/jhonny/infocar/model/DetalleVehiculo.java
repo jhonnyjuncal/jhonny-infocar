@@ -17,19 +17,19 @@ public class DetalleVehiculo {
 	private Integer idItv;
 	
 	
-	public int getIdVehiculo() {
+	public Integer getIdVehiculo() {
 		return idVehiculo;
 	}
 	
-	public void setIdVehiculo(int idVehiculo) {
+	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
 	
-	public int getMarca() {
+	public Integer getMarca() {
 		return marca;
 	}
 	
-	public void setMarca(int marca) {
+	public void setMarca(Integer marca) {
 		this.marca = marca;
 	}
 	
@@ -65,35 +65,35 @@ public class DetalleVehiculo {
 		return matricula;
 	}
 	
-	public int getTipoVehiculo() {
+	public Integer getTipoVehiculo() {
 		return tipoVehiculo;
 	}
 	
-	public void setTipoVehiculo(int tipoVehiculo) {
+	public void setTipoVehiculo(Integer tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}
 	
-	public int getTipoCarburante() {
+	public Integer getTipoCarburante() {
 		return tipoCarburante;
 	}
 	
-	public void setTipoCarburante(int tipoCarburante) {
+	public void setTipoCarburante(Integer tipoCarburante) {
 		this.tipoCarburante = tipoCarburante;
 	}
 	
-	public int getIdSeguro() {
+	public Integer getIdSeguro() {
 		return idSeguro;
 	}
 	
-	public void setIdSeguro(int idSeguro) {
+	public void setIdSeguro(Integer idSeguro) {
 		this.idSeguro = idSeguro;
 	}
 	
-	public int getIdItv() {
+	public Integer getIdItv() {
 		return idItv;
 	}
 	
-	public void setIdItv(int idItv) {
+	public void setIdItv(Integer idItv) {
 		this.idItv = idItv;
 	}
 }

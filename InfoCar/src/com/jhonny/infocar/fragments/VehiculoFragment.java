@@ -1,13 +1,16 @@
 package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +20,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ public class VehiculoFragment extends Fragment {
 	private ArrayList<DetalleVehiculo> vehiculos;
 	private View rootView;
 	private Dialog editDialog;
+	private Context myContext;
 	
 	private ArrayAdapter<String> adapterMarcas;
 	private ArrayAdapter<String> adapterCarburantes;
@@ -53,6 +55,7 @@ public class VehiculoFragment extends Fragment {
 	private ArrayList<String> listaCarburantes = new ArrayList<String>();
 	
 	
+	
 	public VehiculoFragment() {
 		
 	}
@@ -66,6 +69,16 @@ public class VehiculoFragment extends Fragment {
         vistaVehiculos = (ScrollView)fragmento.findViewById(R.id.veh_scrollView1);
         layoutVehiculos = (LinearLayout)vistaVehiculos.findViewById(R.id.veh_linear);
         vehiculos = recuperaDatosVehiculos();
+        
+        Button btnNuevoVehiculo = (Button)rootView.findViewById(R.id.veh_boton_nuevo);
+        btnNuevoVehiculo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Fragment fragment = new NuevoVehiculoFragment();
+				FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+	    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+			}
+		});
         
         arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 		arrayMarcas.recycle();
@@ -139,18 +152,6 @@ public class VehiculoFragment extends Fragment {
 					adapterMarcas = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaMarcas);
 					spinnerMarcas = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_marca);
 					spinnerMarcas.setAdapter(adapterMarcas);
-					spinnerMarcas.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-							String marcaSeleccionada = arrayMarcas.getString(position);
-							String texto = "Marca seleccionada: " + marcaSeleccionada;
-							Log.d("VehiculoFragment", texto);
-						}
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-							
-						}
-					});
 					spinnerMarcas.setSelection(dv.getMarca());
 					
 					EditText textModelo = (EditText)editDialog.findViewById(R.id.edit_veh_editText1);
@@ -163,35 +164,11 @@ public class VehiculoFragment extends Fragment {
 					adapterTiposVeh = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposVeh);
 					spinnerTiposVeh = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_tipo);
 					spinnerTiposVeh.setAdapter(adapterTiposVeh);
-					spinnerTiposVeh.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-							String tipoSeleccionado = arrayTiposVeh.getString(position);
-							String texto = "Tipo vehiculo seleccionado: " + tipoSeleccionado;
-							Log.d("VehiculoFragment", texto);
-						}
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-							
-						}
-					});
 					spinnerTiposVeh.setSelection(dv.getTipoVehiculo());
 					
 					adapterCarburantes = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaCarburantes);
 					spinnerCarburantes = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_carburante);
 					spinnerCarburantes.setAdapter(adapterCarburantes);
-					spinnerCarburantes.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-							String carburanteSeleccionado = arrayCarburantes.getString(position);
-							String texto = "Carburante seleccionado: " + carburanteSeleccionado;
-							Log.d("VehiculoFragment", texto);
-						}
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-							Log.d("VehiculoFragment", "Nada seleccionado...");
-						}
-					});
 					spinnerCarburantes.setSelection(dv.getTipoCarburante());
 					
 					EditText textMatricula = (EditText)editDialog.findViewById(R.id.edit_veh_editText4);
@@ -237,33 +214,18 @@ public class VehiculoFragment extends Fragment {
 		inflater.inflate(R.menu.vehiculo, menu);
 	}
 	
+	@Override
+	public void onAttach(Activity activity) {
+		myContext = (FragmentActivity)activity;
+		super.onAttach(activity);
+	}
+	
 	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
 		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
 		
 		try {
-			DetalleVehiculo dv1 = new DetalleVehiculo();
-			dv1.setIdVehiculo(0);
-			dv1.setMarca(1);
-			dv1.setModelo("Focus");
-			dv1.setKilometros(25000.0);
-			dv1.setFechaCompra(new Date());
-			dv1.setTipoVehiculo(1);
-			dv1.setTipoCarburante(1);
-			dv1.setIdSeguro(1);
-			dv1.setIdItv(0);
-			lista.add(dv1);
-			
-			DetalleVehiculo dv2 = new DetalleVehiculo();
-			dv2.setIdVehiculo(1);
-			dv2.setMarca(3);
-			dv2.setModelo("Audi");
-			dv2.setKilometros(10000.0);
-			dv2.setFechaCompra(new Date());
-			dv2.setTipoVehiculo(1);
-			dv2.setTipoCarburante(1);
-			dv2.setIdSeguro(2);
-			dv2.setIdItv(0);
-			lista.add(dv2);
+			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
+			lista.addAll(vehiculosHelper.getVehiculos());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}

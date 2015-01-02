@@ -2,11 +2,13 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleAccidente;
+import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.AccidentesSQLiteHelper;
+import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -15,6 +17,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +51,11 @@ public class AccidentesFragment extends Fragment {
 	private View rootView;
 	private Dialog editDialog;
 	private Context myContext;
+	private ArrayList<DetalleVehiculo> listaVehiculos;
+	private TypedArray arrayMarcas;
 	
 	private EditText textFecha;
+	private Spinner spinnerModelos;
 	private EditText textKms;
 	private EditText textLugar;
 	private EditText textObservaciones;
@@ -70,6 +78,8 @@ public class AccidentesFragment extends Fragment {
 		vistaAccidentes = (ScrollView)fragmento.findViewById(R.id.acc_scrollView1);
 		layoutAccidentes = (LinearLayout)vistaAccidentes.findViewById(R.id.acc_linear);
 		accidentes = recuperaDatosAccidentes();
+		listaVehiculos = recuperaDatosVehiculos();
+		arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 		
 		Button btnNuevo = (Button)fragmento.findViewById(R.id.acc_boton_nuevo);
 		btnNuevo.setOnClickListener(new OnClickListener() {
@@ -87,14 +97,26 @@ public class AccidentesFragment extends Fragment {
 			View vista = inflater.inflate(R.layout.detalle_accidente, layoutAccidentes, false);
 			
 			vista.setId(i);
-			TextView tv1 = (TextView)vista.findViewById(R.id.det_acc_textView1);
-			tv1.setText(acc.getFecha().toString());
-			TextView tv2 = (TextView)vista.findViewById(R.id.det_acc_textView3);
-			tv2.setText(acc.getKilometros().toString());
-			TextView tv3 = (TextView)vista.findViewById(R.id.det_acc_textView5);
-			tv3.setText(acc.getLugar());
-			TextView tv4 = (TextView)vista.findViewById(R.id.det_acc_textView7);
-			tv4.setText(acc.getObservaciones());
+			DetalleVehiculo dv = null;
+			for(DetalleVehiculo vehiculo : listaVehiculos) {
+				if(vehiculo.getIdVehiculo().equals(acc.getIdVehiculo())) {
+					dv = vehiculo;
+					break;
+				}
+			}
+			
+			TextView textViewTitulo = (TextView)vista.findViewById(R.id.det_acc_textView1);
+			textViewTitulo.setText(Util.convierteDateEnString(acc.getFecha()));
+			TextView textViewKms = (TextView)vista.findViewById(R.id.det_acc_textView3);
+			textViewKms.setText(acc.getKilometros().toString());
+			TextView textViewLugar = (TextView)vista.findViewById(R.id.det_acc_textView5);
+			textViewLugar.setText(acc.getLugar());
+			TextView textViewMarca = (TextView)vista.findViewById(R.id.det_acc_textView7);
+			textViewMarca.setText(arrayMarcas.getString(dv.getMarca()));
+			TextView textViewModelo = (TextView)vista.findViewById(R.id.det_acc_textView9);
+			textViewModelo.setText(dv.getModelo());
+			TextView textViewObservaciones = (TextView)vista.findViewById(R.id.det_acc_textView11);
+			textViewObservaciones.setText(acc.getObservaciones());
 			
 			ImageView imgEditar = (ImageView)vista.findViewById(R.id.imageView_editar);
 			imgEditar.setOnClickListener(new android.view.View.OnClickListener() {
@@ -110,7 +132,16 @@ public class AccidentesFragment extends Fragment {
 					editDialog.setTitle("Edicion de accidente");
 					
 					textFecha = (EditText)editDialog.findViewById(R.id.edit_acc_fecha);
-					textFecha.setText(detalleEnEdicion.getFecha().toString());
+					final String fechaEnEdicion = Util.convierteDateEnString(detalleEnEdicion.getFecha());
+					textFecha.setText(fechaEnEdicion);
+					ArrayList<String> vehiculos = new ArrayList<String>();
+					for(DetalleVehiculo veh : listaVehiculos) {
+						String marca = arrayMarcas.getString(veh.getMarca());
+						vehiculos.add(marca + " " + veh.getModelo());
+					}
+					ArrayAdapter<String> adapterVehiculos = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, vehiculos);
+					spinnerModelos = (Spinner)editDialog.findViewById(R.id.edit_acc_spinner_vehiculo);
+					spinnerModelos.setAdapter(adapterVehiculos);
 					textKms = (EditText)editDialog.findViewById(R.id.edit_acc_kms);
 					textKms.setText(detalleEnEdicion.getKilometros().toString());
 					textLugar = (EditText)editDialog.findViewById(R.id.edit_acc_lugar);
@@ -122,17 +153,26 @@ public class AccidentesFragment extends Fragment {
 					imgFecha.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
+							String[] fechaEdicion = fechaEnEdicion.split("/");
 							final Calendar c = Calendar.getInstance();
+							
 							int year = c.get(Calendar.YEAR);
 							int month = c.get(Calendar.MONTH);
 							int day = c.get(Calendar.DAY_OF_MONTH);
 							
+							if(fechaEdicion != null && fechaEdicion.length > 0) {
+								year = Integer.valueOf(fechaEdicion[2]);
+								month = Integer.valueOf(fechaEdicion[1]) - 1;
+								day = Integer.valueOf(fechaEdicion[0]);
+							}
+							
 							DatePickerDialog dp = new DatePickerDialog(rootView.getContext(), new OnDateSetListener() {
 								@Override
 								public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-									textFecha.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+									textFecha.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
 								}
 							}, year, month, day);
+							
 							dp.show();
 						}
 					});
@@ -141,15 +181,16 @@ public class AccidentesFragment extends Fragment {
 					btnGuardar.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View vista) {
+							int posicion = spinnerModelos.getSelectedItemPosition();
+							DetalleVehiculo nuevoVehiculo = listaVehiculos.get(posicion);
+							
 							DetalleAccidente accidente = new DetalleAccidente();
 							accidente.setIdDetalleAccidente(detalleEnEdicion.getIdDetalleAccidente());
-							String fechaIntroducida = textFecha.getText().toString();
-							String[] valores = fechaIntroducida.split("/");
-							accidente.setFecha(new Date(Integer.valueOf(valores[2]), Integer.valueOf(valores[1]), Integer.valueOf(valores[0])));
+							accidente.setFecha(Util.convierteStringEnDate(textFecha.getText().toString()));
 							accidente.setKilometros(Double.valueOf(textKms.getText().toString()));
 							accidente.setLugar(textLugar.getText().toString());
 							accidente.setObservaciones(textObservaciones.getText().toString());
-							accidente.setIdVehiculo(detalleEnEdicion.getIdVehiculo());
+							accidente.setIdVehiculo(nuevoVehiculo.getIdVehiculo());
 							
 							guardaDatosDelAccidente(accidente);
 						}
@@ -260,7 +301,13 @@ public class AccidentesFragment extends Fragment {
 			values.put("observaciones", da.getObservaciones());
 			values.put("idVehiculo", da.getIdVehiculo());
 			
-			resp = (baseDatos.insert(Constantes.TABLA_ACCIDENTES, null, values) > 0);
+			if(da.getIdDetalleAccidente() == null) {
+				resp = (baseDatos.insert(Constantes.TABLA_ACCIDENTES, null, values) > 0);
+			}else {
+				String[] argumentos = new String[1];
+				argumentos[0] = String.valueOf(da.getIdDetalleAccidente());
+				resp = (baseDatos.update(Constantes.TABLA_ACCIDENTES, values, "idDetalleAccidente = ?", argumentos) > 0);
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -271,5 +318,16 @@ public class AccidentesFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
+	}
+	
+	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
+		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
+		try {
+			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
+			lista.addAll(vehiculosHelper.getVehiculos());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return lista;
 	}
 }

@@ -34,7 +34,7 @@
 
                 <EditText
                     android:id="@+id/datos_editText1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
             </LinearLayout>
@@ -79,10 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textEmailAddress" >
-
-                    <requestFocus />
-                </EditText>
+                    android:inputType="textEmailAddress" />
 
             </LinearLayout>
 
@@ -95,14 +92,14 @@
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginRight="5dp"
                     android:text="@string/lbl_edad" />
 
                 <Spinner
                     android:id="@+id/datos_spinner1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -110,7 +107,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" >
 
                 <TextView
                     android:id="@+id/textView4"
