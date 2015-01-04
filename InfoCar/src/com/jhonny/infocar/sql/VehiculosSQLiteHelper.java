@@ -2,10 +2,7 @@ package com.jhonny.infocar.sql;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleVehiculo;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

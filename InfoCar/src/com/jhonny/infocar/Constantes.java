@@ -22,5 +22,6 @@ public class Constantes {
 	public static final String TABLA_DATOS = "datos";
 	public static final String TABLA_VEHICULOS = "vehiculos";
 	public static final String TABLA_ACCIDENTES = "accidentes";
+	public static final String TABLA_MANTENIMIENTOS = "mantenimientos";
 	
 }

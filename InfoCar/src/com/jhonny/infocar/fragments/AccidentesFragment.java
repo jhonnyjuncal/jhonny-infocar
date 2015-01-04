@@ -193,6 +193,8 @@ public class AccidentesFragment extends Fragment {
 							accidente.setIdVehiculo(nuevoVehiculo.getIdVehiculo());
 							
 							guardaDatosDelAccidente(accidente);
+							
+							editDialog.dismiss();
 						}
 					});
 					
@@ -270,8 +272,6 @@ public class AccidentesFragment extends Fragment {
 			else
 				texto = "Error al guardar los datos";
 			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
-			
-			editDialog.dismiss();
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();

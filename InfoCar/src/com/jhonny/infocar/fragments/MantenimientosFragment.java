@@ -2,22 +2,29 @@ package com.jhonny.infocar.fragments;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleMantenimiento;
+import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
+import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MantenimientosFragment extends Fragment {
@@ -34,13 +42,28 @@ public class MantenimientosFragment extends Fragment {
 	private FrameLayout fragmento;
 	private ScrollView vistaMantenimientos;
 	private LinearLayout layoutMantenimientos;
-	private ArrayList<DetalleMantenimiento> mantenimientos;
 	private View rootView;
+	private Context myContext;
+	
+	private ArrayList<DetalleMantenimiento> mantenimientos;
 	private Dialog editDialog;
+	private Button botonNuevo;
 	private TypedArray arrayTiposMantenimientos = null;
-	private ArrayAdapter<String> adapterTipoMantenimientos;
-	private Spinner tipoMantenimiento;
+	private TypedArray arrayMarcas = null;
 	private ArrayList<String> listaTiposMantenimientos = new ArrayList<String>();
+	private ArrayList<String> listaVehiculos = new ArrayList<String>();
+	private ArrayAdapter<String> adapterTipoMantenimientos;
+	private ArrayAdapter<String> adapterVehiculos;
+	private MantenimientosSQLiteHelper mantenimientosHelper;
+	private SQLiteDatabase baseDatos;
+	
+	private EditText textFecha;
+	private EditText textKms;
+	private EditText textPrecio;
+	private Spinner spinnerTipoMant;
+	private Spinner spinnerVehiculo;
+	private EditText textTaller;
+	private EditText textObservaciones;
 	
 	
 	public MantenimientosFragment() {
@@ -50,19 +73,28 @@ public class MantenimientosFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
-        setHasOptionsMenu(true);
-        
-        fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
-        vistaMantenimientos = (ScrollView)fragmento.findViewById(R.id.mant_scrollView1);
-        layoutMantenimientos = (LinearLayout)vistaMantenimientos.findViewById(R.id.mant_linear);
-        mantenimientos = recuperaDatosMantenimiento();
+		rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
+		setHasOptionsMenu(true);
+		
+		fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_mantenimiento);
+		vistaMantenimientos = (ScrollView)fragmento.findViewById(R.id.mant_scrollView1);
+		layoutMantenimientos = (LinearLayout)vistaMantenimientos.findViewById(R.id.mant_linear);
+		mantenimientos = recuperaDatosMantenimiento();
+		
+        botonNuevo = (Button)rootView.findViewById(R.id.mant_boton_nuevo);
+        botonNuevo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Fragment fragment = new NuevoMantenimientoFragment();
+				FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+	    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+			}
+		});
         
         arrayTiposMantenimientos = getResources().obtainTypedArray(R.array.TIPOS_MANTENIMIENTOS);
         arrayTiposMantenimientos.recycle();
         for(int i=0; i<arrayTiposMantenimientos.length(); i++)
         	listaTiposMantenimientos.add(arrayTiposMantenimientos.getString(i));
-        
         
         int i = 0;
         for(DetalleMantenimiento dm : mantenimientos) {
@@ -91,47 +123,52 @@ public class MantenimientosFragment extends Fragment {
 					LinearLayout linear1 = (LinearLayout)view.getParent();
 					LinearLayout linear2 = (LinearLayout)linear1.getParent();
 					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					DetalleMantenimiento dm = mantenimientos.get(linear3.getId());
+					DetalleMantenimiento mant = mantenimientos.get(linear3.getId());
 					
 					editDialog = new Dialog(rootView.getContext());
 					editDialog.setContentView(R.layout.edicion_mantenimiento);
 					editDialog.setTitle("Edicion de mantenimiento");
 					
+					textFecha = (EditText)editDialog.findViewById(R.id.edit_mant_editText1);
+					textFecha.setText(Constantes.SDF.format(mant.getFecha()));
+					textKms = (EditText)editDialog.findViewById(R.id.edit_mant_editText2);
+					textKms.setText(mant.getKilometros().toString());
+					textPrecio = (EditText)editDialog.findViewById(R.id.edit_mant_editText3);
+					textPrecio.setText(mant.getPrecio().toString());
 					adapterTipoMantenimientos = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposMantenimientos);
+					spinnerTipoMant = (Spinner)editDialog.findViewById(R.id.edit_mant_spinner_tipo);
+					spinnerTipoMant.setAdapter(adapterTipoMantenimientos);
+					spinnerTipoMant.setSelection(mant.getTipoMantenimiento());
+					ArrayList<DetalleVehiculo> vehiculos = recuperaDatosVehiculos();
+					for(DetalleVehiculo dv : vehiculos) {
+						String marca = arrayMarcas.getString(dv.getMarca());
+						listaVehiculos.add(marca + " " + dv.getModelo());
+					}
+					adapterVehiculos = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaVehiculos);
+					spinnerVehiculo = (Spinner)editDialog.findViewById(R.id.edit_mant_spinner_vehiculo);
+					spinnerVehiculo.setAdapter(adapterVehiculos);
 					
-					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_mant_editText1);
-					DateFormat df = DateFormat.getDateInstance();
-					textFecha.setText(df.format(dm.getFecha()));
-					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_mant_editText2);
-					textKms.setText(dm.getKilometros().toString());
-					EditText textPrecio = (EditText)editDialog.findViewById(R.id.edit_mant_editText3);
-					textPrecio.setText(dm.getPrecio().toString());
-					tipoMantenimiento = (Spinner)editDialog.findViewById(R.id.edit_mant_spinner_tipo);
-					tipoMantenimiento.setAdapter(adapterTipoMantenimientos);
-					tipoMantenimiento.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-							String tipoSeleccionado = arrayTiposMantenimientos.getString(position);
-							String texto = "Tipo seleccionado: " + tipoSeleccionado;
-							Log.d("MantenimientosFragment", texto);
-						}
-
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-							Log.d("MantenimientosFragment", "Nada seleccionado...");
-						}
-					});
-					tipoMantenimiento.setSelection(dm.getTipoMantenimiento());
-					
-					EditText textTaller = (EditText)editDialog.findViewById(R.id.edit_mant_editText4);
-					textTaller.setText(dm.getTaller());
-					EditText textObservaciones = (EditText)editDialog.findViewById(R.id.edit_mant_editText5);
-					textObservaciones.setText(dm.getObservaciones());
+					textTaller = (EditText)editDialog.findViewById(R.id.edit_mant_editText4);
+					textTaller.setText(mant.getTaller());
+					textObservaciones = (EditText)editDialog.findViewById(R.id.edit_mant_editText5);
+					textObservaciones.setText(mant.getObservaciones());
 					
 					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_mant_button_guardar);
 					btnGuardar.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View vista) {
+							DetalleMantenimiento mant = new DetalleMantenimiento();
+							mant.setIdDetalleMantenimiento(mant.getIdDetalleMantenimiento());
+							mant.setFecha(Util.convierteStringEnDate(textFecha.getText().toString()));
+							mant.setKilometros(Double.valueOf(textKms.getText().toString()));
+							mant.setPrecio(Double.valueOf(textPrecio.getText().toString()));
+							mant.setTaller(textTaller.getText().toString());
+							mant.setObservaciones(textObservaciones.getText().toString());
+							mant.setTipoMantenimiento(spinnerTipoMant.getSelectedItemPosition());
+							mant.setIdVehiculo(mant.getIdVehiculo());
+							
+							guardaDatosDelMantenimiento(mant);
+							
 							editDialog.dismiss();
 						}
 					});
@@ -169,31 +206,91 @@ public class MantenimientosFragment extends Fragment {
 	
 	private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {
 		ArrayList<DetalleMantenimiento> detalles = new ArrayList<DetalleMantenimiento>();
-		
 		try {
-			DetalleMantenimiento dm1 = new DetalleMantenimiento();
-			dm1.setIdDetalleMantenimiento(0);
-			dm1.setFecha(new Date());
-			dm1.setKilometros(Double.valueOf(20000));
-			dm1.setObservaciones("Revision de los 20mil kms");
-			dm1.setPrecio(Double.valueOf(220));
-			dm1.setTaller("Ford de santiago");
-			dm1.setTipoMantenimiento(1);
-			detalles.add(dm1);
-			
-			DetalleMantenimiento dm2 = new DetalleMantenimiento();
-			dm2.setIdDetalleMantenimiento(1);
-			dm2.setFecha(new Date());
-			dm2.setKilometros(Double.valueOf(40000));
-			dm2.setObservaciones("Revision de los 40mil kms");
-			dm2.setPrecio(Double.valueOf(250));
-			dm2.setTaller("Ford de coruña");
-			dm2.setTipoMantenimiento(0);
-			detalles.add(dm2);
-			
+			if(mantenimientosHelper == null)
+				mantenimientosHelper = new MantenimientosSQLiteHelper(rootView.getContext(), Constantes.TABLA_MANTENIMIENTOS, null, 1);
+			detalles.addAll(mantenimientosHelper.getMantenimientos());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return detalles;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		myContext = (FragmentActivity)activity;
+		super.onAttach(activity);
+	}
+	
+	private void guardaDatosDelMantenimiento(DetalleMantenimiento mant) {
+		try {
+			boolean resp = abrirBaseDeDatos();
+			if(resp == false) {
+				String texto = "Error al abrir o crear la tabla 'Mantenimientos'";
+				Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			boolean resultado = insertarFila(mant);
+			String texto = new String();
+			if(resultado)
+				texto = "Datos guardados correctamente";
+			else
+				texto = "Error al guardar los datos";
+			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
+		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
+		try {
+			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
+			lista.addAll(vehiculosHelper.getVehiculos());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return lista;
+	}
+	
+	private boolean abrirBaseDeDatos() {
+		boolean resultado = false;
+		try {
+			if(mantenimientosHelper == null)
+				mantenimientosHelper = new MantenimientosSQLiteHelper(rootView.getContext(), Constantes.TABLA_ACCIDENTES, null, 1);
+			baseDatos = mantenimientosHelper.getWritableDatabase();
+			resultado = true;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	private boolean insertarFila(DetalleMantenimiento mant) {
+		boolean resp = false;
+		try {
+			ContentValues values = new ContentValues();
+			values.put("idMantenimiento", mant.getIdDetalleMantenimiento());
+			values.put("fecha", mant.getFecha().getTime());
+			values.put("kms", mant.getKilometros());
+			values.put("precio", mant.getPrecio());
+			values.put("taller", mant.getTaller());
+			values.put("tipoMantenimiento", mant.getTipoMantenimiento());
+			values.put("observaciones", mant.getObservaciones());
+			values.put("idVehiculo", mant.getIdVehiculo());
+			
+			if(mant.getIdDetalleMantenimiento() == null) {
+				resp = (baseDatos.insert(Constantes.TABLA_MANTENIMIENTOS, null, values) > 0);
+			}else {
+				String[] argumentos = new String[1];
+				argumentos[0] = String.valueOf(mant.getIdDetalleMantenimiento());
+				resp = (baseDatos.update(Constantes.TABLA_MANTENIMIENTOS, values, "idMantenimiento = ?", argumentos) > 0);
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return resp;
 	}
 }

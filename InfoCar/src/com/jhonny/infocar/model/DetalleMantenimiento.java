@@ -7,10 +7,10 @@ public class DetalleMantenimiento {
 	
 	private Integer idDetalleMantenimiento;
 	private Date fecha;
-	private Integer tipoMantenimiento;
 	private Double kilometros;
-	private String taller;
 	private Double precio;
+	private String taller;
+	private Integer tipoMantenimiento;
 	private String observaciones;
 	private Integer idVehiculo;
 	

@@ -87,17 +87,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" >
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical" >
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo mant.;"
+            android:text="Tipo mant.:"
             android:textColor="@color/blanco" />
 
         <Spinner
             android:id="@+id/edit_mant_spinner_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehiculo:"
+            android:textColor="@color/blanco" />
+
+        <Spinner
+            android:id="@+id/edit_mant_spinner_vehiculo"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1" />
