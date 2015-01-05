@@ -25,15 +25,15 @@
 		    android:text="Nuevo" />
 
 		<ScrollView
-	        android:id="@+id/mant_scrollView1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginBottom="50dp"
-	        android:layout_marginTop="70dp" >
+		    android:id="@+id/mant_scrollView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentRight="true"
+		    android:layout_alignParentTop="true"
+		    android:layout_marginBottom="50dp"
+		    android:layout_marginTop="50dp" >
 
 		    <LinearLayout
 		        android:id="@+id/mant_linear"

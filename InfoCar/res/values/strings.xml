@@ -48,6 +48,7 @@
     <string name="boton_guardar">Guardar</string>
     <string name="boton_guardar_desp">Guardar despues</string>
     <string name="boton_cancelar">Cancelar</string>
+    <string name="boton_aceptar">Aceptar</string>
     <string name="lbl_edad">Edad</string>
     <string name="lbl_sexo">Sexo</string>
     <string name="lbl_nombre">Nombre</string>

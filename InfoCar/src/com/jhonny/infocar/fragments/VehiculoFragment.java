@@ -3,6 +3,7 @@ package com.jhonny.infocar.fragments;
 import java.util.ArrayList;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.support.v4.app.Fragment;
@@ -159,7 +160,7 @@ public class VehiculoFragment extends Fragment {
 					EditText textKilometros = (EditText)editDialog.findViewById(R.id.edit_veh_editText2);
 					textKilometros.setText(dv.getKilometros().toString());
 					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_veh_editText3);
-					textFecha.setText(Constantes.SDF.format(dv.getFechaCompra()));
+					textFecha.setText(Util.convierteDateEnString(dv.getFechaCompra()));
 					
 					adapterTiposVeh = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposVeh);
 					spinnerTiposVeh = (Spinner)editDialog.findViewById(R.id.edit_veh_spinner_tipo);

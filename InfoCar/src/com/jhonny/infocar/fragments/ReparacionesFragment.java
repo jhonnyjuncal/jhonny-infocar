@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
+import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleReparacion;
 import android.support.v4.app.Fragment;
 import android.app.Dialog;
@@ -69,9 +70,9 @@ public class ReparacionesFragment extends Fragment {
 			
 			vista.setId(i);
 			TextView tv1 = (TextView)vista.findViewById(R.id.det_rep_textView1);
-			tv1.setText(Constantes.SDF.format(detalle.getFecha()));
+			tv1.setText(Util.convierteDateEnString(detalle.getFecha()));
 			TextView tv2 = (TextView)vista.findViewById(R.id.det_rep_textView3);
-			tv2.setText(Constantes.SDF.format(detalle.getFecha()));
+			tv2.setText(Util.convierteDateEnString(detalle.getFecha()));
 			TextView tv3 = (TextView)vista.findViewById(R.id.det_rep_textView5);
 			tv3.setText(detalle.getKilometros().toString());
 			TextView tv4 = (TextView)vista.findViewById(R.id.det_rep_textView7);
@@ -96,7 +97,7 @@ public class ReparacionesFragment extends Fragment {
 					editDialog.setTitle("Edicion de reparacion");
 					
 					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_rep_fecha);
-					textFecha.setText(Constantes.SDF.format(dr.getFecha()));
+					textFecha.setText(Util.convierteDateEnString(dr.getFecha()));
 					EditText textKms = (EditText)editDialog.findViewById(R.id.edit_rep_kms);
 					textKms.setText(dr.getKilometros().toString());
 					EditText textPrecio = (EditText)editDialog.findViewById(R.id.edit_rep_coste);
