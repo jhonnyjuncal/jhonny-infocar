@@ -2,7 +2,6 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
@@ -26,8 +25,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,6 +37,8 @@ import android.widget.Toast;
 public class NuevoVehiculoFragment extends Fragment {
 	
 	private View rootView = null;
+	private boolean mostrarBotonDespues = false;
+	
 	private Spinner spinnerMarcas = null;
 	private EditText editModelo = null;
 	private EditText editKms = null;
@@ -111,7 +110,6 @@ public class NuevoVehiculoFragment extends Fragment {
 				}
 			});
 			
-			boolean mostrarBotonDespues = false;
 			if(getArguments() != null) {
 				Bundle bundle = getArguments();
 				mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
@@ -125,18 +123,6 @@ public class NuevoVehiculoFragment extends Fragment {
 				listaMarcas.add(arrayMarcas.getString(i));
 			adapterMarcas = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaMarcas);
 			spinnerMarcas.setAdapter(adapterMarcas);
-			spinnerMarcas.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					String marcaSeleccionada = arrayMarcas.getString(position);
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					
-				}
-			});
 			
 			/** Spinner de tipos de vehiculos */
 			arrayTiposVehiculos = getResources().obtainTypedArray(R.array.TIPOS_VEHICULO);
@@ -147,17 +133,6 @@ public class NuevoVehiculoFragment extends Fragment {
 			
 			adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTipos);
 			spinnerTipo.setAdapter(adapterTipo);
-			spinnerTipo.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					String tipoSeleccionado = arrayTiposVehiculos.getString(position);
-				}
-				
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					
-				}
-			});
 			
 			/** Spinner de la lista de carburantes */
 			arrayCarburantes = getResources().obtainTypedArray(R.array.TIPOS_CARBURANTE);
@@ -168,17 +143,6 @@ public class NuevoVehiculoFragment extends Fragment {
 			
 			adapterCarburante = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaCarburantes);
 			spinnerCombustible.setAdapter(adapterCarburante);
-			spinnerCombustible.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					String carburanteSeleccionado = arrayCarburantes.getString(position);
-				}
-				
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					
-				}
-			});
 			
 			/** Boton guardar */
 			Button botonGuardar = (Button)rootView.findViewById(R.id.btn_nuevo_veh);
@@ -304,8 +268,12 @@ public class NuevoVehiculoFragment extends Fragment {
 			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 			
 			// redireccion del fragmento solo cuando sea la primera ejecucion
-			if(resultado) {
+			if(resultado && mostrarBotonDespues) {
 				Fragment fragment = new PrincipalFragment();
+				FragmentManager manager = myContext.getSupportFragmentManager();
+				manager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+			}else {
+				Fragment fragment = new VehiculoFragment();
 				FragmentManager manager = myContext.getSupportFragmentManager();
 				manager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 			}

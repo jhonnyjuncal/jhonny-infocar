@@ -119,7 +119,6 @@ public class MantenimientosFragment extends Fragment {
         	View vista = inflater.inflate(R.layout.detalle_mantenimiento, layoutMantenimientos, false);
         	
         	vista.setId(i);
-        	TextView tv1 = (TextView)vista.findViewById(R.id.det_mant_textView1);
         	String marcaymodelo = null;
         	for(DetalleVehiculo dv : misVehiculos) {
         		if(dv.getIdVehiculo().equals(dm.getIdVehiculo())) {
@@ -127,6 +126,7 @@ public class MantenimientosFragment extends Fragment {
         			break;
         		}
         	}
+        	TextView tv1 = (TextView)vista.findViewById(R.id.det_mant_textView1);
         	tv1.setText(marcaymodelo);
         	TextView tv2 = (TextView)vista.findViewById(R.id.det_mant_textView3);
         	DateFormat df = DateFormat.getDateInstance();

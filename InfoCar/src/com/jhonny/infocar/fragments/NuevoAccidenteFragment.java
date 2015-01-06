@@ -112,8 +112,8 @@ public class NuevoAccidenteFragment extends Fragment {
 						da.setKilometros(Double.valueOf(kms));
 					da.setLugar(editLugar.getText().toString());
 					da.setObservaciones(editObservaciones.getText().toString());
-					int seleccionado = spinnerVehiculo.getSelectedItemPosition() - 1;
 					
+					int seleccionado = spinnerVehiculo.getSelectedItemPosition() - 1;
 					DetalleVehiculo dv = null;
 					if(seleccionado >= 0) {
 						dv = listaVehiculos.get(seleccionado);
@@ -139,9 +139,6 @@ public class NuevoAccidenteFragment extends Fragment {
 						Fragment fragment = new AccidentesFragment();
 						FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
 			    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-						
-					}else {
-						Toast.makeText(myContext, "Datos incompletos", Toast.LENGTH_SHORT).show();
 					}
 				}
 			});
@@ -178,15 +175,26 @@ public class NuevoAccidenteFragment extends Fragment {
 	}
 	
 	private boolean compruebacionDatos(DetalleAccidente da) {
-		if(da == null)
-			return false;
-		if(da.getFecha() == null)
-			return false;
-		if(da.getKilometros() == null || da.getKilometros() <= 0)
-			return false;
-		if(da.getIdVehiculo() == null)
-			return false;
-		return true;
+		boolean resp = false;
+		String mensaje = null;
+		
+		if(da == null) {
+			mensaje = "Debe introducir los datos a guardar";
+			resp = false;
+		}else if(da.getFecha() == null) {
+			mensaje = "Debe introducir la fecha del accidente";
+			resp = false;
+		}else if(da.getKilometros() == null || da.getKilometros() <= 0) {
+			mensaje = "Debe introducir los kilometros";
+			resp = false;
+		}else if(da.getIdVehiculo() == null) {
+			mensaje = "Debe seleccionar una de sus vehiculos";
+			resp = false;
+		}
+		
+		if(resp == false)
+			Toast.makeText(myContext, mensaje, Toast.LENGTH_SHORT).show();
+		return resp;
 	}
 	
 	private boolean abrirBaseDeDatos() {

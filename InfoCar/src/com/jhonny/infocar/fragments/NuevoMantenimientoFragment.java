@@ -73,7 +73,6 @@ public class NuevoMantenimientoFragment extends Fragment {
 			
 			arrayTiposMantenimientos = getResources().obtainTypedArray(R.array.TIPOS_MANTENIMIENTOS);
 			arrayTiposMantenimientos.recycle();
-			listaTiposMantenimientos.add("Seleccione un mantenimiento");
 	        for(int i=0; i<arrayTiposMantenimientos.length(); i++)
 	        	listaTiposMantenimientos.add(arrayTiposMantenimientos.getString(i));
 			spinnerTipo = (Spinner)rootView.findViewById(R.id.spinner_mant_tipo);
@@ -142,9 +141,7 @@ public class NuevoMantenimientoFragment extends Fragment {
 								texto = "Error al guardar los datos";
 							Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 							
-							Fragment fragment = new MantenimientosFragment();
-							FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-				    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+							actualizarListadoDeMantenimientos();
 						}
 					}catch(Exception ex) {
 						ex.printStackTrace();
@@ -156,9 +153,7 @@ public class NuevoMantenimientoFragment extends Fragment {
 			botonCancelar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Fragment fragment = new MantenimientosFragment();
-					FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-		    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+					actualizarListadoDeMantenimientos();
 				}
 			});
 		}catch(Exception ex) {
@@ -243,5 +238,11 @@ public class NuevoMantenimientoFragment extends Fragment {
 			ex.printStackTrace();
 		}
 		return resultado;
+	}
+	
+	private void actualizarListadoDeMantenimientos() {
+		Fragment fragment = new MantenimientosFragment();
+		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 	}
 }

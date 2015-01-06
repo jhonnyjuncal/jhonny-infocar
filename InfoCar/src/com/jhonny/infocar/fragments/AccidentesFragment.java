@@ -1,5 +1,7 @@
 package com.jhonny.infocar.fragments;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import com.jhonny.infocar.Constantes;
@@ -106,7 +108,8 @@ public class AccidentesFragment extends Fragment {
 			}
 			
 			TextView textViewTitulo = (TextView)vista.findViewById(R.id.det_acc_textView1);
-			textViewTitulo.setText(Util.convierteDateEnString(acc.getFecha()));
+			DateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+			textViewTitulo.setText(sdf.format(acc.getFecha()));
 			TextView textViewKms = (TextView)vista.findViewById(R.id.det_acc_textView3);
 			textViewKms.setText(acc.getKilometros().toString());
 			TextView textViewLugar = (TextView)vista.findViewById(R.id.det_acc_textView5);
@@ -193,7 +196,7 @@ public class AccidentesFragment extends Fragment {
 							accidente.setIdVehiculo(nuevoVehiculo.getIdVehiculo());
 							
 							guardaDatosDelAccidente(accidente);
-							
+							actualizaListaAccidentes();
 							editDialog.dismiss();
 						}
 					});
@@ -213,6 +216,11 @@ public class AccidentesFragment extends Fragment {
 			imgBorrar.setOnClickListener(new android.view.View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
+					LinearLayout linear1 = (LinearLayout)view.getParent();
+					LinearLayout linear2 = (LinearLayout)linear1.getParent();
+					LinearLayout linear3 = (LinearLayout)linear2.getParent();
+					detalleEnEdicion = accidentes.get(linear3.getId());
+					
 					AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
 					builder.setCancelable(true);
 					builder.setTitle("Eliminar registro");
@@ -220,6 +228,8 @@ public class AccidentesFragment extends Fragment {
 					builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							eliminarAccidente(detalleEnEdicion);
+							actualizaListaAccidentes();
 							dialog.dismiss();
 						}
 					});
@@ -246,7 +256,6 @@ public class AccidentesFragment extends Fragment {
 	
 	private ArrayList<DetalleAccidente> recuperaDatosAccidentes() {
 		ArrayList<DetalleAccidente> detalles = new ArrayList<DetalleAccidente>();
-		
 		try {
 			abrirBaseDeDatos();
 			detalles.addAll(accidentesHelper.getAccidentes());
@@ -271,6 +280,8 @@ public class AccidentesFragment extends Fragment {
 				texto = "Datos guardados correctamente";
 			else
 				texto = "Error al guardar los datos";
+			
+			actualizaListaAccidentes();
 			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 			
 		}catch(Exception ex) {
@@ -329,5 +340,20 @@ public class AccidentesFragment extends Fragment {
 			ex.printStackTrace();
 		}
 		return lista;
+	}
+	
+	private void actualizaListaAccidentes() {
+		Fragment fragment = new AccidentesFragment();
+		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+	}
+	
+	private boolean eliminarAccidente(DetalleAccidente da) {
+		abrirBaseDeDatos();
+		String[] argumentos = new String[1];
+		argumentos[0] = String.valueOf(da.getIdDetalleAccidente());
+		if(baseDatos.delete(Constantes.TABLA_ACCIDENTES, "idDetalleAccidente = ?", argumentos) <= 0)
+			return false;
+		return true;
 	}
 }

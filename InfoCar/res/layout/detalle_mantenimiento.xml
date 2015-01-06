@@ -123,13 +123,13 @@
             <ImageView
                 android:id="@+id/imageView_editar"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:src="@drawable/edit" />
 
             <ImageView
                 android:id="@+id/imageView_borrar"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:src="@drawable/delete" />
 
         </LinearLayout>

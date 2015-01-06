@@ -140,9 +140,8 @@ public class PrincipalActivity extends FragmentActivity {
         		return;
         	}
         }
-        if(savedInstanceState == null) {
-            displayView(0, true);
-        }
+        
+        displayView(0, true);
 	}
 	
 	@Override
