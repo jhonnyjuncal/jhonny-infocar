@@ -30,7 +30,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="@string/lbl_nombre" />
+                    android:text="@string/lbl_nombre"
+                    android:textColor="@color/blanco" />
 
                 <EditText
                     android:id="@+id/datos_editText1"
@@ -50,7 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="@string/lbl_telefono" />
+                    android:text="@string/lbl_telefono"
+                    android:textColor="@color/blanco" />
 
                 <EditText
                     android:id="@+id/datos_editText2"
@@ -71,10 +73,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="E-Mail:" />
+                    android:text="E-Mail:"
+                    android:textColor="@color/blanco" />
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/datos_editText3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -87,14 +90,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical" >
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="@string/lbl_edad" />
+                    android:text="@string/lbl_edad"
+                    android:textColor="@color/blanco" />
 
                 <Spinner
                     android:id="@+id/datos_spinner1"
@@ -115,7 +120,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="@string/lbl_sexo" />
+                    android:text="@string/lbl_sexo"
+                    android:textColor="@color/blanco" />
 
                 <RadioGroup
                     android:id="@+id/radioGroup1"

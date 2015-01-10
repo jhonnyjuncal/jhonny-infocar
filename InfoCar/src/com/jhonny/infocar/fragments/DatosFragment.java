@@ -1,9 +1,12 @@
 package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
+import com.jhonny.infocar.model.DetalleDatos;
 import com.jhonny.infocar.sql.DatosSQLiteHelper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -35,8 +38,9 @@ public class DatosFragment extends Fragment {
 	private EditText editTelefono = null;
 	private Spinner spinnerEdades = null;
 	private RadioButton radioSexo = null;
-	private View rootView = null;
+	private EditText editEmail = null;
 	
+	private View rootView = null;
 	private SQLiteDatabase baseDatos;
 	private FragmentActivity myContext;
 	private SharedPreferences propiedades = null;
@@ -77,11 +81,21 @@ public class DatosFragment extends Fragment {
 			editTelefono = (EditText)rootView.findViewById(R.id.datos_editText2);
 	        spinnerEdades = (Spinner)rootView.findViewById(R.id.datos_spinner1);
 	        radioSexo = (RadioButton)rootView.findViewById(R.id.datos_radioHombre);
+	        editEmail = (EditText)rootView.findViewById(R.id.datos_editText3);
 	        
 	        boolean mostrarBotonDespues = false;
 	        if(getArguments() != null) {
 	        	Bundle bundle = getArguments();
 	        	mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+	        }
+	        
+	        final DetalleDatos datos = recuperaDetalleDatos();
+	        if(datos != null) {
+	        	editNombre.setText(datos.getNombre());
+	        	editTelefono.setText(datos.getTelefono());
+	        	spinnerEdades.setSelection(datos.getEdad());
+	        	radioSexo.setChecked(datos.isHombre());
+	        	editEmail.setText(datos.getEmail());
 	        }
 	        
 	        Button botonGuardar = (Button)rootView.findViewById(R.id.datos_button1);
@@ -91,22 +105,24 @@ public class DatosFragment extends Fragment {
 					// comprobacion de los datos
 					String nombre = (String)editNombre.getText().toString();
 					String telefono = (String)editTelefono.getText().toString();
-					
-					if(nombre == null || nombre.length() == 0) {
-						String texto = new String("Debe introducir un nombre");
-						Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
-						return;
-						
-					}else if(telefono == null || telefono.length() == 0) {
-						String texto = new String("Debe introducir el telefono");
-						Toast.makeText(view.getContext(), texto, Toast.LENGTH_SHORT).show();
-						return;
-					}
 					Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
 					boolean hombre = radioSexo.isChecked();
+					String email = (String)editEmail.getText().toString();
 					
-					// guardado de datos
-					guardaDatosPersonales(nombre, telefono, edad, hombre);
+					DetalleDatos dd = new DetalleDatos();
+					if(datos != null)
+						dd.setIdDetalleDatos(datos.getIdDetalleDatos());
+					dd.setNombre(nombre);
+					dd.setTelefono(telefono);
+					dd.setEdad(edad);
+					dd.setHombre(hombre);
+					dd.setEmail(email);
+					dd.setFechaAlta(new Date());
+					
+					if(comprobacionDatos(dd)) {
+						// guardado de datos
+						guardaDatosPersonales(dd);
+					}
 				}
 	        });
         
@@ -169,7 +185,7 @@ public class DatosFragment extends Fragment {
 	 * @param edad
 	 * @param esHombre
 	 */
-	public void guardaDatosPersonales(String nombre, String telefono, Integer edad, boolean esHombre) {
+	public void guardaDatosPersonales(DetalleDatos dd) {
 		try {
 			// abre la bbdd
 			boolean resp = abrirBaseDeDatos();
@@ -179,7 +195,7 @@ public class DatosFragment extends Fragment {
 				return;
 			}
 			
-			boolean resultado = insertarFila(nombre, telefono, edad, esHombre);
+			boolean resultado = insertarFila(dd);
 			String texto = new String();
 			if(resultado) {
 				texto = "Datos guardados correctamente";
@@ -236,19 +252,56 @@ public class DatosFragment extends Fragment {
 	}
 	
 	
-	private boolean insertarFila(String nombre, String telefono, Integer edad, boolean esHombre) {
+	private boolean insertarFila(DetalleDatos dd) {
 		boolean resp = false;
 		try {
 			ContentValues values = new ContentValues();
-			values.put("nombre", nombre);
-			values.put("telefono", telefono);
-			values.put("edad", edad);
-			values.put("sexo", esHombre);
+			values.put("idDetalleDatos", dd.getIdDetalleDatos());
+			values.put("nombre", dd.getNombre());
+			values.put("telefono", dd.getTelefono());
+			values.put("edad", dd.getEdad());
+			values.put("hombre", dd.isHombre());
+			values.put("email", dd.getEmail());
 			
 			resp = (baseDatos.insert(Constantes.TABLA_DATOS, null, values) > 0);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return resp;
+	}
+	
+	private boolean comprobacionDatos(DetalleDatos dd) {
+		String texto = null;
+		boolean resp = true;
+		
+		if(dd.getNombre() == null || dd.getNombre().length() == 0) {
+			texto = new String("Debe introducir un nombre");
+			resp = false;
+			
+		}else if(dd.getTelefono() == null || dd.getTelefono().length() == 0) {
+			texto = new String("Debe introducir el telefono");
+			resp = false;
+			
+		}else if(dd.getEmail() == null || dd.getEmail().length() == 0) {
+			texto = new String("Debe introducir el e-mail");
+			resp = false;
+		}
+		
+		if(resp == false)
+			Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
+		
+		return resp;
+	}
+	
+	private DetalleDatos recuperaDetalleDatos() {
+		DetalleDatos dd = null;
+		try {
+			DatosSQLiteHelper datos = new DatosSQLiteHelper(myContext, Constantes.TABLA_DATOS, null, 1);
+			dd = datos.getDatos();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return dd;
 	}
 }
