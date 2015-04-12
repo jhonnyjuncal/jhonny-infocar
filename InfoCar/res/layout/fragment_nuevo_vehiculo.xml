@@ -27,17 +27,18 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="@string/lbl_marca" />
+                android:text="@string/lbl_marca"
+                android:textColor="@color/blanco" />
 
             <Spinner
                 android:id="@+id/nue_veh_spinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -49,9 +50,10 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_modelo" />
+                android:text="@string/lbl_modelo"
+                android:textColor="@color/blanco" />
 
             <EditText
                 android:id="@+id/nue_veh_editText1"
@@ -70,9 +72,10 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_kms" />
+                android:text="@string/lbl_kms"
+                android:textColor="@color/blanco" />
 
             <EditText
                 android:id="@+id/nue_veh_editText2"
@@ -80,10 +83,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number" >
+                android:inputType="number" />
 
-                <requestFocus />
-            </EditText>
         </LinearLayout>
 
         <LinearLayout
@@ -94,9 +95,10 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_compra" />
+                android:text="@string/lbl_compra"
+                android:textColor="@color/blanco" />
 
             <EditText
                 android:id="@+id/nue_veh_editText3"
@@ -124,9 +126,10 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Matricula:" />
+                android:text="Matricula:"
+                android:textColor="@color/blanco" />
 
             <EditText
                 android:id="@+id/nue_veh_editText4"
@@ -145,10 +148,11 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="@string/lbl_tipo" />
+                android:text="@string/lbl_tipo"
+                android:textColor="@color/blanco" />
 
             <Spinner
                 android:id="@+id/nue_veh_spinner2"
@@ -165,10 +169,11 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="@string/lbl_combustible" />
+                android:text="@string/lbl_combustible"
+                android:textColor="@color/blanco" />
 
             <Spinner
                 android:id="@+id/nue_veh_spinner3"
@@ -180,15 +185,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp" >
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp">
 
             <Button
                 android:id="@+id/btn_nuevo_despues"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
                 android:text="@string/boton_guardar_desp" />
 
             <Button

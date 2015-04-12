@@ -49,9 +49,11 @@ public class PrincipalActivity extends FragmentActivity {
     // slide menu items
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
-    
-	
-	@Override
+    private boolean dPersonales = true;
+    private boolean dVehiculo = true;
+
+
+    @Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_principal);
@@ -128,13 +130,13 @@ public class PrincipalActivity extends FragmentActivity {
         
         // redireccion si fuese necesario
         if(propiedades != null) {
-        	boolean dPersonales = propiedades.getBoolean(Constantes.INTRO_PERSONALES, false);
+        	dPersonales = propiedades.getBoolean(Constantes.INTRO_PERSONALES, false);
         	if(dPersonales == false) {
         		displayView(5, true);
         		return;
         	}
         	
-        	boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
+        	dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
         	if(dVehiculo == false) {
         		displayView(8, false);
         		return;
@@ -206,8 +208,7 @@ public class PrincipalActivity extends FragmentActivity {
     private void displayView(int position, boolean estaEnMenu) {
     	// update the main content by replacing fragments
     	Fragment fragment = null;
-    	Bundle arguments = new Bundle();
-    	
+
     	switch(position) {
     		case 0:
     			fragment = new PrincipalFragment();
@@ -225,8 +226,13 @@ public class PrincipalActivity extends FragmentActivity {
     			fragment = new AccidentesFragment();
     			break;
     		case 5:
-    	        arguments.putBoolean("mostrarBotonDespues", true);
-    	        fragment = DatosFragment.newInstance(arguments);
+                if(dPersonales == false) {
+                    Bundle arguments1 = new Bundle();
+                    arguments1.putBoolean("mostrarBotonDespues", true);
+                    fragment = DatosFragment.newInstance(arguments1);
+                }else {
+                    fragment = new DatosFragment();
+                }
     			break;
     		case 6:
     			fragment = new EstadisticasFragment();
@@ -235,8 +241,13 @@ public class PrincipalActivity extends FragmentActivity {
     			fragment = new OpcionesFragment();
     			break;
     		case 8:
-    	        arguments.putBoolean("mostrarBotonDespues", true);
-    	        fragment = NuevoVehiculoFragment.newInstance(arguments);
+                if(dPersonales == false) {
+                    Bundle arguments2 = new Bundle();
+                    arguments2.putBoolean("mostrarBotonDespues", true);
+                    fragment = NuevoVehiculoFragment.newInstance(arguments2);
+                }else {
+                    fragment = new NuevoVehiculoFragment();
+                }
     			break;
     		default:
     			break;

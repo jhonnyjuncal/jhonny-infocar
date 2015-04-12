@@ -62,7 +62,7 @@ public class InicioActivity extends Activity {
 			SharedPreferences prop = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
 			if(prop != null) {
 				SharedPreferences.Editor editor = prop.edit();
-				
+
 				if(!prop.contains(Constantes.PRIMERA_VEZ)) {
 					editor.putBoolean(Constantes.PRIMERA_VEZ, true);
 					editor.putBoolean(Constantes.INTRO_PERSONALES, false);

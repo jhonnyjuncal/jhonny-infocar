@@ -16,7 +16,7 @@ public class DatosSQLiteHelper extends SQLiteOpenHelper {
 			"idDetalleDatos integer primary key autoincrement, " +
 			"nombre text, " +
 			"telefono text, " +
-			"edad number, " +
+			"edad integer, " +
 			"hombre boolean, " +
 			"email text, " +
 			"fecha long);";
@@ -35,13 +35,13 @@ public class DatosSQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Se elimina la versión anterior de la tabla
+		// Se elimina la versiÃ³n anterior de la tabla
         db.execSQL(BORRA_TABLA_DATOS);
-        Log.d("DatosSQLiteHelper", "Se elimina la versión anterior de la tabla");
+        Log.d("DatosSQLiteHelper", "Se elimina la versiÃ³n anterior de la tabla");
  
-        // Se crea la nueva versión de la tabla
+        // Se crea la nueva versiï¿½n de la tabla
         db.execSQL(CREAR_TABLA_DATOS);
-        Log.d("DatosSQLiteHelper", "Se crea la nueva versión de la tabla");
+        Log.d("DatosSQLiteHelper", "Se crea la nueva versiÃ³n de la tabla");
 	}
 	
 	public DetalleDatos getDatos() {

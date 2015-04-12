@@ -6,6 +6,9 @@ import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -194,12 +197,31 @@ public class VehiculoFragment extends Fragment {
 					editDialog.show();
 				}
 			});
-        	
+
         	ImageView imgBorrar = (ImageView)vista.findViewById(R.id.imageView5);
         	imgBorrar.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					
+				public void onClick(final View v) {
+                    AlertDialog dialogo = new AlertDialog.Builder(myContext)
+                        .setMessage("¿Está seguro de que desea borrar esta vehiculo?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                LinearLayout linear1 = (LinearLayout)v.getParent();
+                                LinearLayout linear2 = (LinearLayout)linear1.getParent();
+                                LinearLayout linear3 = (LinearLayout)linear2.getParent();
+                                LinearLayout linear4 = (LinearLayout)linear3.getParent();
+                                DetalleVehiculo dv = vehiculos.get(linear4.getId());
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        }).create();
 				}
 			});
         	layoutVehiculos.addView(vista, i);

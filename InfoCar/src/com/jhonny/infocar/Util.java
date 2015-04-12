@@ -39,9 +39,9 @@ public class Util {
 			
 			int dia = cal.get(Calendar.DAY_OF_MONTH);
 			int mes = cal.get(Calendar.MONTH) + 1;
-			int año = cal.get(Calendar.YEAR);
+			int ano = cal.get(Calendar.YEAR);
 			
-			fechaConvertida = dia + "/" + mes + "/" + año;
+			fechaConvertida = dia + "/" + mes + "/" + ano;
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}

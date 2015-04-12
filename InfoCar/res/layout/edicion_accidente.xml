@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Fecha:"
             android:textColor="@color/blanco" />
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Vehiculo:"
             android:textColor="@color/blanco" />
@@ -64,7 +64,7 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Kilometros:"
             android:textColor="@color/blanco" />
@@ -87,7 +87,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Lugar:"
             android:textColor="@color/blanco" />
@@ -109,7 +109,7 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Observaciones:"
             android:textColor="@color/blanco" />
@@ -132,18 +132,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp" >
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/edit_acc_btn_guardar"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
             android:text="Guardar" />
 
         <Button
             android:id="@+id/edit_acc_btn_cancelar"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Cancelar" />
 

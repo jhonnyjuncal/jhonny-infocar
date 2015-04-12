@@ -116,20 +116,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="2dp"
-            android:gravity="right" >
+            android:gravity="bottom|right">
 
             <ImageView
                 android:id="@+id/imageView_editar"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:src="@drawable/edit" />
 
             <ImageView
                 android:id="@+id/imageView_borrar"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:src="@drawable/delete" />
 
         </LinearLayout>

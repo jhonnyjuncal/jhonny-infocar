@@ -8,17 +8,17 @@
     <string name="lbl_datos">Datos</string>
     <string name="lbl_estadisticas">Estadisticas</string>
     <string name="lbl_opciones">Opciones</string>
-    <string name="title_activity_accidentes">AccidentesActivity</string>
-    <string name="title_activity_datos">DatosActivity</string>
-    <string name="title_activity_estadisticas">EstadisticasActivity</string>
-    <string name="title_activity_mantenimiento">MantenimientoActivity</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="title_activity_opciones">OpcionesActivity</string>
-    <string name="title_activity_principal">PrincipalActivity</string>
-    <string name="title_activity_reparaciones">ReparacionesActivity</string>
-    <string name="title_activity_configuracion">ConfiguracionActivity</string>
-    <string name="title_activity_vehiculo">VehiculoActivity</string>
-    <string name="title_activity_nuevo_vehiculo">NuevoVehiculoActivity</string>
+    <string name="title_activity_accidentes">Accidentes</string>
+    <string name="title_activity_datos">Datos</string>
+    <string name="title_activity_estadisticas">Estadisticas</string>
+    <string name="title_activity_mantenimiento">Mantenimiento</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_opciones">Opciones</string>
+    <string name="title_activity_principal">Inicio</string>
+    <string name="title_activity_reparaciones">Reparaciones</string>
+    <string name="title_activity_configuracion">Configuracion</string>
+    <string name="title_activity_vehiculo">Vehiculo</string>
+    <string name="title_activity_nuevo_vehiculo">Nuevo Vehiculo</string>
     <string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
 	<string-array name="menu_array">
@@ -63,15 +63,99 @@
     <string name="lbl_menu_eliminar">Eliminar</string>
     <string-array name="MARCAS_VEHICULO">
         <item>Seleccione un vehiculo</item>
+        <item>Alfa Romeo</item>
+        <item>Aston Martin</item>
         <item>Audi</item>
-        <item>Citroen</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Citroën</item>
+        <item>Dacia</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
         <item>Ford</item>
+        <item>Honda</item>
+        <item>Hyundai</item>
+        <item>Kia</item>
+        <item>Lexus</item>
+        <item>Mazda</item>
+        <item>Mercedes-Benz</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Opel</item>
+        <item>Peugeot</item>
+        <item>Porsche</item>
+        <item>Renault</item>
+        <item>SEAT</item>
+        <item>Skoda</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+        <item>Volkswagen</item>
+        <item>Volvo</item>
+        <item>Abarth</item>
+        <item>Alpina</item>
+        <item>Ariel</item>
+        <item>Arrinera</item>
+        <item>Artega</item>
+        <item>Belumbury</item>
+        <item>Bentley</item>
+        <item>Bugatti</item>
+        <item>BYD</item>
+        <item>Cadillac</item>
+        <item>Carver</item>
+        <item>Caterham</item>
+        <item>Chrysler</item>
+        <item>Corvette</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>DS</item>
+        <item>Fisker</item>
+        <item>Fornasari</item>
+        <item>GTA</item>
+        <item>Hennessey</item>
+        <item>Hummer</item>
+        <item>Hurtan</item>
+        <item>Infiniti</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Koenigsegg</item>
+        <item>KTM</item>
+        <item>LADA</item>
+        <item>Lamborghini</item>
+        <item>Lancia</item>
+        <item>Land Rover</item>
+        <item>Lotus</item>
+        <item>Mahindra</item>
+        <item>Maserati</item>
+        <item>Maybach</item>
+        <item>McLaren</item>
+        <item>Melkus</item>
+        <item>MINI</item>
+        <item>Morgan</item>
+        <item>Pagani</item>
+        <item>PGO</item>
+        <item>Roding</item>
+        <item>Rolls Royce</item>
+        <item>Saab</item>
+        <item>Santana</item>
+        <item>Smart</item>
+        <item>Spyker</item>
+        <item>SsangYong</item>
+        <item>Subaru</item>
+        <item>Tata</item>
+        <item>Tazzari</item>
+        <item>Tesla</item>
+        <item>Think</item>
+        <item>W-motors</item>
+        <item>Wiesmann</item>
+        <item>Zenvo</item>
     </string-array>
     <string-array name="TIPOS_VEHICULO">
         <item>Seleccione un tipo</item>
-        <item>Automovil</item>
+        <item>Coche</item>
         <item>Moto</item>
         <item>Camion</item>
+        <item>Bus</item>
     </string-array>
 	<string-array name="TIPOS_CARBURANTE">
 		<item>Seleccione un carburante</item>

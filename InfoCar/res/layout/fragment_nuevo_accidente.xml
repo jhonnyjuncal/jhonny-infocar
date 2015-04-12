@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="Fecha:"
@@ -61,7 +61,7 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="Kilometros:"
@@ -85,7 +85,7 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="Lugar:"
@@ -104,14 +104,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" >
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:text="Vehiculo:"
-                android:textColor="@color/blanco" />
+                android:textColor="@color/blanco"
+                android:gravity="center_vertical" />
 
             <Spinner
                 android:id="@+id/nue_acc_spinner_vehiculo"
@@ -129,7 +131,7 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="Observaciones:"
@@ -147,20 +149,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal" >
 
             <Button
                 android:id="@+id/nue_acc_boton_guardar"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Guardar" />
 
             <Button
                 android:id="@+id/nue_acc_boton_cancelar"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Cancelar" />
 

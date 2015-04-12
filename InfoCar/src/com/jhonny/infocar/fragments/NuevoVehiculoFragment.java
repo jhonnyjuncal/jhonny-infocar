@@ -113,6 +113,7 @@ public class NuevoVehiculoFragment extends Fragment {
 			if(getArguments() != null) {
 				Bundle bundle = getArguments();
 				mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+                //setArguments(null);
 			}
 			
 			/** Spinner de marcas de vehiculos */
@@ -219,7 +220,7 @@ public class NuevoVehiculoFragment extends Fragment {
 				resultado = false;
 				mostrarTexto("Debe introducir el modelo del vehiculo");
 			}else if(dv.getKilometros() == null || dv.getKilometros() <= 0) {
-				mostrarTexto("Debe introducir los kilómetros del vehiculo");
+				mostrarTexto("Debe introducir los kilï¿½metros del vehiculo");
 				resultado = false;
 			}else if(dv.getFechaCompra() == null) {
 				mostrarTexto("Debe introducir la fecha de compra del vehiculo");

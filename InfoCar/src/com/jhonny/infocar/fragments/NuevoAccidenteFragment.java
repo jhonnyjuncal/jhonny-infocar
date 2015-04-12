@@ -175,7 +175,7 @@ public class NuevoAccidenteFragment extends Fragment {
 	}
 	
 	private boolean compruebacionDatos(DetalleAccidente da) {
-		boolean resp = false;
+		boolean resp = true;
 		String mensaje = null;
 		
 		if(da == null) {

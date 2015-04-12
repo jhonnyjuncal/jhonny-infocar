@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Fecha:"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Kilometros:"
@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Coste:"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Tipo:"
@@ -115,7 +115,7 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Taller:"
@@ -138,7 +138,7 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="Observaciones:"
@@ -167,13 +167,13 @@
 
         <Button
             android:id="@+id/edit_rep_btn_guardar"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Guardar" />
 
         <Button
             android:id="@+id/edit_rep_btn_cancelar"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Cancelar" />
 

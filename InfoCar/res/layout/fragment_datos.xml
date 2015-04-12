@@ -27,7 +27,7 @@
 
                 <TextView
                     android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="@string/lbl_nombre"
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="@string/lbl_telefono"
@@ -70,7 +70,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="E-Mail:"
@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="@string/lbl_edad"
@@ -117,7 +117,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="@string/lbl_sexo"
@@ -154,13 +154,13 @@
                 <Button
                     android:id="@+id/datos_button2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Ahora no..." />
 
                 <Button
                     android:id="@+id/datos_button1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="@string/boton_guardar" />
             </LinearLayout>
         </LinearLayout>

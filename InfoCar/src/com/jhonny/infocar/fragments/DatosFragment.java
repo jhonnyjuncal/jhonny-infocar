@@ -2,7 +2,6 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
@@ -37,7 +36,8 @@ public class DatosFragment extends Fragment {
 	private EditText editNombre = null;
 	private EditText editTelefono = null;
 	private Spinner spinnerEdades = null;
-	private RadioButton radioSexo = null;
+	private RadioButton radioSexoHombre = null;
+    private RadioButton radioSexoMujer = null;
 	private EditText editEmail = null;
 	
 	private View rootView = null;
@@ -80,13 +80,15 @@ public class DatosFragment extends Fragment {
 			editNombre = (EditText)rootView.findViewById(R.id.datos_editText1);
 			editTelefono = (EditText)rootView.findViewById(R.id.datos_editText2);
 	        spinnerEdades = (Spinner)rootView.findViewById(R.id.datos_spinner1);
-	        radioSexo = (RadioButton)rootView.findViewById(R.id.datos_radioHombre);
+            radioSexoHombre = (RadioButton)rootView.findViewById(R.id.datos_radioHombre);
+            radioSexoMujer = (RadioButton)rootView.findViewById(R.id.datos_radioMujer);
 	        editEmail = (EditText)rootView.findViewById(R.id.datos_editText3);
 	        
 	        boolean mostrarBotonDespues = false;
 	        if(getArguments() != null) {
 	        	Bundle bundle = getArguments();
 	        	mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+                //setArguments(null);
 	        }
 	        
 	        final DetalleDatos datos = recuperaDetalleDatos();
@@ -94,7 +96,10 @@ public class DatosFragment extends Fragment {
 	        	editNombre.setText(datos.getNombre());
 	        	editTelefono.setText(datos.getTelefono());
 	        	spinnerEdades.setSelection(datos.getEdad());
-	        	radioSexo.setChecked(datos.isHombre());
+                if(datos.isHombre())
+                    radioSexoHombre.setSelected(true);
+                else
+                    radioSexoMujer.setSelected(true);
 	        	editEmail.setText(datos.getEmail());
 	        }
 	        
@@ -102,58 +107,59 @@ public class DatosFragment extends Fragment {
 	        botonGuardar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					// comprobacion de los datos
-					String nombre = (String)editNombre.getText().toString();
-					String telefono = (String)editTelefono.getText().toString();
-					Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
-					boolean hombre = radioSexo.isChecked();
-					String email = (String)editEmail.getText().toString();
-					
-					DetalleDatos dd = new DetalleDatos();
-					if(datos != null)
-						dd.setIdDetalleDatos(datos.getIdDetalleDatos());
-					dd.setNombre(nombre);
-					dd.setTelefono(telefono);
-					dd.setEdad(edad);
-					dd.setHombre(hombre);
-					dd.setEmail(email);
-					dd.setFechaAlta(new Date());
-					
-					if(comprobacionDatos(dd)) {
-						// guardado de datos
-						guardaDatosPersonales(dd);
-					}
-				}
-	        });
+                // comprobacion de los datos
+                String nombre = (String)editNombre.getText().toString();
+                String telefono = (String)editTelefono.getText().toString();
+                Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
+                boolean hombre = false;
+                if(radioSexoHombre != null && radioSexoHombre.isChecked())
+                    hombre = true;
+                String email = (String)editEmail.getText().toString();
+
+                DetalleDatos dd = new DetalleDatos();
+                if(datos != null)
+                    dd.setIdDetalleDatos(datos.getIdDetalleDatos());
+                dd.setNombre(nombre);
+                dd.setTelefono(telefono);
+                dd.setEdad(edad);
+                dd.setHombre(hombre);
+                dd.setEmail(email);
+                dd.setFechaAlta(new Date());
+
+                if(comprobacionDatos(dd)) {
+                    // guardado de datos
+                    guardaDatosPersonales(dd);
+                }
+			}});
         
 	        Button botonGuardarDespues = (Button)rootView.findViewById(R.id.datos_button2);
 	        if(mostrarBotonDespues) {
 	        	botonGuardarDespues.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						propiedades = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
-						if(propiedades != null) {
-							SharedPreferences.Editor editor = propiedades.edit();
-							editor.putBoolean(Constantes.INTRO_PERSONALES, true);
-							editor.commit();
-							
-							Fragment fragment = null;
-							boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
-							
-							if(dVehiculo == false) {
-								// redireccion a nuevoVehiculoFragment
-								Bundle arguments = new Bundle();
-								arguments.putBoolean("mostrarBotonDespues", true);
-				    	        fragment = NuevoVehiculoFragment.newInstance(arguments);
-								
-							}else {
-								// redireccion a la pantalla principal
-								fragment = new PrincipalFragment();
-							}
-							
-							FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-							fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-				        }
+                    propiedades = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+                    if(propiedades != null) {
+                        SharedPreferences.Editor editor = propiedades.edit();
+                        editor.putBoolean(Constantes.INTRO_PERSONALES, true);
+                        editor.commit();
+
+                        Fragment fragment = null;
+                        boolean dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
+
+                        if(dVehiculo == false) {
+                            // redireccion a nuevoVehiculoFragment
+                            Bundle arguments = new Bundle();
+                            arguments.putBoolean("mostrarBotonDespues", true);
+                            fragment = NuevoVehiculoFragment.newInstance(arguments);
+
+                        }else {
+                            // redireccion a la pantalla principal
+                            fragment = new PrincipalFragment();
+                        }
+
+                        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
 					}
 				});
 	        }else{
@@ -176,15 +182,11 @@ public class DatosFragment extends Fragment {
         
         return rootView;
     }
-	
-	
-	/**
-	 * Guarda los valores de la DatosActivity
-	 * @param nombre
-	 * @param telefono
-	 * @param edad
-	 * @param esHombre
-	 */
+
+    /**
+     * Inserta en la base de datos el objeto DetalleDatos
+     * @param dd
+     */
 	public void guardaDatosPersonales(DetalleDatos dd) {
 		try {
 			// abre la bbdd
@@ -262,8 +264,14 @@ public class DatosFragment extends Fragment {
 			values.put("edad", dd.getEdad());
 			values.put("hombre", dd.isHombre());
 			values.put("email", dd.getEmail());
-			
-			resp = (baseDatos.insert(Constantes.TABLA_DATOS, null, values) > 0);
+			values.put("fecha", dd.getFechaAlta().getTime());
+
+            if(dd.getIdDetalleDatos() != null) {
+                String[] argumentos = new String[]{String.valueOf(dd.getIdDetalleDatos())};
+                resp = (baseDatos.update(Constantes.TABLA_DATOS, values, "idDetalleDatos = ?", argumentos)) > 0;
+            }else {
+                resp = (baseDatos.insert(Constantes.TABLA_DATOS, null, values) > 0);
+            }
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
