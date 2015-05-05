@@ -2,21 +2,9 @@ package com.jhonny.infocar;
 
 import java.util.Calendar;
 import java.util.Date;
-//import android.content.res.TypedArray;
 
 
 public class Util {
-	
-//	private static TypedArray arrayMarcas;
-//	private static TypedArray arrayCarburantes;
-//	private static TypedArray arrayTiposVeh;
-	
-	
-	static {
-//		arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
-//		arrayCarburantes = getResources().obtainTypedArray(R.array.TIPOS_CARBURANTE);
-//		arrayTiposVeh = getResources().obtainTypedArray(R.array.TIPOS_VEHICULO);
-	}
 	
 	public static Date convierteStringEnDate(String fecha) {
 		Calendar cal = Calendar.getInstance();

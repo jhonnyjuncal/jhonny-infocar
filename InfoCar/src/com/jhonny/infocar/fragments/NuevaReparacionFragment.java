@@ -14,7 +14,6 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentValues;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -47,9 +46,6 @@ public class NuevaReparacionFragment extends Fragment {
 	private EditText editObservaciones;
 	private Button botonGuardar;
 	private Button botonCancelar;
-	
-	private ReparacionesSQLiteHelper reparacionesHelper;
-	private SQLiteDatabase baseDatos;
 	
 	private TypedArray arrayTiposReparacion = null;
 	private TypedArray arrayMarcas = null;
@@ -106,8 +102,7 @@ public class NuevaReparacionFragment extends Fragment {
 					
 					if(comprobacionDatos(dr)) {
 						guardaDatosDeLaReparacion(dr);
-						Toast.makeText(myContext, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
-						actualizarListadoDeReparaciones();
+                        actualizaListaReparaciones();
 					}
 				}
 			});
@@ -116,7 +111,7 @@ public class NuevaReparacionFragment extends Fragment {
 			botonCancelar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					actualizarListadoDeReparaciones();
+                    actualizaListaReparaciones();
 				}
 			});
 			
@@ -152,16 +147,9 @@ public class NuevaReparacionFragment extends Fragment {
 		super.onAttach(activity);
 	}
 	
-	private void actualizarListadoDeReparaciones() {
-		Fragment fragment = new ReparacionesFragment();
-		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-	}
-	
 	private boolean comprobacionDatos(DetalleReparacion dr) {
 		boolean resp = true;
 		String mensaje = null;
-		
 		if(dr.getFecha() == null) {
 			mensaje = "Debe introducir una fecha de reparacion valida";
 			resp = false;
@@ -175,59 +163,21 @@ public class NuevaReparacionFragment extends Fragment {
 			mensaje = "Debe seleccionar uno de sus vehiculos";
 			resp = false;
 		}
-		
 		if(resp == false)
 			Toast.makeText(myContext, mensaje, Toast.LENGTH_SHORT).show();
 		return resp;
 	}
 	
 	private void guardaDatosDeLaReparacion(DetalleReparacion dr) {
-		boolean resp = abrirBaseDeDatos();
-		if(resp == false) {
-			String texto = "Error al abrir o crear la tabla 'Accidentes'";
-			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-			return;
-		}
-		boolean resultado = insertarFila(dr);
+		ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
+		boolean resultado = reparacionesHelper.insertarReparacion(dr);
+
 		String texto = null;
-		
 		if(resultado)
 			texto = "Datos guardados correctamente";
 		else
 			texto = "Error al guardar los datos";
 		Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
-	}
-	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			reparacionesHelper = new ReparacionesSQLiteHelper(rootView.getContext(), Constantes.TABLA_REPARACIONES, null, 1);
-			baseDatos = reparacionesHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	private boolean insertarFila(DetalleReparacion dr) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("idReparacion", dr.getIdDetalleReparacion());
-			values.put("fecha", dr.getFecha().getTime());
-			values.put("kms", dr.getKilometros());
-			values.put("precio", dr.getPrecio());
-			values.put("taller", dr.getTaller());
-			values.put("idTipoReparacion", dr.getIdTipoReparacion());
-			values.put("observaciones", dr.getObservaciones());
-			values.put("idVehiculo", dr.getIdVehiculo());
-			
-			resp = (baseDatos.insert(Constantes.TABLA_REPARACIONES, null, values) > 0);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
 	}
 	
 	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
@@ -240,4 +190,10 @@ public class NuevaReparacionFragment extends Fragment {
 		}
 		return lista;
 	}
+
+    private void actualizaListaReparaciones() {
+        Fragment fragment = new ReparacionesFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
 }

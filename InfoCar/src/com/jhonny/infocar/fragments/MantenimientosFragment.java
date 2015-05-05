@@ -3,7 +3,6 @@ package com.jhonny.infocar.fragments;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
@@ -62,8 +61,6 @@ public class MantenimientosFragment extends Fragment {
 	private ArrayList<DetalleVehiculo> misVehiculos = new ArrayList<DetalleVehiculo>();
 	private ArrayAdapter<String> adapterTipoMantenimientos;
 	private ArrayAdapter<String> adapterVehiculos;
-	private MantenimientosSQLiteHelper mantenimientosHelper;
-	private SQLiteDatabase baseDatos;
 	
 	private EditText textFecha;
 	private ImageView imgCalendar;
@@ -218,11 +215,13 @@ public class MantenimientosFragment extends Fragment {
 							mantenimiento.setObservaciones(textObservaciones.getText().toString());
 							mantenimiento.setTipoMantenimiento(spinnerTipoMant.getSelectedItemPosition());
 							mantenimiento.setIdVehiculo(dv.getIdVehiculo());
-							
-							guardaDatosDelMantenimiento(mantenimiento);
-							actualizaListaMantenimientos();
-							
-							editDialog.dismiss();
+
+                            if(comprobacionDatosMantenimiento(mantenimiento)) {
+                                guardaDatosDelMantenimiento(mantenimiento);
+                                actualizaListaMantenimientos();
+                                editDialog.dismiss();
+
+                            }
 						}
 					});
 					
@@ -242,31 +241,35 @@ public class MantenimientosFragment extends Fragment {
         	imgBorrar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					LinearLayout linear1 = (LinearLayout)view.getParent();
-					LinearLayout linear2 = (LinearLayout)linear1.getParent();
-					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					mant = mantenimientos.get(linear3.getId());
-					
-					AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
-					builder.setMessage("¿Desea borrar el mantenimiento?");
-					builder.setTitle("Borrar");
-					builder.setPositiveButton(R.string.boton_aceptar, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							eliminarMantenimiento(mant);
-							Toast.makeText(myContext, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
-							actualizaListaMantenimientos();
-						}
-					});
-					builder.setNegativeButton(R.string.boton_cancelar, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.cancel();
-						}
-					});
-					
-					AlertDialog dialog = builder.create();
-					dialog.show();
+                    try {
+                        LinearLayout linear1 = (LinearLayout) view.getParent();
+                        LinearLayout linear2 = (LinearLayout) linear1.getParent();
+                        LinearLayout linear3 = (LinearLayout) linear2.getParent();
+                        mant = mantenimientos.get(linear3.getId());
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                        builder.setCancelable(true);
+                        builder.setTitle("Eliminar mantenimiento");
+                        builder.setMessage("Â¿Seguro que desea borrar este mantenimiento?");
+                        builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                eliminarMantenimiento(mant);
+                                actualizaListaMantenimientos();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+
+                    }catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
 				}
 			});
         	
@@ -285,9 +288,8 @@ public class MantenimientosFragment extends Fragment {
 	private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {
 		ArrayList<DetalleMantenimiento> detalles = new ArrayList<DetalleMantenimiento>();
 		try {
-			if(mantenimientosHelper == null)
-				mantenimientosHelper = new MantenimientosSQLiteHelper(rootView.getContext(), Constantes.TABLA_MANTENIMIENTOS, null, 1);
-			detalles.addAll(mantenimientosHelper.getMantenimientos());
+            MantenimientosSQLiteHelper mantHelper = new MantenimientosSQLiteHelper(myContext, Constantes.TABLA_MANTENIMIENTOS, null, 1);
+			detalles.addAll(mantHelper.getMantenimientos());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -302,14 +304,13 @@ public class MantenimientosFragment extends Fragment {
 	
 	private void guardaDatosDelMantenimiento(DetalleMantenimiento mant) {
 		try {
-			boolean resp = abrirBaseDeDatos();
-			if(resp == false) {
-				String texto = "Error al abrir o crear la tabla 'Mantenimientos'";
-				Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			boolean resultado = insertarFila(mant);
+            boolean resultado = false;
+            MantenimientosSQLiteHelper mantHelper = new MantenimientosSQLiteHelper(myContext, Constantes.TABLA_MANTENIMIENTOS, null, 1);
+            if(mant.getIdDetalleMantenimiento() == null)
+			    resultado = mantHelper.insertarMantenimiento(mant);
+            else
+                resultado = mantHelper.actualizarMantenimiento(mant);
+
 			String texto = new String();
 			if(resultado)
 				texto = "Datos guardados correctamente";
@@ -333,45 +334,6 @@ public class MantenimientosFragment extends Fragment {
 		return lista;
 	}
 	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			if(mantenimientosHelper == null)
-				mantenimientosHelper = new MantenimientosSQLiteHelper(rootView.getContext(), Constantes.TABLA_ACCIDENTES, null, 1);
-			baseDatos = mantenimientosHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	private boolean insertarFila(DetalleMantenimiento mant) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("idMantenimiento", mant.getIdDetalleMantenimiento());
-			values.put("fecha", mant.getFecha().getTime());
-			values.put("kms", mant.getKilometros());
-			values.put("precio", mant.getPrecio());
-			values.put("taller", mant.getTaller());
-			values.put("tipoMantenimiento", mant.getTipoMantenimiento());
-			values.put("observaciones", mant.getObservaciones());
-			values.put("idVehiculo", mant.getIdVehiculo());
-			
-			if(mant.getIdDetalleMantenimiento() == null) {
-				resp = (baseDatos.insert(Constantes.TABLA_MANTENIMIENTOS, null, values) > 0);
-			}else {
-				String[] argumentos = new String[1];
-				argumentos[0] = String.valueOf(mant.getIdDetalleMantenimiento());
-				resp = (baseDatos.update(Constantes.TABLA_MANTENIMIENTOS, values, "idMantenimiento = ?", argumentos) > 0);
-			}
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
-	}
-	
 	private void actualizaListaMantenimientos() {
 		Fragment fragment = new MantenimientosFragment();
 		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
@@ -379,11 +341,17 @@ public class MantenimientosFragment extends Fragment {
 	}
 	
 	private boolean eliminarMantenimiento(DetalleMantenimiento dm) {
-		abrirBaseDeDatos();
-		String[] argumentos = new String[1];
-		argumentos[0] = String.valueOf(dm.getIdDetalleMantenimiento());
-		if(baseDatos.delete(Constantes.TABLA_MANTENIMIENTOS, "idMantenimiento = ?", argumentos) <= 0)
-			return false;
-		return true;
+        MantenimientosSQLiteHelper mantHelper = new MantenimientosSQLiteHelper(myContext, Constantes.TABLA_MANTENIMIENTOS, null, 1);
+        return mantHelper.borrarMantenimiento(dm);
 	}
+
+    private boolean comprobacionDatosMantenimiento(DetalleMantenimiento dm) {
+        boolean result = true;
+        try {
+
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
 }

@@ -12,7 +12,6 @@ import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 
 public class NuevoAccidenteFragment extends Fragment {
@@ -89,6 +86,7 @@ public class NuevoAccidenteFragment extends Fragment {
 				vehiculos.add(dv.getModelo());
 			ArrayAdapter<String> adapterVehiculo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, vehiculos);
 			spinnerVehiculo.setAdapter(adapterVehiculo);
+			/*
 			spinnerVehiculo.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -99,7 +97,7 @@ public class NuevoAccidenteFragment extends Fragment {
 					
 				}
 			});
-			
+			*/
 			btnGuardar = (Button)rootView.findViewById(R.id.nue_acc_boton_guardar);
 			btnGuardar.setOnClickListener(new OnClickListener() {
 				@Override
@@ -121,24 +119,17 @@ public class NuevoAccidenteFragment extends Fragment {
 					}
 					
 					if(compruebacionDatos(da)) {
-						boolean resp = abrirBaseDeDatos();
-						if(resp == false) {
-							String texto = "Error al abrir o crear la tabla 'Accidentes'";
-							Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-							return;
-						}
-						boolean resultado = insertarFila(da);
+						AccidentesSQLiteHelper accidentesHelper = new AccidentesSQLiteHelper(myContext, Constantes.TABLA_ACCIDENTES, null, 1);
+						boolean resultado = accidentesHelper.insertarAccidente(da);
+
 						String texto = null;
-						
 						if(resultado)
 							texto = "Datos guardados correctamente";
 						else
 							texto = "Error al guardar los datos";
 						Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
-						
-						Fragment fragment = new AccidentesFragment();
-						FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-			    		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+
+                        actualizaListaAccidentes();
 					}
 				}
 			});
@@ -147,7 +138,7 @@ public class NuevoAccidenteFragment extends Fragment {
 			btnCancelar.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(myContext, "Cancelando guardado...", Toast.LENGTH_SHORT).show();
+                    actualizaListaAccidentes();
 				}
 			});
 			
@@ -177,7 +168,6 @@ public class NuevoAccidenteFragment extends Fragment {
 	private boolean compruebacionDatos(DetalleAccidente da) {
 		boolean resp = true;
 		String mensaje = null;
-		
 		if(da == null) {
 			mensaje = "Debe introducir los datos a guardar";
 			resp = false;
@@ -191,39 +181,14 @@ public class NuevoAccidenteFragment extends Fragment {
 			mensaje = "Debe seleccionar una de sus vehiculos";
 			resp = false;
 		}
-		
 		if(resp == false)
 			Toast.makeText(myContext, mensaje, Toast.LENGTH_SHORT).show();
 		return resp;
 	}
-	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			accidentesHelper = new AccidentesSQLiteHelper(rootView.getContext(), Constantes.TABLA_ACCIDENTES, null, 1);
-			baseDatos = accidentesHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	private boolean insertarFila(DetalleAccidente da) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("idDetalleAccidente", da.getIdDetalleAccidente());
-			values.put("fecha", da.getFecha().getTime());
-			values.put("lugar", da.getLugar());
-			values.put("kilometros", da.getKilometros());
-			values.put("observaciones", da.getObservaciones());
-			values.put("idVehiculo", da.getIdVehiculo());
-			
-			resp = (baseDatos.insert(Constantes.TABLA_ACCIDENTES, null, values) > 0);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
-	}
+
+    private void actualizaListaAccidentes() {
+        Fragment fragment = new AccidentesFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
 }

@@ -55,9 +55,6 @@ public class NuevoMantenimientoFragment extends Fragment {
 	private ArrayList<String> listaVehiculos = new ArrayList<String>();
 	private ArrayList<DetalleVehiculo> vehiculos = new ArrayList<DetalleVehiculo>();
 	
-	private MantenimientosSQLiteHelper mantenimientosHelper;
-	private SQLiteDatabase baseDatos;
-	
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,15 +123,10 @@ public class NuevoMantenimientoFragment extends Fragment {
 						dm.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()).getIdVehiculo());
 						
 						if(comprobacionDatosMantenimiento(dm)) {
-							boolean resp = abrirBaseDeDatos();
-							if(resp == false) {
-								String texto = "Error al abrir o crear la tabla 'Accidentes'";
-								Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-								return;
-							}
-							
-							boolean resultado = insertarFila(dm);
-							String texto = new String();
+                            MantenimientosSQLiteHelper mantHelper = new MantenimientosSQLiteHelper(myContext, Constantes.TABLA_MANTENIMIENTOS, null, 1);
+							boolean resultado = mantHelper.insertarMantenimiento(dm);
+
+							String texto = "";
 							if(resultado)
 								texto = "Datos guardados correctamente";
 							else
@@ -169,49 +161,19 @@ public class NuevoMantenimientoFragment extends Fragment {
 		super.onAttach(activity);
 	}
 	
-	private boolean insertarFila(DetalleMantenimiento dm) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("idMantenimiento", dm.getIdDetalleMantenimiento());
-			values.put("fecha", dm.getFecha().getTime());
-			values.put("kms", dm.getKilometros());
-			values.put("precio", dm.getPrecio());
-			values.put("taller", dm.getTaller());
-			values.put("tipoMantenimiento", dm.getTipoMantenimiento());
-			values.put("observaciones", dm.getObservaciones());
-			values.put("idVehiculo", dm.getIdVehiculo());
-			
-			if(dm.getIdDetalleMantenimiento() == null) {
-				resp = (baseDatos.insert(Constantes.TABLA_MANTENIMIENTOS, null, values) > 0);
-			}else {
-				String[] argumentos = new String[1];
-				argumentos[0] = String.valueOf(dm.getIdDetalleMantenimiento());
-				resp = (baseDatos.update(Constantes.TABLA_ACCIDENTES, values, "idMantenimiento = ?", argumentos) > 0);
-			}
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
-	}
-	
 	private boolean comprobacionDatosMantenimiento(DetalleMantenimiento dm) {
 		boolean resp = true;
 		String mensaje = new String();
-		
 		if(dm.getFecha() == null) {
 			mensaje = "Debe introducir la fecha del mantenimiento";
 			resp = false;
-			
 		}else if(dm.getKilometros() == null || dm.getKilometros() <= 0) {
 			mensaje = "Debe introducir los kilometros cuando se realizo el mantenimiento";
 			resp = false;
-			
 		}else if(dm.getPrecio() == null || dm.getPrecio() <= 0) {
 			mensaje = "Debe introducir el precio del mantenimiento";
 			resp = false;
 		}
-		
 		if(resp == false)
 			Toast.makeText(myContext, mensaje, Toast.LENGTH_SHORT).show();
 		return resp;
@@ -226,18 +188,6 @@ public class NuevoMantenimientoFragment extends Fragment {
 			ex.printStackTrace();
 		}
 		return lista;
-	}
-	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			mantenimientosHelper = new MantenimientosSQLiteHelper(rootView.getContext(), Constantes.TABLA_MANTENIMIENTOS, null, 1);
-			baseDatos = mantenimientosHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
 	}
 	
 	private void actualizarListadoDeMantenimientos() {

@@ -21,6 +21,7 @@
     <string name="title_activity_nuevo_vehiculo">Nuevo Vehiculo</string>
     <string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
+    <string name="label_creador"><a href="https://plus.google.com/+jhonnyjuncal/">Jhonny Juncal Gonzalez</a></string>
 	<string-array name="menu_array">
 	    <item>Principal</item>
         <item>Vehiculos</item>
@@ -30,7 +31,7 @@
         <item>Datos</item>
         <item>Estadisticas</item>
         <item>Opciones</item>
-        <item>Nuevo vehiculo</item>
+        <item>Acerca de...</item>
     </string-array>
     <string-array name="menu_iconos">
         <item>@drawable/im_network</item>
@@ -41,6 +42,7 @@
         <item>@drawable/im_datos</item>
         <item>@drawable/im_estadisticas</item>
         <item>@drawable/im_opciones</item>
+        <item>@drawable/ic_launcher</item>
     </string-array>
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="sexo_hombre">Hombre</string>

@@ -3,6 +3,7 @@ package com.jhonny.infocar;
 import java.util.ArrayList;
 import com.jhonny.infocar.adapters.NavDrawerListAdapter;
 import com.jhonny.infocar.fragments.AccidentesFragment;
+import com.jhonny.infocar.fragments.AcercaFragment;
 import com.jhonny.infocar.fragments.DatosFragment;
 import com.jhonny.infocar.fragments.EstadisticasFragment;
 import com.jhonny.infocar.fragments.MantenimientosFragment;
@@ -76,6 +77,7 @@ public class PrincipalActivity extends FragmentActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1), true, "+50"));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
         
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -94,11 +96,11 @@ public class PrincipalActivity extends FragmentActivity {
         if(android.os.Build.VERSION.SDK_INT >= 14) {
         	habilitaBotonBarraDeAccion();
         }
-        
+        /*
         if(android.os.Build.VERSION.SDK_INT >= 11) {
         	habilitaDisplayBarraDeAccion();
         }
-        
+        */
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -138,7 +140,7 @@ public class PrincipalActivity extends FragmentActivity {
         	
         	dVehiculo = propiedades.getBoolean(Constantes.INTRO_VEHICULO, false);
         	if(dVehiculo == false) {
-        		displayView(8, false);
+        		displayView(9, false);
         		return;
         	}
         }
@@ -178,7 +180,7 @@ public class PrincipalActivity extends FragmentActivity {
 	            return super.onOptionsItemSelected(item);
         }
     }
-	
+
 	@Override
     public void setTitle(CharSequence title) {
         mTitle = title;
@@ -186,7 +188,7 @@ public class PrincipalActivity extends FragmentActivity {
         	setTituloBarraDeAccion(mTitle);
         }
     }
-	
+
 	/**
      * When using the ActionBarDrawerToggle, you must call it during
      * onPostCreate() and onConfigurationChanged()...
@@ -240,7 +242,7 @@ public class PrincipalActivity extends FragmentActivity {
     		case 7:
     			fragment = new OpcionesFragment();
     			break;
-    		case 8:
+    		case 9:
                 if(dPersonales == false) {
                     Bundle arguments2 = new Bundle();
                     arguments2.putBoolean("mostrarBotonDespues", true);
@@ -249,6 +251,8 @@ public class PrincipalActivity extends FragmentActivity {
                     fragment = new NuevoVehiculoFragment();
                 }
     			break;
+            case 8:
+                fragment = new AcercaFragment();
     		default:
     			break;
     	}
@@ -276,7 +280,7 @@ public class PrincipalActivity extends FragmentActivity {
     	if(getActionBar() != null)
     		getActionBar().setHomeButtonEnabled(true);
     }
-    
+
     @TargetApi(11)
     public void habilitaDisplayBarraDeAccion() {
     	if(getActionBar() != null)
@@ -293,7 +297,6 @@ public class PrincipalActivity extends FragmentActivity {
     public void invalidarOpcionesDeMenu() {
     	invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
     }
-    
     
     
     private class SlideMenuClickListener implements ListView.OnItemClickListener {

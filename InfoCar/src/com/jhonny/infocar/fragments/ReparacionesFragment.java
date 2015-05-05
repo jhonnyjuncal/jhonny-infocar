@@ -8,15 +8,16 @@ import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,13 +44,10 @@ public class ReparacionesFragment extends Fragment {
 	private LinearLayout layoutReparaciones;
 	private View rootView;
 	private Dialog editDialog;
-	private ReparacionesSQLiteHelper reparacionHelper;
 	private ArrayAdapter<String> adapterReparaciones;
 	private Spinner spinnerTipo;
 	private Button botonNuevo;
 	private DetalleReparacion detalleEnEdicion;
-	private SQLiteDatabase baseDatos;
-	private ReparacionesSQLiteHelper reparacionesHelper;
 	
 	private TypedArray arrayTiposReparaciones;
 	private TypedArray arrayMarcas;
@@ -172,7 +170,18 @@ public class ReparacionesFragment extends Fragment {
 							rep.setObservaciones(textObservaciones.getText().toString());
 							rep.setIdVehiculo(detalleEnEdicion.getIdVehiculo());
 							
-							guardaDatosDeLaReparacion(rep);
+							//guardaDatosDeLaReparacion(rep);
+                            ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
+                            boolean resultado = reparacionesHelper.actualizarReparacion(rep);
+
+                            String texto = "";
+                            if(resultado) {
+                                texto = "Datos guardados correctamente";
+                            }else {
+                                texto = "No se han podido almacenar los datos";
+                            }
+                            Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
+
 							actualizaListaReparaciones();
 							editDialog.dismiss();
 						}
@@ -193,13 +202,49 @@ public class ReparacionesFragment extends Fragment {
 			ImageView imgBorrar = (ImageView)vista.findViewById(R.id.imageView_borrar);
 			imgBorrar.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View view) {
-					LinearLayout linear1 = (LinearLayout)view.getParent();
-					LinearLayout linear2 = (LinearLayout)linear1.getParent();
-					LinearLayout linear3 = (LinearLayout)linear2.getParent();
-					
-					DetalleReparacion dr = reparaciones.get(linear3.getId());
-					Toast.makeText(rootView.getContext(), "borrar: " + linear3.getId() + " - lista: " + dr.getIdDetalleReparacion(), Toast.LENGTH_SHORT).show();
+				public void onClick(final View view) {
+                    try {
+                        LinearLayout linear1 = (LinearLayout)view.getParent();
+                        LinearLayout linear2 = (LinearLayout)linear1.getParent();
+                        LinearLayout linear3 = (LinearLayout)linear2.getParent();
+                        final DetalleReparacion dr = reparaciones.get(linear3.getId());
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                        builder.setCancelable(true);
+                        builder.setTitle("Eliminar reparación");
+                        builder.setMessage("¿Seguro que desea borrar esta reparación?");
+                        builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
+                                    boolean resultado = reparacionesHelper.borrarReparacion(dr);
+
+                                    String texto = "";
+                                    if(resultado) {
+                                        texto = "La reparación ha sido borrada con exito";
+                                    }else {
+                                        texto = "Ha ocurrido un error al intentar eliminar los datos de la reparación";
+                                    }
+                                    Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
+                                    actualizaListaReparaciones();
+
+                                }catch(Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
+                        builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+
+                    }catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
 				}
 			});
 			layoutReparaciones.addView(vista, i);
@@ -217,9 +262,8 @@ public class ReparacionesFragment extends Fragment {
 	private ArrayList<DetalleReparacion> recuperaDatosReparaciones() {
 		ArrayList<DetalleReparacion> reparaciones = new ArrayList<DetalleReparacion>();
 		try {
-			if(reparacionHelper == null)
-				reparacionHelper = new ReparacionesSQLiteHelper(rootView.getContext(), Constantes.TABLA_REPARACIONES, null, 1);
-			reparaciones.addAll(reparacionHelper.getReparaciones());
+            ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
+            reparaciones.addAll(reparacionesHelper.getReparaciones());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -241,68 +285,6 @@ public class ReparacionesFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
-	}
-	
-	private void guardaDatosDeLaReparacion(DetalleReparacion rep) {
-		try {
-			boolean resp = abrirBaseDeDatos();
-			if(resp == false) {
-				String texto = "Error al abrir o crear la tabla 'Accidentes'";
-				Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			boolean resultado = insertarFila(rep);
-			String texto = new String();
-			if(resultado)
-				texto = "Datos guardados correctamente";
-			else
-				texto = "Error al guardar los datos";
-			
-			actualizaListaReparaciones();
-			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
-			
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			reparacionesHelper = new ReparacionesSQLiteHelper(rootView.getContext(), Constantes.TABLA_REPARACIONES, null, 1);
-			baseDatos = reparacionesHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	private boolean insertarFila(DetalleReparacion dr) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("idReparacion", dr.getIdDetalleReparacion());
-			values.put("fecha", dr.getFecha().getTime());
-			values.put("kms", dr.getKilometros());
-			values.put("precio", dr.getPrecio());
-			values.put("taller", dr.getTaller());
-			values.put("idTipoReparacion", dr.getIdTipoReparacion());
-			values.put("observaciones", dr.getObservaciones());
-			values.put("idVehiculo", dr.getIdVehiculo());
-			
-			if(dr.getIdDetalleReparacion() == null) {
-				resp = (baseDatos.insert(Constantes.TABLA_REPARACIONES, null, values) > 0);
-			}else {
-				String[] argumentos = new String[1];
-				argumentos[0] = String.valueOf(dr.getIdDetalleReparacion());
-				resp = (baseDatos.update(Constantes.TABLA_REPARACIONES, values, "idReparacion = ?", argumentos) > 0);
-			}
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
 	}
 	
 	private void actualizaListaReparaciones() {

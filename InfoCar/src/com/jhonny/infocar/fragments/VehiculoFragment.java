@@ -6,7 +6,6 @@ import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
@@ -33,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class VehiculoFragment extends Fragment {
@@ -147,7 +147,7 @@ public class VehiculoFragment extends Fragment {
 					LinearLayout linear2 = (LinearLayout)linear1.getParent();
 					LinearLayout linear3 = (LinearLayout)linear2.getParent();
 					LinearLayout linear4 = (LinearLayout)linear3.getParent();
-					DetalleVehiculo dv = vehiculos.get(linear4.getId());
+					final DetalleVehiculo dv = vehiculos.get(linear4.getId());
 					
 					editDialog = new Dialog(rootView.getContext());
 					editDialog.setContentView(R.layout.edicion_vehiculo);
@@ -158,11 +158,11 @@ public class VehiculoFragment extends Fragment {
 					spinnerMarcas.setAdapter(adapterMarcas);
 					spinnerMarcas.setSelection(dv.getMarca());
 					
-					EditText textModelo = (EditText)editDialog.findViewById(R.id.edit_veh_editText1);
+					final EditText textModelo = (EditText)editDialog.findViewById(R.id.edit_veh_editText1);
 					textModelo.setText(dv.getModelo());
-					EditText textKilometros = (EditText)editDialog.findViewById(R.id.edit_veh_editText2);
+					final EditText textKilometros = (EditText)editDialog.findViewById(R.id.edit_veh_editText2);
 					textKilometros.setText(dv.getKilometros().toString());
-					EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_veh_editText3);
+					final EditText textFecha = (EditText)editDialog.findViewById(R.id.edit_veh_editText3);
 					textFecha.setText(Util.convierteDateEnString(dv.getFechaCompra()));
 					
 					adapterTiposVeh = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposVeh);
@@ -175,15 +175,41 @@ public class VehiculoFragment extends Fragment {
 					spinnerCarburantes.setAdapter(adapterCarburantes);
 					spinnerCarburantes.setSelection(dv.getTipoCarburante());
 					
-					EditText textMatricula = (EditText)editDialog.findViewById(R.id.edit_veh_editText4);
+					final EditText textMatricula = (EditText)editDialog.findViewById(R.id.edit_veh_editText4);
 					textMatricula.setText(dv.getMatricula());
 					
 					Button btnGuardar = (Button)editDialog.findViewById(R.id.edit_veh_button_guardar);
 					btnGuardar.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							editDialog.dismiss();
-						}
+                        @Override
+                        public void onClick(View view) {
+                            DetalleVehiculo dvEditado = new DetalleVehiculo();
+                            dvEditado.setIdVehiculo(dv.getIdVehiculo());
+                            dvEditado.setMarca(spinnerMarcas.getSelectedItemPosition());
+                            dvEditado.setModelo(textModelo.getText().toString());
+                            dvEditado.setKilometros(Double.valueOf(textKilometros.getText().toString()));
+                            dvEditado.setFechaCompra(Util.convierteStringEnDate(textFecha.getText().toString()));
+                            dvEditado.setMatricula(textMatricula.getText().toString());
+                            dvEditado.setTipoVehiculo(spinnerTiposVeh.getSelectedItemPosition());
+                            dvEditado.setTipoCarburante(spinnerCarburantes.getSelectedItemPosition());
+                            dvEditado.setIdSeguro(null);
+                            dvEditado.setIdItv(null);
+
+                            if(comprobacionDatosVehiculo(dvEditado)) {
+                                VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
+                                boolean resp = vehiculosHelper.actualizarVehiculo(dvEditado);
+
+                                String texto = "";
+                                if(resp) {
+                                    texto = "Datos guardados correctamente";
+                                }else {
+                                    texto = "No se han podido almacenar los datos";
+                                }
+                                Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
+
+                                actualizarListadoDeVehiculos();
+                                editDialog.dismiss();
+                            }
+                        }
 					});
 					
 					Button btnCancelar = (Button)editDialog.findViewById(R.id.edit_veh_button_cancelar);
@@ -201,33 +227,49 @@ public class VehiculoFragment extends Fragment {
         	ImageView imgBorrar = (ImageView)vista.findViewById(R.id.imageView5);
         	imgBorrar.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(final View v) {
-                    AlertDialog dialogo = new AlertDialog.Builder(myContext)
-                        .setMessage("¿Está seguro de que desea borrar esta vehiculo?")
-                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                LinearLayout linear1 = (LinearLayout)v.getParent();
-                                LinearLayout linear2 = (LinearLayout)linear1.getParent();
-                                LinearLayout linear3 = (LinearLayout)linear2.getParent();
-                                LinearLayout linear4 = (LinearLayout)linear3.getParent();
-                                DetalleVehiculo dv = vehiculos.get(linear4.getId());
+				public void onClick(final View view) {
+                    try {
+                        LinearLayout linear1 = (LinearLayout)view.getParent();
+                        LinearLayout linear2 = (LinearLayout)linear1.getParent();
+                        LinearLayout linear3 = (LinearLayout)linear2.getParent();
+                        LinearLayout linear4 = (LinearLayout)linear3.getParent();
+                        final DetalleVehiculo dv = vehiculos.get(linear4.getId());
 
-
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                        builder.setCancelable(true);
+                        builder.setTitle("Eliminar registro");
+                        builder.setMessage("¿Seguro que desea borrar este vehiculo?");
+                        builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
+                            public void onClick(DialogInterface dialog, int which) {
+                                VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
+                                boolean resp = vehiculosHelper.borrarVehiculo(dv);
+
+                                String texto = "";
+                                if(resp)
+                                    texto = "Los datos del vehiculo han sido eliminados correctamente";
+                                else
+                                    texto = "No se han podido eliminar los datos del vehiculo";
+                                Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
+
+                                actualizarListadoDeVehiculos();
                             }
-                        }).create();
+                        });
+                        builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
 				}
 			});
         	layoutVehiculos.addView(vista, i);
         	i++;
         }
-        
         return rootView;
     }
 	
@@ -240,18 +282,41 @@ public class VehiculoFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
+        //activity.getActionBar().setTitle("hjdshkjdsjhkd");
 		super.onAttach(activity);
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //getActionBar().setTitle("My Account");
+    }
 	
 	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
 		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
 		
 		try {
-			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
+			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
 			lista.addAll(vehiculosHelper.getVehiculos());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return lista;
 	}
+
+    private void actualizarListadoDeVehiculos() {
+        Fragment fragment = new VehiculoFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
+
+    private boolean comprobacionDatosVehiculo(DetalleVehiculo dv) {
+        boolean result = true;
+        try {
+
+        }catch(Exception ex) {
+            ex.printStackTrace();;
+        }
+        return result;
+    }
 }

@@ -2,13 +2,14 @@ package com.jhonny.infocar.sql;
 
 import java.util.ArrayList;
 import java.util.Date;
+import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.model.DetalleReparacion;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.util.Log;
 
 
 public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
@@ -24,7 +25,7 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 			"idVehiculo integer);";
 	final String CONSULTA_TODAS_REPARACIONES = "SELECT * FROM Reparaciones";
 	final String ELIMINA_TABLA_REPARACIONES = "DROP TABLE IF EXISTS Reparaciones";
-	
+
 	
 	public ReparacionesSQLiteHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
@@ -37,13 +38,10 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Se elimina la versión anterior de la tabla
+		// Se elimina la versiÃ³n anterior de la tabla
         db.execSQL(ELIMINA_TABLA_REPARACIONES);
-        Log.d("ReparacionesSQLiteHelper", "Se elimina la versión anterior de la tabla");
- 
-        // Se crea la nueva versión de la tabla
+        // Se crea la nueva versiÃ³n de la tabla
         db.execSQL(CREAR_TABLA_REPARACIONES);
-        Log.d("ReparacionesSQLiteHelper", "Se crea la nueva versión de la tabla");
 	}
 	
 	public ArrayList<DetalleReparacion> getReparaciones() {
@@ -51,7 +49,6 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 		try {
 			SQLiteDatabase db = this.getWritableDatabase();
 			Cursor cursor = db.rawQuery(CONSULTA_TODAS_REPARACIONES, null);
-			
 			if(cursor.moveToFirst()) {
 				do {
 					DetalleReparacion dm = new DetalleReparacion();
@@ -72,4 +69,54 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 		}
 		return lista;
 	}
+
+    public boolean borrarReparacion(DetalleReparacion dr) {
+        boolean resp = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] argumentos = new String[]{String.valueOf(dr.getIdDetalleReparacion())};
+            resp = (db.delete(Constantes.TABLA_REPARACIONES, "idReparacion = ?", argumentos) > 0);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    return resp;
+}
+
+    public boolean actualizarReparacion(DetalleReparacion dr) {
+        boolean result = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = creaContentValues(dr);
+            String[] argumentos = new String[]{String.valueOf(dr.getIdVehiculo())};
+            result = (db.update(Constantes.TABLA_REPARACIONES, values, "idVehiculo = ?", argumentos) > 0);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean insertarReparacion(DetalleReparacion dr) {
+        boolean resp = false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = creaContentValues(dr);
+            resp = (db.insert(Constantes.TABLA_REPARACIONES, null, values) > 0);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return resp;
+    }
+
+    private ContentValues creaContentValues(DetalleReparacion dr) {
+        ContentValues values = new ContentValues();
+        values.put("idReparacion", dr.getIdDetalleReparacion());
+        values.put("fecha", dr.getFecha().getTime());
+        values.put("kms", dr.getKilometros());
+        values.put("precio", dr.getPrecio());
+        values.put("taller", dr.getTaller());
+        values.put("idTipoReparacion", dr.getIdTipoReparacion());
+        values.put("observaciones", dr.getObservaciones());
+        values.put("idVehiculo", dr.getIdVehiculo());
+        return values;
+    }
 }

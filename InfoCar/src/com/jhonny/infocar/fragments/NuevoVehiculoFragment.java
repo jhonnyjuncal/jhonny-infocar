@@ -10,7 +10,6 @@ import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -113,7 +112,6 @@ public class NuevoVehiculoFragment extends Fragment {
 			if(getArguments() != null) {
 				Bundle bundle = getArguments();
 				mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
-                //setArguments(null);
 			}
 			
 			/** Spinner de marcas de vehiculos */
@@ -246,14 +244,13 @@ public class NuevoVehiculoFragment extends Fragment {
 	
 	private void guardaDatosDelVehiculo(DetalleVehiculo dv) {
 		try {
-			boolean resp = abrirBaseDeDatos();
-			if(resp == false) {
-				String texto = "Error al abrir o crear la tabla 'Vehiculos'";
-				Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			boolean resultado = insertarFila(dv);
+            boolean resultado = false;
+            VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
+            if(dv.getIdVehiculo() == null)
+                resultado = vehiculosHelper.insertarVehiculo(dv);
+            else
+                resultado = vehiculosHelper.actualizarVehiculo(dv);
+
 			String texto = new String();
 			if(resultado) {
 				texto = "Datos guardados correctamente";
@@ -266,12 +263,12 @@ public class NuevoVehiculoFragment extends Fragment {
 			}else {
 				texto = "Error al guardar los datos";
 			}
-			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
+            mostrarTexto(texto);
 			
 			// redireccion del fragmento solo cuando sea la primera ejecucion
 			if(resultado && mostrarBotonDespues) {
 				Fragment fragment = new PrincipalFragment();
-				FragmentManager manager = myContext.getSupportFragmentManager();
+                FragmentManager manager = myContext.getSupportFragmentManager();
 				manager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 			}else {
 				Fragment fragment = new VehiculoFragment();
@@ -281,38 +278,5 @@ public class NuevoVehiculoFragment extends Fragment {
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-	
-	
-	private boolean abrirBaseDeDatos() {
-		boolean resultado = false;
-		try {
-			VehiculosSQLiteHelper nuevoHelper = new VehiculosSQLiteHelper(rootView.getContext(), Constantes.TABLA_VEHICULOS, null, 1);
-			baseDatos = nuevoHelper.getWritableDatabase();
-			resultado = true;
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	
-	private boolean insertarFila(DetalleVehiculo dv) {
-		boolean resp = false;
-		try {
-			ContentValues values = new ContentValues();
-			values.put("marca", dv.getMarca());
-			values.put("modelo", dv.getModelo());
-			values.put("kms", dv.getKilometros());
-			values.put("fecha", dv.getFechaCompra().getTime());
-			values.put("matricula", dv.getMatricula());
-			values.put("tipoVehiculo", dv.getTipoVehiculo());
-			values.put("tipoCarburante", dv.getTipoCarburante());
-			
-			resp = (baseDatos.insert(Constantes.TABLA_VEHICULOS, null, values) > 0);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		return resp;
 	}
 }
