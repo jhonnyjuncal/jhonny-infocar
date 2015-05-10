@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 
@@ -96,11 +98,11 @@ public class PrincipalActivity extends FragmentActivity {
         if(android.os.Build.VERSION.SDK_INT >= 14) {
         	habilitaBotonBarraDeAccion();
         }
-        /*
+
         if(android.os.Build.VERSION.SDK_INT >= 11) {
         	habilitaDisplayBarraDeAccion();
         }
-        */
+
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -297,6 +299,47 @@ public class PrincipalActivity extends FragmentActivity {
     public void invalidarOpcionesDeMenu() {
     	invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        cargaFondoDePantalla();
+    }
+
+    private synchronized void cargaFondoDePantalla() {
+        try {
+            SharedPreferences prop = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+            int fondoSeleccionado = 1;
+            if(prop != null) {
+                SharedPreferences.Editor editor = prop.edit();
+                if(editor != null) {
+                    if(prop.contains(Constantes.FONDO_PANTALLA)) {
+                        fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
+                    }
+                }
+            }
+
+            String imagen = Constantes.FONDO_1;
+            switch(fondoSeleccionado) {
+                case 1:
+                    imagen = Constantes.FONDO_1;
+                    break;
+                case 2:
+                    imagen = Constantes.FONDO_2;
+                    break;
+                case 3:
+                    imagen = Constantes.FONDO_3;
+                    break;
+            }
+            int imageResource1 = getApplicationContext().getResources().getIdentifier(imagen, "drawable", getApplicationContext().getPackageName());
+            Drawable image = getResources().getDrawable(imageResource1);
+            ImageView imageView = (ImageView)findViewById(R.id.fondo_principal);
+            imageView.setImageDrawable(image);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     
     
     private class SlideMenuClickListener implements ListView.OnItemClickListener {

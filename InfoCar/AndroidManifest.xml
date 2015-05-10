@@ -28,67 +28,76 @@
         <activity
             android:name="com.jhonny.infocar.PrincipalActivity"
             android:label="@string/title_activity_principal"
+            android:theme="@android:style/Theme.Holo"
             android:launchMode="singleInstance" >
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.MantenimientosFragment"
             android:label="@string/title_activity_mantenimiento"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo">
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.AccidentesFragment"
             android:label="@string/title_activity_accidentes"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo">
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.ReparacionesFragment"
             android:label="@string/title_activity_reparaciones"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo" >
+            <!--android:launchMode="singleInstance" >-->
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.DatosFragment"
             android:label="@string/title_activity_datos"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo" >
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.EstadisticasFragment"
             android:label="@string/title_activity_estadisticas"
+            android:theme="@android:style/Theme.Holo"
             android:launchMode="singleInstance" >
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.OpcionesFragment"
             android:label="@string/title_activity_opciones"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo" >
         </activity>
-        
-        <activity
-            android:name="com.jhonny.infocar.fragments.MenuFragment"
-            android:label="@string/title_activity_menu"
-            android:launchMode="singleInstance" >
-        </activity>
-        
+
         <activity
             android:name="com.jhonny.infocar.fragments.VehiculoFragment"
             android:label="@string/title_activity_vehiculo"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo" >
         </activity>
         
         <activity
             android:name="com.jhonny.infocar.fragments.NuevoVehiculoFragment"
             android:label="@string/title_activity_nuevo_vehiculo"
-            android:launchMode="singleInstance" >
+            android:theme="@android:style/Theme.Holo" >
         </activity>
         
         <activity
             android:name="com.millennialmedia.android.MMActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.jhonny.infocar.fragments.TerminosFragment"
+            android:label=""
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        </activity>
+
+        <activity
+            android:name="com.jhonny.infocar.fragments.PoliticaFragment"
+            android:label=""
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
     </application>
 </manifest>

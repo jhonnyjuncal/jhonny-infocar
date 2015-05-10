@@ -1,7 +1,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_expoprtar"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="opciones" />
+        android:showAsAction="ifRoom"
+        android:title="Exportar a excel"
+        android:icon="@drawable/ic_menu_add" />
+    <item
+        android:id="@+id/action_borrar"
+        android:orderInCategory="102"
+        android:showAsAction="ifRoom"
+        android:title="Borrar todo"
+        android:icon="@drawable/ic_menu_sort_alphabetically" />
+    <item
+        android:id="@+id/action_contacto"
+        android:orderInCategory="103"
+        android:showAsAction="ifRoom"
+        android:title="Contacto con el prog."
+        android:icon="@drawable/ic_menu_delete" />
+    <item
+        android:id="@+id/action_politica"
+        android:orderInCategory="104"
+        android:showAsAction="ifRoom"
+        android:title="Politica de privacidad"
+        android:icon="@drawable/ic_menu_help" />
+    <item
+        android:id="@+id/action_terminos"
+        android:orderInCategory="105"
+        android:showAsAction="ifRoom"
+        android:title="Terminos de uso"
+        android:icon="@drawable/ic_menu_help" />
 </menu>

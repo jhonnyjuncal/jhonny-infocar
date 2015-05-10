@@ -7,6 +7,8 @@ import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
 import com.jhonny.infocar.model.DetalleDatos;
 import com.jhonny.infocar.sql.DatosSQLiteHelper;
+
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,12 +21,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -112,7 +116,7 @@ public class DatosFragment extends Fragment {
                 }
 	        	editEmail.setText(datos.getEmail());
 	        }
-
+			/*
 	        Button botonGuardar = (Button)rootView.findViewById(R.id.datos_button1);
 	        botonGuardar.setOnClickListener(new OnClickListener() {
 				@Override
@@ -142,8 +146,8 @@ public class DatosFragment extends Fragment {
                     }
 			    }
             });
-
-	        Button botonGuardarDespues = (Button)rootView.findViewById(R.id.datos_button2);
+			*/
+	        Button botonGuardarDespues = (Button)rootView.findViewById(R.id.botonVolver);
 	        if(mostrarBotonDespues) {
 	        	botonGuardarDespues.setOnClickListener(new OnClickListener() {
 					@Override
@@ -269,5 +273,89 @@ public class DatosFragment extends Fragment {
 		}
 
 		return dd;
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		cargaFondoDePantalla();
+	}
+
+	private synchronized void cargaFondoDePantalla() {
+		try {
+			SharedPreferences prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+			int fondoSeleccionado = 1;
+			if(prop != null) {
+				SharedPreferences.Editor editor = prop.edit();
+				if(editor != null) {
+					if(prop.contains(Constantes.FONDO_PANTALLA)) {
+						fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
+					}
+				}
+			}
+
+			String imagen = Constantes.FONDO_1;
+			switch(fondoSeleccionado) {
+				case 1:
+					imagen = Constantes.FONDO_1;
+					break;
+				case 2:
+					imagen = Constantes.FONDO_2;
+					break;
+				case 3:
+					imagen = Constantes.FONDO_3;
+					break;
+			}
+			int imageResource1 = myContext.getApplicationContext().getResources().getIdentifier(imagen, "drawable", myContext.getApplicationContext().getPackageName());
+			Drawable image = myContext.getResources().getDrawable(imageResource1);
+			ImageView imageView = (ImageView)myContext.findViewById(R.id.fondo_principal);
+			imageView.setImageDrawable(image);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// handle item selection
+		switch (item.getItemId()) {
+			case R.id.action_guardar:
+				realizaGuardado();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private synchronized void realizaGuardado() {
+		try {
+			final DetalleDatos datos = recuperaDetalleDatos();
+
+			// comprobacion de los datos
+			String nombre = (String)editNombre.getText().toString();
+			String telefono = (String)editTelefono.getText().toString();
+			Integer edad = (Integer)spinnerEdades.getSelectedItemPosition() + 1;
+			boolean hombre = false;
+			if(radioSexoHombre != null && radioSexoHombre.isChecked())
+				hombre = true;
+			String email = (String)editEmail.getText().toString();
+
+			DetalleDatos dd = new DetalleDatos();
+			if(datos != null)
+				dd.setIdDetalleDatos(datos.getIdDetalleDatos());
+			dd.setNombre(nombre);
+			dd.setTelefono(telefono);
+			dd.setEdad(edad);
+			dd.setHombre(hombre);
+			dd.setEmail(email);
+			dd.setFechaAlta(new Date());
+
+			if(comprobacionDatos(dd)) {
+				// guardado de datos
+				guardaDatosPersonales(dd);
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

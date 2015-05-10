@@ -1,0 +1,78 @@
+<FrameLayout 
+    android:id="@+id/fragment_principal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jhonny.infocar.PoliticaFragment">
+    
+    <ImageView
+        android:id="@+id/fondo_principal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo1" />
+    
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+
+		<ScrollView
+			android:id="@+id/poli_scrollView1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginBottom="100dp">
+
+
+			<LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="POLITICA DE PRIVACIDAD"
+                    android:id="@+id/textView32" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aqui toda la politica de privacidad que se incluira en la aplicacion y que sera aceptada si se usa la aplicacion. En caso contrario debera ser desinstalada"
+                    android:id="@+id/textView33" />
+
+            </LinearLayout>
+		</ScrollView>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="50dp"
+			android:layout_alignParentStart="false"
+			android:layout_alignParentBottom="true">
+
+			<Button
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="VOLVER"
+				android:id="@+id/botonVolver" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/linearLayout2"
+			android:layout_width="fill_parent"
+			android:layout_height="50dp"
+			android:layout_alignParentBottom="true"
+			android:orientation="vertical"
+			android:weightSum="1">
+		</LinearLayout>
+
+	</RelativeLayout>
+	
+</FrameLayout>

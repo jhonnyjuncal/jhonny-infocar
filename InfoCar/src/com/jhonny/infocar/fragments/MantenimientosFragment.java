@@ -10,6 +10,9 @@ import com.jhonny.infocar.model.DetalleMantenimiento;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
+import android.app.ActionBar;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,12 +21,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +51,7 @@ public class MantenimientosFragment extends Fragment {
 	private ScrollView vistaMantenimientos;
 	private LinearLayout layoutMantenimientos;
 	private View rootView;
-	private Context myContext;
+	private FragmentActivity myContext;
 	
 	private ArrayList<DetalleMantenimiento> mantenimientos;
 	private Dialog editDialog;
@@ -76,8 +78,8 @@ public class MantenimientosFragment extends Fragment {
 	public MantenimientosFragment() {
 		
 	}
-	
-	
+
+
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
@@ -278,7 +280,7 @@ public class MantenimientosFragment extends Fragment {
         }
         return rootView;
     }
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
@@ -295,13 +297,13 @@ public class MantenimientosFragment extends Fragment {
 		}
 		return detalles;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
 	}
-	
+
 	private void guardaDatosDelMantenimiento(DetalleMantenimiento mant) {
 		try {
             boolean resultado = false;
@@ -354,4 +356,44 @@ public class MantenimientosFragment extends Fragment {
         }
         return result;
     }
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		cargaFondoDePantalla();
+	}
+
+	private synchronized void cargaFondoDePantalla() {
+		try {
+			SharedPreferences prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+			int fondoSeleccionado = 1;
+			if(prop != null) {
+				SharedPreferences.Editor editor = prop.edit();
+				if(editor != null) {
+					if(prop.contains(Constantes.FONDO_PANTALLA)) {
+						fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
+					}
+				}
+			}
+
+			String imagen = Constantes.FONDO_1;
+			switch(fondoSeleccionado) {
+				case 1:
+					imagen = Constantes.FONDO_1;
+					break;
+				case 2:
+					imagen = Constantes.FONDO_2;
+					break;
+				case 3:
+					imagen = Constantes.FONDO_3;
+					break;
+			}
+			int imageResource1 = myContext.getApplicationContext().getResources().getIdentifier(imagen, "drawable", myContext.getApplicationContext().getPackageName());
+			Drawable image = myContext.getResources().getDrawable(imageResource1);
+			ImageView imageView = (ImageView)myContext.findViewById(R.id.fondo_principal);
+			imageView.setImageDrawable(image);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

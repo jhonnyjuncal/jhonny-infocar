@@ -1,17 +1,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/action_settings1"
+        android:id="@+id/action_nuevo"
         android:orderInCategory="100"
-        android:title="Opcion 1"
-        android:showAsAction="never"/>
+        android:showAsAction="ifRoom"
+        android:title="Nuevo"
+        android:icon="@drawable/ic_menu_add"
+        android:enabled="true"/>
     <item
-        android:id="@+id/action_settings2"
-        android:orderInCategory="100"
-        android:title="Opcion 2"
-        android:showAsAction="never"/>
+        android:id="@+id/action_ordenar"
+        android:orderInCategory="102"
+        android:showAsAction="ifRoom"
+        android:title="Ordenar"
+        android:icon="@drawable/ic_menu_sort_alphabetically"
+        android:enabled="true"/>
     <item
-        android:id="@+id/action_settings3"
-        android:orderInCategory="100"
-        android:title="Opcion 3"
-        android:showAsAction="never"/>
+        android:id="@+id/action_borrar_todo"
+        android:orderInCategory="103"
+        android:showAsAction="ifRoom"
+        android:title="Eliminar todo"
+        android:icon="@drawable/ic_menu_delete"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/action_ayuda"
+        android:orderInCategory="104"
+        android:showAsAction="ifRoom"
+        android:title="Ayuda"
+        android:icon="@drawable/ic_menu_help"
+        android:enabled="true"/>
 </menu>

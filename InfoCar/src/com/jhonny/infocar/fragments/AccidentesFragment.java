@@ -19,8 +19,10 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -52,7 +54,7 @@ public class AccidentesFragment extends Fragment {
 	private ArrayList<DetalleAccidente> accidentes;
 	private View rootView;
 	private Dialog editDialog;
-	private Context myContext;
+    private FragmentActivity myContext;
 	private ArrayList<DetalleVehiculo> listaVehiculos;
 	private TypedArray arrayMarcas;
 	
@@ -338,7 +340,7 @@ public class AccidentesFragment extends Fragment {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
 	}
-	
+
 	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
 		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
 		try {
@@ -364,4 +366,44 @@ public class AccidentesFragment extends Fragment {
 			return false;
 		return true;
 	}
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        cargaFondoDePantalla();
+    }
+
+    private synchronized void cargaFondoDePantalla() {
+        try {
+            SharedPreferences prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+            int fondoSeleccionado = 1;
+            if(prop != null) {
+                SharedPreferences.Editor editor = prop.edit();
+                if(editor != null) {
+                    if(prop.contains(Constantes.FONDO_PANTALLA)) {
+                        fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
+                    }
+                }
+            }
+
+            String imagen = Constantes.FONDO_1;
+            switch(fondoSeleccionado) {
+                case 1:
+                    imagen = Constantes.FONDO_1;
+                    break;
+                case 2:
+                    imagen = Constantes.FONDO_2;
+                    break;
+                case 3:
+                    imagen = Constantes.FONDO_3;
+                    break;
+            }
+            int imageResource1 = myContext.getApplicationContext().getResources().getIdentifier(imagen, "drawable", myContext.getApplicationContext().getPackageName());
+            Drawable image = myContext.getResources().getDrawable(imageResource1);
+            ImageView imageView = (ImageView)myContext.findViewById(R.id.fondo_principal);
+            imageView.setImageDrawable(image);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

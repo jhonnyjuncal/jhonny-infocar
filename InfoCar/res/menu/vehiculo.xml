@@ -1,12 +1,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
-		android:id="@+id/menu_nue_nuevo"
+		android:id="@+id/action_nuevo"
 		android:orderInCategory="100"
-		android:showAsAction="never"
-		android:title="@string/lbl_menu_nuevo" />
+		android:showAsAction="ifRoom"
+		android:title="Nuevo"
+		android:icon="@drawable/ic_menu_add"
+		android:enabled="true"/>
 	<item
-		android:id="@+id/menu_nue_eliminar"
-		android:orderInCategory="100"
-		android:showAsAction="never"
-		android:title="@string/lbl_menu_eliminar" />
+		android:id="@+id/action_ordenar"
+		android:orderInCategory="102"
+		android:showAsAction="ifRoom"
+		android:title="Ordenar"
+		android:icon="@drawable/ic_menu_sort_alphabetically"
+		android:enabled="true"/>
+	<item
+		android:id="@+id/action_borrar_todo"
+		android:orderInCategory="103"
+		android:showAsAction="ifRoom"
+		android:title="Eliminar todos"
+		android:icon="@drawable/ic_menu_delete"
+		android:enabled="true"/>
+	<item
+		android:id="@+id/action_ayuda"
+		android:orderInCategory="104"
+		android:showAsAction="ifRoom"
+		android:title="Ayuda"
+		android:icon="@drawable/ic_menu_help"
+		android:enabled="true"/>
 </menu>

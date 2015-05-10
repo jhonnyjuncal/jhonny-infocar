@@ -116,29 +116,29 @@ public class NuevoVehiculoFragment extends Fragment {
 			
 			/** Spinner de marcas de vehiculos */
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
-			arrayMarcas.recycle();
 			ArrayList<String> listaMarcas = new ArrayList<String>();
 			for(int i=0; i<arrayMarcas.length(); i++) 
 				listaMarcas.add(arrayMarcas.getString(i));
 			adapterMarcas = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaMarcas);
 			spinnerMarcas.setAdapter(adapterMarcas);
+			arrayMarcas.recycle();
 			
 			/** Spinner de tipos de vehiculos */
 			arrayTiposVehiculos = getResources().obtainTypedArray(R.array.TIPOS_VEHICULO);
-			arrayTiposVehiculos.recycle();
 			ArrayList<String> listaTipos = new ArrayList<String>();
 			for(int i=0; i<arrayTiposVehiculos.length(); i++)
 				listaTipos.add(arrayTiposVehiculos.getString(i));
+			arrayTiposVehiculos.recycle();
 			
 			adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTipos);
 			spinnerTipo.setAdapter(adapterTipo);
 			
 			/** Spinner de la lista de carburantes */
 			arrayCarburantes = getResources().obtainTypedArray(R.array.TIPOS_CARBURANTE);
-			arrayCarburantes.recycle();
 			ArrayList<String> listaCarburantes = new ArrayList<String>();
 			for(int i=0; i<arrayCarburantes.length(); i++)
 				listaCarburantes.add(arrayCarburantes.getString(i));
+			arrayCarburantes.recycle();
 			
 			adapterCarburante = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaCarburantes);
 			spinnerCombustible.setAdapter(adapterCarburante);
