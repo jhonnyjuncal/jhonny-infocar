@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_vehiculo"
     android:layout_width="match_parent"
@@ -12,47 +13,24 @@
         android:scaleType="centerCrop"
         android:src="@drawable/fondo1" />
 
-	<RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
-		
-		<Button
-		    android:id="@+id/veh_boton_nuevo"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentRight="true"
-		    android:layout_marginRight="15dp"
-		    android:text="Nuevo" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/veh_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginBottom="50dp" />
 
-	    <ScrollView
-	        android:id="@+id/veh_scrollView1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginBottom="50dp"
-	        android:layout_marginTop="70dp" >
-	        
-	        <LinearLayout
-	            android:id="@+id/veh_linear"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:orientation="vertical" >
-	        </LinearLayout>
-			
-	    </ScrollView>
-	
-	    
-	    <LinearLayout
-			android:id="@+id/linearLayout2"
-			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_alignParentBottom="true"
-			android:orientation="vertical"
-			android:weightSum="1">
-		</LinearLayout>
-	</RelativeLayout>
-	
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/veh_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" />
+
 </FrameLayout>

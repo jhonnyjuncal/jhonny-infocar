@@ -4,29 +4,35 @@
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:title="Exportar a excel"
-        android:icon="@drawable/ic_menu_add" />
+        android:icon="@drawable/ic_menu_agenda" />
     <item
         android:id="@+id/action_borrar"
         android:orderInCategory="102"
         android:showAsAction="ifRoom"
         android:title="Borrar todo"
-        android:icon="@drawable/ic_menu_sort_alphabetically" />
+        android:icon="@drawable/ic_menu_delete" />
     <item
         android:id="@+id/action_contacto"
         android:orderInCategory="103"
         android:showAsAction="ifRoom"
         android:title="Contacto con el prog."
-        android:icon="@drawable/ic_menu_delete" />
+        android:icon="@drawable/ic_menu_send" />
     <item
         android:id="@+id/action_politica"
         android:orderInCategory="104"
         android:showAsAction="ifRoom"
         android:title="Politica de privacidad"
-        android:icon="@drawable/ic_menu_help" />
+        android:icon="@drawable/ic_menu_account_list" />
     <item
         android:id="@+id/action_terminos"
         android:orderInCategory="105"
         android:showAsAction="ifRoom"
         android:title="Terminos de uso"
+        android:icon="@drawable/ic_menu_directions" />
+    <item
+        android:id="@+id/action_ayuda"
+        android:orderInCategory="106"
+        android:showAsAction="ifRoom"
+        android:title="Ayuda"
         android:icon="@drawable/ic_menu_help" />
 </menu>

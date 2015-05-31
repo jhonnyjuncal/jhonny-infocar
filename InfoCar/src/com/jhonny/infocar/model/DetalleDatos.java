@@ -9,7 +9,7 @@ public class DetalleDatos {
 	private String nombre;
 	private String telefono;
 	private Integer edad;
-	private boolean hombre;
+	private Boolean hombre;
 	private String email;
 	private Date fechaAlta;
 	
@@ -46,11 +46,11 @@ public class DetalleDatos {
 		this.edad = edad;
 	}
 	
-	public boolean isHombre() {
+	public Boolean isHombre() {
 		return hombre;
 	}
 	
-	public void setHombre(boolean hombre) {
+	public void setHombre(Boolean hombre) {
 		this.hombre = hombre;
 	}
 	

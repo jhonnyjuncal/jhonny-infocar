@@ -110,7 +110,8 @@ public class InicioActivity extends Activity {
 			int imageResource1 = getApplicationContext().getResources().getIdentifier(imagen, "drawable", getApplicationContext().getPackageName());
 			Drawable image = getResources().getDrawable(imageResource1);
 			ImageView imageView = (ImageView)findViewById(R.id.fondo_principal);
-			imageView.setImageDrawable(image);
+			if(imageView != null)
+				imageView.setImageDrawable(image);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}

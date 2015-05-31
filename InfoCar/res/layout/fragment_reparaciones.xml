@@ -13,47 +13,24 @@
         android:scaleType="centerCrop"
         android:src="@drawable/fondo1" />
 
-	<RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
+	<android.support.v4.view.ViewPager
+		android:id="@+id/rep_pager"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:layout_marginBottom="50dp" />
 
-	    <Button
-	        android:id="@+id/rep_boton_nuevo"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_marginRight="15dp"
-	        android:text="Nuevo" />
+	<com.viewpagerindicator.CirclePageIndicator
+		android:id="@+id/rep_indicator"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentBottom="true" />
 
-	    <ScrollView
-	        android:id="@+id/rep_scrollView1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginBottom="50dp"
-	        android:layout_marginTop="50dp" >
-	        
-	        <LinearLayout
-	            android:id="@+id/rep_linear"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:orientation="vertical" >
-	        </LinearLayout>
-			
-	    </ScrollView>
-	    
-	    <LinearLayout
-			android:id="@+id/linearLayout2"
-			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_alignParentBottom="true"
-			android:orientation="vertical"
-			android:weightSum="1">
-		</LinearLayout>
-	
-	</RelativeLayout>
-	
+	<LinearLayout
+		android:id="@+id/linearLayout2"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentBottom="true"
+		android:orientation="vertical" />
+
 </FrameLayout>

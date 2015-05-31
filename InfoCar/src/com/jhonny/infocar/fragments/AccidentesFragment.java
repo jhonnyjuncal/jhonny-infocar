@@ -7,10 +7,13 @@ import java.util.Calendar;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.animations.ZoomOutPageTransformer;
 import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.AccidentesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
+import com.viewpagerindicator.CirclePageIndicator;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -27,6 +30,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,7 +62,8 @@ public class AccidentesFragment extends Fragment {
     private FragmentActivity myContext;
 	private ArrayList<DetalleVehiculo> listaVehiculos;
 	private TypedArray arrayMarcas;
-	
+    private ArrayList<DetalleAccidenteFragment> listaDetalles;
+
 	private EditText textFecha;
 	private Spinner spinnerModelos;
 	private EditText textKms;
@@ -67,7 +73,9 @@ public class AccidentesFragment extends Fragment {
 	private SQLiteDatabase baseDatos;
 	private DetalleAccidente detalleEnEdicion;
 	private AccidentesSQLiteHelper accidentesHelper;
-	
+    private MyAdapter mAdapter;
+    private ViewPager mPager;
+
 	
 	public AccidentesFragment() {
 		
@@ -75,31 +83,27 @@ public class AccidentesFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         try {
             rootView = inflater.inflate(R.layout.fragment_accidentes, container, false);
-            setHasOptionsMenu(true);
-
-            fragmento = (FrameLayout) rootView.findViewById(R.id.fragment_accidentes);
-            vistaAccidentes = (ScrollView) fragmento.findViewById(R.id.acc_scrollView1);
-            layoutAccidentes = (LinearLayout) vistaAccidentes.findViewById(R.id.acc_linear);
+            //fragmento = (FrameLayout) rootView.findViewById(R.id.fragment_accidentes);
+            //vistaAccidentes = (ScrollView) fragmento.findViewById(R.id.acc_scrollView1);
+            //layoutAccidentes = (LinearLayout) vistaAccidentes.findViewById(R.id.acc_linear);
             accidentes = recuperaDatosAccidentes();
             listaVehiculos = recuperaDatosVehiculos();
             arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 
-            Button btnNuevo = (Button) fragmento.findViewById(R.id.acc_boton_nuevo);
-            btnNuevo.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Fragment fragment = new NuevoAccidenteFragment();
-                    FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+            if(accidentes != null) {
+                listaDetalles = new ArrayList<DetalleAccidenteFragment>();
+                for(int i=0; i<accidentes.size(); i++) {
+                    listaDetalles.add(new DetalleAccidenteFragment());
                 }
-            });
-
+            }
 
             int i = 0;
             for (DetalleAccidente acc : accidentes) {
-                View vista = inflater.inflate(R.layout.detalle_accidente, layoutAccidentes, false);
+                View vista = inflater.inflate(R.layout.fragment_detalle_accidente, layoutAccidentes, false);
                 vista.setId(i);
                 DetalleVehiculo dv = null;
                 for (DetalleVehiculo vehiculo : listaVehiculos) {
@@ -109,9 +113,9 @@ public class AccidentesFragment extends Fragment {
                     }
                 }
 
-                TextView textViewTitulo = (TextView) vista.findViewById(R.id.det_acc_textView1);
-                DateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
-                textViewTitulo.setText(sdf.format(acc.getFecha()));
+                //TextView textViewTitulo = (TextView) vista.findViewById(R.id.det_acc_textView1);
+                //DateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+                //textViewTitulo.setText(sdf.format(acc.getFecha()));
                 TextView textViewKms = (TextView) vista.findViewById(R.id.det_acc_textView3);
                 textViewKms.setText(acc.getKilometros().toString());
                 TextView textViewLugar = (TextView) vista.findViewById(R.id.det_acc_textView5);
@@ -252,6 +256,15 @@ public class AccidentesFragment extends Fragment {
                 layoutAccidentes.addView(vista, i);
                 i++;
             }
+
+            mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
+            mPager = (ViewPager)rootView.findViewById(R.id.acc_pager);
+            mPager.setAdapter(mAdapter);
+            mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+            CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.acc_indicator);
+            cIndicator.setViewPager(mPager);
+
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -404,6 +417,29 @@ public class AccidentesFragment extends Fragment {
             imageView.setImageDrawable(image);
         }catch(Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+    public static class MyAdapter extends FragmentStatePagerAdapter {
+        private ArrayList<DetalleAccidenteFragment> listaDetalles;
+
+        public MyAdapter(FragmentManager fm, ArrayList<DetalleAccidenteFragment> listaDetalles) {
+            super(fm);
+            this.listaDetalles = listaDetalles;
+        }
+
+        @Override
+        public int getCount() {
+            return listaDetalles.size();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return listaDetalles.get(position);
         }
     }
 }
