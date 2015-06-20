@@ -28,6 +28,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -45,14 +46,10 @@ import android.widget.Toast;
 
 public class ReparacionesFragment extends Fragment {
 	
-	private FrameLayout fragmento;
-	private ScrollView vistaReparaciones;
-	private LinearLayout layoutReparaciones;
 	private View rootView;
 	private Dialog editDialog;
 	private ArrayAdapter<String> adapterReparaciones;
 	private Spinner spinnerTipo;
-	private Button botonNuevo;
 	private DetalleReparacion detalleEnEdicion;
 	private ArrayList<DetalleReparacionFragment> listaDetalles;
 	
@@ -78,6 +75,8 @@ public class ReparacionesFragment extends Fragment {
 	public ReparacionesFragment() {
 		
 	}
+
+
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,175 +84,15 @@ public class ReparacionesFragment extends Fragment {
 
 		try {
 			rootView = inflater.inflate(R.layout.fragment_reparaciones, container, false);
-			fragmento = (FrameLayout)rootView.findViewById(R.id.fragment_reparaciones);
 			reparaciones = recuperaDatosReparaciones();
 
 			if(reparaciones != null) {
 				listaDetalles = new ArrayList<DetalleReparacionFragment>();
 				for(int i=0; i<reparaciones.size(); i++) {
-					listaDetalles.add(new DetalleReparacionFragment());
+					Bundle arguments = new Bundle();
+					arguments.putInt("position", i);
+					listaDetalles.add(DetalleReparacionFragment.newInstance(arguments));
 				}
-			}
-
-			arrayTiposReparaciones = getResources().obtainTypedArray(R.array.TIPOS_REPARACIONES);
-			arrayTiposReparaciones.recycle();
-			for(int i=0; i<arrayTiposReparaciones.length(); i++)
-				listaReparaciones.add(arrayTiposReparaciones.getString(i));
-
-			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
-			misVehiculos = recuperaDatosVehiculos();
-			for(DetalleVehiculo dv : misVehiculos) {
-				String marca = arrayMarcas.getString(dv.getMarca());
-				listaVehiculos.add(marca + " " + dv.getModelo());
-			}
-
-			int i = 0;
-			for(DetalleReparacion detalle : reparaciones) {
-				View vista = inflater.inflate(R.layout.fragment_detalle_reparacion, layoutReparaciones, false);
-
-				vista.setId(i);
-				String marcaymodelo = null;
-				for (DetalleVehiculo dv : misVehiculos) {
-					if (dv.getIdVehiculo().equals(detalle.getIdVehiculo())) {
-						marcaymodelo = arrayMarcas.getString(dv.getMarca()) + " " + dv.getModelo();
-						break;
-					}
-				}
-				TextView tv1 = (TextView) vista.findViewById(R.id.det_rep_textView1);
-				tv1.setText(marcaymodelo);
-				TextView tv2 = (TextView) vista.findViewById(R.id.det_rep_textView3);
-				tv2.setText(Util.convierteDateEnString(detalle.getFecha()));
-				TextView tv3 = (TextView) vista.findViewById(R.id.det_rep_textView5);
-				tv3.setText(detalle.getKilometros().toString());
-				TextView tv4 = (TextView) vista.findViewById(R.id.det_rep_textView7);
-				tv4.setText(detalle.getPrecio().toString());
-				TextView tv5 = (TextView) vista.findViewById(R.id.det_rep_textView9);
-				String tipoReparacionSeleccionada = listaReparaciones.get(detalle.getIdTipoReparacion());
-				tv5.setText(tipoReparacionSeleccionada);
-				TextView tv6 = (TextView) vista.findViewById(R.id.det_rep_textView11);
-				tv6.setText(detalle.getTaller());
-
-				ImageView imgEditar = (ImageView) vista.findViewById(R.id.imageView_editar);
-				imgEditar.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						LinearLayout linear1 = (LinearLayout) view.getParent();
-						LinearLayout linear2 = (LinearLayout) linear1.getParent();
-						LinearLayout linear3 = (LinearLayout) linear2.getParent();
-						detalleEnEdicion = reparaciones.get(linear3.getId());
-
-						editDialog = new Dialog(rootView.getContext());
-						editDialog.setContentView(R.layout.edicion_reparacion);
-						editDialog.setTitle("Edicion de reparacion");
-
-						textFecha = (EditText) editDialog.findViewById(R.id.edit_rep_fecha);
-						textFecha.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
-						textKms = (EditText) editDialog.findViewById(R.id.edit_rep_kms);
-						textKms.setText(detalleEnEdicion.getKilometros().toString());
-						textPrecio = (EditText) editDialog.findViewById(R.id.edit_rep_coste);
-						textPrecio.setText(detalleEnEdicion.getPrecio().toString());
-						spinnerTipo = (Spinner) editDialog.findViewById(R.id.edit_rep_spinner_tipo);
-						adapterReparaciones = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaReparaciones);
-						spinnerTipo.setAdapter(adapterReparaciones);
-						spinnerTipo.setSelection(detalleEnEdicion.getIdTipoReparacion());
-						textTaller = (EditText) editDialog.findViewById(R.id.edit_rep_taller);
-						textTaller.setText(detalleEnEdicion.getTaller());
-						textObservaciones = (EditText) editDialog.findViewById(R.id.edit_rep_obs);
-						textObservaciones.setText(detalleEnEdicion.getObservaciones());
-
-						Button botonGuardar = (Button) editDialog.findViewById(R.id.edit_rep_btn_guardar);
-						botonGuardar.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								DetalleReparacion rep = new DetalleReparacion();
-								rep.setIdDetalleReparacion(detalleEnEdicion.getIdDetalleReparacion());
-								rep.setFecha(Util.convierteStringEnDate(textFecha.getText().toString()));
-								rep.setKilometros(Double.valueOf(textKms.getText().toString()));
-								rep.setPrecio(Double.valueOf(textPrecio.getText().toString()));
-								rep.setIdTipoReparacion(spinnerTipo.getSelectedItemPosition());
-								rep.setTaller(textTaller.getText().toString());
-								rep.setObservaciones(textObservaciones.getText().toString());
-								rep.setIdVehiculo(detalleEnEdicion.getIdVehiculo());
-
-								//guardaDatosDeLaReparacion(rep);
-								ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
-								boolean resultado = reparacionesHelper.actualizarReparacion(rep);
-
-								String texto = "";
-								if (resultado) {
-									texto = "Datos guardados correctamente";
-								} else {
-									texto = "No se han podido almacenar los datos";
-								}
-								Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
-
-								actualizaListaReparaciones();
-								editDialog.dismiss();
-							}
-						});
-
-						Button botonCancelar = (Button) editDialog.findViewById(R.id.edit_rep_btn_cancelar);
-						botonCancelar.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								editDialog.cancel();
-							}
-						});
-
-						editDialog.show();
-					}
-				});
-
-				ImageView imgBorrar = (ImageView) vista.findViewById(R.id.imageView_borrar);
-				imgBorrar.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(final View view) {
-						try {
-							LinearLayout linear1 = (LinearLayout) view.getParent();
-							LinearLayout linear2 = (LinearLayout) linear1.getParent();
-							LinearLayout linear3 = (LinearLayout) linear2.getParent();
-							final DetalleReparacion dr = reparaciones.get(linear3.getId());
-
-							AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-							builder.setCancelable(true);
-							builder.setTitle("Eliminar reparación");
-							builder.setMessage("¿Seguro que desea borrar esta reparación?");
-							builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									try {
-										ReparacionesSQLiteHelper reparacionesHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
-										boolean resultado = reparacionesHelper.borrarReparacion(dr);
-
-										String texto = "";
-										if (resultado) {
-											texto = "La reparación ha sido borrada con exito";
-										} else {
-											texto = "Ha ocurrido un error al intentar eliminar los datos de la reparación";
-										}
-										Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
-										actualizaListaReparaciones();
-
-									} catch (Exception ex) {
-										ex.printStackTrace();
-									}
-								}
-							});
-							builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.cancel();
-								}
-							});
-							builder.show();
-
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-					}
-				});
-				//layoutReparaciones.addView(vista, i);
-				i++;
 			}
 
 			mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
@@ -264,7 +103,7 @@ public class ReparacionesFragment extends Fragment {
 			CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.rep_indicator);
 			cIndicator.setViewPager(mPager);
 
-		}catch (Exception ex) {
+		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return rootView;
@@ -297,7 +136,7 @@ public class ReparacionesFragment extends Fragment {
 		}
 		return lista;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -347,6 +186,33 @@ public class ReparacionesFragment extends Fragment {
 			imageView.setImageDrawable(image);
 		}catch(Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Fragment fragment = null;
+
+		switch(item.getItemId()) {
+			case R.id.action_nuevo:
+				fragment = new NuevaReparacionFragment();
+				if(fragment != null) {
+					FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+					fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+				}
+				return true;
+
+			case R.id.action_ordenar:
+				return true;
+
+			case R.id.action_borrar_todo:
+				return true;
+
+			case R.id.action_ayuda:
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 

@@ -46,8 +46,10 @@ public class MantenimientosSQLiteHelper extends SQLiteOpenHelper {
 	
 	public ArrayList<DetalleMantenimiento> getMantenimientos() {
 		ArrayList<DetalleMantenimiento> lista = new ArrayList<DetalleMantenimiento>();
-		try {
-			SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = null;
+
+        try {
+			db = this.getWritableDatabase();
 			Cursor cursor = db.rawQuery(CONSULTA_TODOS_MANTENIMIENTOS, null);
 			if(cursor.moveToFirst()) {
 				do {
@@ -66,7 +68,11 @@ public class MantenimientosSQLiteHelper extends SQLiteOpenHelper {
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
-		}
+		}finally {
+            if(db != null) {
+                db.close();
+            }
+        }
 		return lista;
 	}
 

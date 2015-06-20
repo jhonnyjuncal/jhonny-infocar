@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import java.util.Locale;
@@ -41,9 +40,10 @@ public class AcercaFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         try {
             rootView = inflater.inflate(R.layout.fragment_acerca, container, false);
-            setHasOptionsMenu(true);
 
             // version de la aplicacion
             PackageInfo pInfo = myContext.getPackageManager().getPackageInfo(myContext.getPackageName(), 0);

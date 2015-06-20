@@ -46,8 +46,10 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 	
 	public ArrayList<DetalleReparacion> getReparaciones() {
 		ArrayList<DetalleReparacion> lista = new ArrayList<DetalleReparacion>();
+        SQLiteDatabase db = null;
+
 		try {
-			SQLiteDatabase db = this.getWritableDatabase();
+			db = this.getWritableDatabase();
 			Cursor cursor = db.rawQuery(CONSULTA_TODAS_REPARACIONES, null);
 			if(cursor.moveToFirst()) {
 				do {
@@ -66,7 +68,11 @@ public class ReparacionesSQLiteHelper extends SQLiteOpenHelper {
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
-		}
+		}finally {
+            if(db != null) {
+                db.close();
+            }
+        }
 		return lista;
 	}
 

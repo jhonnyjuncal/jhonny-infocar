@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
-
 import java.util.ArrayList;
 
 
@@ -37,6 +36,7 @@ public class DetalleVehiculoFragment extends Fragment {
 
     private View rootView = null;
     private FragmentActivity myContext;
+    private Dialog editDialog;
 
     private ArrayList<String> listaMarcas = new ArrayList<String>();
     private ArrayList<String> listaTiposVeh = new ArrayList<String>();
@@ -46,6 +46,12 @@ public class DetalleVehiculoFragment extends Fragment {
     private TypedArray arrayMarcas;
     private TypedArray arrayCarburantes;
     private TypedArray arrayTiposVeh;
+    private ArrayAdapter<String> adapterMarcas;
+    private ArrayAdapter<String> adapterCarburantes;
+    private ArrayAdapter<String> adapterTiposVeh;
+    private Spinner spinnerMarcas = null;
+    private Spinner spinnerCarburantes = null;
+    private Spinner spinnerTiposVeh = null;
 
 
     public static DetalleVehiculoFragment newInstance(Bundle arguments) {
@@ -125,7 +131,7 @@ public class DetalleVehiculoFragment extends Fragment {
                                 Log.d("VehiculoFragment", "Mostrar fragmento de los datos del seguro");
                             }
                         });
-                        /*
+
                         ImageView imgEditar = (ImageView) rootView.findViewById(R.id.imageView4);
                         imgEditar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -211,7 +217,7 @@ public class DetalleVehiculoFragment extends Fragment {
                             }
                         });
 
-                        ImageView imgBorrar = (ImageView) vista.findViewById(R.id.imageView5);
+                        ImageView imgBorrar = (ImageView) rootView.findViewById(R.id.imageView5);
                         imgBorrar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(final View view) {
@@ -225,7 +231,7 @@ public class DetalleVehiculoFragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                                     builder.setCancelable(true);
                                     builder.setTitle("Eliminar registro");
-                                    builder.setMessage("�Seguro que desea borrar este vehiculo?");
+                                    builder.setMessage("¿Seguro que desea borrar este vehiculo?");
                                     builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -253,7 +259,7 @@ public class DetalleVehiculoFragment extends Fragment {
                                     ex.printStackTrace();
                                 }
                             }
-                        });*/
+                        });
                     }
                 }
             }
@@ -283,5 +289,19 @@ public class DetalleVehiculoFragment extends Fragment {
         return lista;
     }
 
+    private boolean comprobacionDatosVehiculo(DetalleVehiculo dv) {
+        boolean result = true;
+        try {
 
+        }catch(Exception ex) {
+            ex.printStackTrace();;
+        }
+        return result;
+    }
+
+    private void actualizarListadoDeVehiculos() {
+        Fragment fragment = new VehiculoFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
 }
