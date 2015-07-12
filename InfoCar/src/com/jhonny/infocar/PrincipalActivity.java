@@ -149,14 +149,15 @@ public class PrincipalActivity extends FragmentActivity {
         
         displayView(0, true);
 	}
-	
+
+    /*
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.principal, menu);
         return true;
     }
-	
-	/* Called whenever we call invalidateOptionsMenu() */
+	*/
+
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
 //    	// if nav drawer is opened, hide the action items
@@ -166,7 +167,8 @@ public class PrincipalActivity extends FragmentActivity {
 //        	item.setVisible(!drawerOpen);
 //        return super.onPrepareOptionsMenu(menu);
 //    }
-	
+
+
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
@@ -182,6 +184,7 @@ public class PrincipalActivity extends FragmentActivity {
 	            return super.onOptionsItemSelected(item);
         }
     }
+
 
 	@Override
     public void setTitle(CharSequence title) {
@@ -244,17 +247,28 @@ public class PrincipalActivity extends FragmentActivity {
     		case 7:
     			fragment = new OpcionesFragment();
     			break;
+            case 8:
+                fragment = new AcercaFragment();
+                break;
     		case 9:
                 if(dPersonales == false) {
                     Bundle arguments2 = new Bundle();
                     arguments2.putBoolean("mostrarBotonDespues", true);
                     fragment = NuevoVehiculoFragment.newInstance(arguments2);
                 }else {
-                    fragment = new NuevoVehiculoFragment();
+                    if(dVehiculo == false) {
+                        //primera vez
+                        Bundle arguments3 = new Bundle();
+                        arguments3.putBoolean("mostrarBotonDespues", true);
+                        fragment = NuevoVehiculoFragment.newInstance(arguments3);
+
+                    }else {
+                        //resto de veces
+                        fragment = new NuevoVehiculoFragment();
+                    }
                 }
     			break;
-            case 8:
-                fragment = new AcercaFragment();
+
     		default:
     			break;
     	}

@@ -161,18 +161,9 @@ public class AccidentesFragment extends Fragment {
             case R.id.action_nuevo:
                 fragment = new NuevoAccidenteFragment();
                 if(fragment != null) {
-                    FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-                }
-                return true;
-
-            case R.id.action_ordenar:
-                return true;
-
-            case R.id.action_borrar_todo:
-                return true;
-
-            case R.id.action_ayuda:
+                FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+            }
                 return true;
 
             default:

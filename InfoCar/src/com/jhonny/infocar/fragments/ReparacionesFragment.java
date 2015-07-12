@@ -76,7 +76,6 @@ public class ReparacionesFragment extends Fragment {
 		
 	}
 
-
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +83,7 @@ public class ReparacionesFragment extends Fragment {
 
 		try {
 			rootView = inflater.inflate(R.layout.fragment_reparaciones, container, false);
+			myContext.invalidateOptionsMenu();
 			reparaciones = recuperaDatosReparaciones();
 
 			if(reparaciones != null) {
@@ -108,13 +108,13 @@ public class ReparacionesFragment extends Fragment {
 		}
 		return rootView;
     }
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		inflater.inflate(R.menu.reparaciones, menu);
 	}
-	
+
 	private ArrayList<DetalleReparacion> recuperaDatosReparaciones() {
 		ArrayList<DetalleReparacion> reparaciones = new ArrayList<DetalleReparacion>();
 		try {
@@ -202,20 +202,10 @@ public class ReparacionesFragment extends Fragment {
 				}
 				return true;
 
-			case R.id.action_ordenar:
-				return true;
-
-			case R.id.action_borrar_todo:
-				return true;
-
-			case R.id.action_ayuda:
-				return true;
-
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-
 
 
 

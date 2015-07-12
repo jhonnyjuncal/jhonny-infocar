@@ -2,9 +2,12 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
@@ -19,6 +22,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -51,14 +56,45 @@ public class NuevaReparacionFragment extends Fragment {
 	private TypedArray arrayMarcas = null;
 	private ArrayList<String> listaTiposReparacion = new ArrayList<String>();
 	private ArrayList<String> listaMisVehiculos = new ArrayList<String>();
-	ArrayList<DetalleVehiculo> vehiculos = new ArrayList<DetalleVehiculo>();
-	
+	private ArrayList<DetalleVehiculo> vehiculos = new ArrayList<DetalleVehiculo>();
+	private DetalleReparacion detalleEnEdicion;
+
+
+
+	public static NuevaReparacionFragment newInstance(DetalleReparacion dr) {
+		Bundle args = new Bundle();
+		args.putInt("IdDetalleReparacion", dr.getIdDetalleReparacion());
+		args.putString("Fecha", Util.convierteDateEnString(dr.getFecha()));
+		args.putDouble("Kilometros", dr.getKilometros());
+		args.putDouble("Precio", dr.getPrecio());
+		args.putInt("IdTipoReparacion", dr.getIdTipoReparacion());
+		args.putString("Taller", dr.getTaller());
+		args.putString("Observaciones", dr.getObservaciones());
+		args.putInt("IdVehiculo", dr.getIdVehiculo());
+
+		NuevaReparacionFragment frag = new NuevaReparacionFragment();
+		frag.setArguments(args);
+		return frag;
+	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		
 		try {
+			Bundle arguments = getArguments();
+			if(arguments != null) {
+				detalleEnEdicion = new DetalleReparacion();
+				detalleEnEdicion.setIdDetalleReparacion(arguments.getInt("IdDetalleReparacion"));
+				detalleEnEdicion.setFecha(Util.convierteStringEnDate(arguments.getString("Fecha")));
+				detalleEnEdicion.setKilometros(arguments.getDouble("Kilometros"));
+				detalleEnEdicion.setPrecio(arguments.getDouble("Precio"));
+				detalleEnEdicion.setIdTipoReparacion(arguments.getInt("IdTipoReparacion"));
+				detalleEnEdicion.setTaller(arguments.getString("Taller"));
+				detalleEnEdicion.setObservaciones(arguments.getString("Observaciones"));
+				detalleEnEdicion.setIdVehiculo(arguments.getInt("IdVehiculo"));
+			}
+
 			rootView = inflater.inflate(R.layout.fragment_nueva_reparacion, container, false);
 			
 			editFecha = (EditText)rootView.findViewById(R.id.nue_rep_edit_fecha);
@@ -134,11 +170,27 @@ public class NuevaReparacionFragment extends Fragment {
 					dp.show();
 				}
 			});
+
+			if(detalleEnEdicion != null) {
+				editFecha.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
+				editKms.setText(detalleEnEdicion.getKilometros().toString());
+				editPrecio.setText(detalleEnEdicion.getPrecio().toString());
+				editTaller.setText(detalleEnEdicion.getTaller());
+				editObservaciones.setText(detalleEnEdicion.getObservaciones());
+				spinnerTipo.setSelection(detalleEnEdicion.getIdTipoReparacion());
+				spinnerVehiculo.setSelection(detalleEnEdicion.getIdTipoReparacion());
+			}
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return rootView;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.nuevo_accidente, menu);
 	}
 	
 	@Override

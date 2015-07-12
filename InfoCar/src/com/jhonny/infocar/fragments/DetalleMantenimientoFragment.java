@@ -11,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleMantenimiento;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
@@ -41,6 +45,7 @@ public class DetalleMantenimientoFragment extends Fragment {
 
     private View rootView = null;
     private FragmentActivity myContext;
+    private Integer position = null;
 
     private ArrayList<DetalleMantenimiento> mantenimientos;
     private TypedArray arrayTiposMantenimientos = null;
@@ -51,6 +56,7 @@ public class DetalleMantenimientoFragment extends Fragment {
     private ArrayList<String> listaVehiculos = new ArrayList<String>();
     private ArrayAdapter<String> adapterTipoMantenimientos;
     private ArrayAdapter<String> adapterVehiculos;
+    private DetalleMantenimiento detalleEnEdicion;
 
     private EditText textFecha;
     private ImageView imgCalendar;
@@ -85,7 +91,7 @@ public class DetalleMantenimientoFragment extends Fragment {
 
             Bundle arguments = getArguments();
             if(arguments != null) {
-                Integer position = arguments.getInt("position");
+                position = arguments.getInt("position");
                 if(position != null) {
                     mantenimientos = recuperaDatosMantenimiento();
 
@@ -102,31 +108,31 @@ public class DetalleMantenimientoFragment extends Fragment {
                             listaVehiculos.add(marca + " " + dv.getModelo());
                         }
 
-                        DetalleMantenimiento dm = mantenimientos.get(position);
+                        detalleEnEdicion = mantenimientos.get(position);
+                        detalleEnEdicion.setPosicion(position);
 
                         String marcaymodelo = null;
                         for (DetalleVehiculo dv : misVehiculos) {
-                            if (dv.getIdVehiculo().equals(dm.getIdVehiculo())) {
+                            if (dv.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
                                 marcaymodelo = arrayMarcas.getString(dv.getMarca()) + " " + dv.getModelo();
                                 break;
                             }
                         }
 
-                        TextView tv1 = (TextView) rootView.findViewById(R.id.det_mant_textView1);
-                        tv1.setText(marcaymodelo);
-                        TextView tv2 = (TextView) rootView.findViewById(R.id.det_mant_textView3);
+                        TextView tv2 = (TextView) rootView.findViewById(R.id.det_mant_textView1);
                         DateFormat df = DateFormat.getDateInstance();
-                        tv2.setText(df.format(dm.getFecha()));
-                        TextView tv3 = (TextView) rootView.findViewById(R.id.det_mant_textView5);
-                        tv3.setText(dm.getKilometros().toString());
-                        TextView tv4 = (TextView) rootView.findViewById(R.id.det_mant_textView7);
-                        tv4.setText(dm.getPrecio().toString());
-                        TextView tv5 = (TextView) rootView.findViewById(R.id.det_mant_textView9);
-                        String mantenimientoSeleccionado = listaTiposMantenimientos.get(dm.getTipoMantenimiento());
+                        tv2.setText(df.format(detalleEnEdicion.getFecha()));
+                        TextView tv3 = (TextView) rootView.findViewById(R.id.det_mant_textView3);
+                        tv3.setText(detalleEnEdicion.getKilometros().toString());
+                        TextView tv4 = (TextView) rootView.findViewById(R.id.det_mant_textView5);
+                        tv4.setText(detalleEnEdicion.getPrecio().toString());
+                        TextView tv5 = (TextView) rootView.findViewById(R.id.det_mant_textView7);
+                        String mantenimientoSeleccionado = listaTiposMantenimientos.get(detalleEnEdicion.getTipoMantenimiento());
                         tv5.setText(mantenimientoSeleccionado);
-                        TextView tv6 = (TextView) rootView.findViewById(R.id.det_mant_textView11);
-                        tv6.setText(dm.getTaller());
+                        TextView tv6 = (TextView) rootView.findViewById(R.id.det_mant_textView9);
+                        tv6.setText(detalleEnEdicion.getTaller());
 
+                        /*
                         ImageView imgEditar = (ImageView) rootView.findViewById(R.id.imageView_editar);
                         imgEditar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -238,7 +244,7 @@ public class DetalleMantenimientoFragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                                     builder.setCancelable(true);
                                     builder.setTitle("Eliminar mantenimiento");
-                                    builder.setMessage("�Seguro que desea borrar este mantenimiento?");
+                                    builder.setMessage("¿Seguro que desea borrar este mantenimiento?");
                                     builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -260,6 +266,7 @@ public class DetalleMantenimientoFragment extends Fragment {
                                 }
                             }
                         });
+                        */
                     }
                 }
             }
@@ -270,9 +277,59 @@ public class DetalleMantenimientoFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
+        switch(item.getItemId()) {
+            case R.id.action_nuevo:
+                fragment = new NuevoMantenimientoFragment();
+                if(fragment != null) {
+                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                }
+                return true;
+
+            case R.id.action_editar:
+                if(mantenimientos != null) {
+                    detalleEnEdicion = mantenimientos.get(detalleEnEdicion.getPosicion());
+                    fragment = NuevoMantenimientoFragment.newInstance(detalleEnEdicion);
+                    if (fragment != null) {
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
+                    return true;
+                }else {
+                    return false;
+                }
+
+            case R.id.action_eliminar:
+                eliminarMantenimiento(detalleEnEdicion);
+                actualizaListaMantenimientos();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.detalle_mantenimiento, menu);
+
+        if(mantenimientos != null && mantenimientos.size() == 0) {
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+
+        }else {
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+        }
     }
 
     private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {

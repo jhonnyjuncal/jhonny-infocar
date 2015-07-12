@@ -11,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -83,27 +86,52 @@ public class DetalleAccidenteFragment extends Fragment {
 
                     if(accidentes != null) {
                         arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
-                        arrayMarcas.recycle();
 
-                        DetalleAccidente acc = accidentes.get(position);
+                        detalleEnEdicion = accidentes.get(position);
+                        detalleEnEdicion.setPosicion(position);
                         DetalleVehiculo dv = null;
                         for (DetalleVehiculo vehiculo : listaVehiculos) {
-                            if (vehiculo.getIdVehiculo().equals(acc.getIdVehiculo())) {
+                            if (vehiculo.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
                                 dv = vehiculo;
                                 break;
                             }
                         }
 
                         TextView textViewKms = (TextView) rootView.findViewById(R.id.det_acc_textView3);
-                        textViewKms.setText(acc.getKilometros().toString());
+                        textViewKms.setText(detalleEnEdicion.getKilometros().toString());
                         TextView textViewLugar = (TextView) rootView.findViewById(R.id.det_acc_textView5);
-                        textViewLugar.setText(acc.getLugar());
+                        textViewLugar.setText(detalleEnEdicion.getLugar());
                         TextView textViewMarca = (TextView) rootView.findViewById(R.id.det_acc_textView7);
-                        textViewMarca.setText(arrayMarcas.getString(dv.getMarca()));
+                        Integer numMarca = dv.getMarca();
+                        String marcaSeleccionada = arrayMarcas.getString(numMarca);
+                        arrayMarcas.recycle();
+                        textViewMarca.setText(marcaSeleccionada);
                         TextView textViewModelo = (TextView) rootView.findViewById(R.id.det_acc_textView9);
                         textViewModelo.setText(dv.getModelo());
                         TextView textViewObservaciones = (TextView) rootView.findViewById(R.id.det_acc_textView11);
-                        textViewObservaciones.setText(acc.getObservaciones());
+                        textViewObservaciones.setText(detalleEnEdicion.getObservaciones());
+
+                        /*
+                        Button btnEditar = (Button)rootView.findViewById(R.id.det_acc_button_edit);
+                        btnEditar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vista) {
+                                Fragment fragment = NuevoAccidenteFragment.newInstance(detalleEnEdicion, position);
+                                if(fragment != null) {
+                                    FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                                }
+                            }
+                        });
+
+                        Button btnEliminar = (Button)rootView.findViewById(R.id.det_acc_button_delete);
+                        btnEliminar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vista) {
+                                eliminarAccidente(detalleEnEdicion);
+                                actualizaListaAccidentes();
+                            }
+                        });
 
                         ImageView imgEditar = (ImageView) rootView.findViewById(R.id.imageView_editar);
                         imgEditar.setOnClickListener(new android.view.View.OnClickListener() {
@@ -209,7 +237,7 @@ public class DetalleAccidenteFragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                                     builder.setCancelable(true);
                                     builder.setTitle("Eliminar registro");
-                                    builder.setMessage("¿Seguro que desea borrar este accidente?");
+                                    builder.setMessage("Â¿Seguro que desea borrar este accidente?");
                                     builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -236,6 +264,7 @@ public class DetalleAccidenteFragment extends Fragment {
                                 }
                             }
                         });
+                        */
                     }
                 }
             }
@@ -249,6 +278,56 @@ public class DetalleAccidenteFragment extends Fragment {
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.detalle_accidente, menu);
+
+        if(accidentes != null && accidentes.size() == 0) {
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+
+        }else {
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
+        switch(item.getItemId()) {
+            case R.id.action_nuevo:
+                fragment = new NuevoMantenimientoFragment();
+                if(fragment != null) {
+                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                }
+                return true;
+
+            case R.id.action_editar:
+                if(accidentes != null) {
+                    detalleEnEdicion = accidentes.get(detalleEnEdicion.getPosicion());
+                    fragment = NuevoAccidenteFragment.newInstance(detalleEnEdicion);
+                    if (fragment != null) {
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
+                    return true;
+                }else {
+                    return false;
+                }
+
+            case R.id.action_eliminar:
+                eliminarAccidente(detalleEnEdicion);
+                actualizaListaAccidentes();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
@@ -271,29 +350,6 @@ public class DetalleAccidenteFragment extends Fragment {
             ex.printStackTrace();
         }
         return detalles;
-    }
-
-    private void guardaDatosDelAccidente(DetalleAccidente accidente) {
-        try {
-            boolean resultado = false;
-            AccidentesSQLiteHelper accidentesHelper = new AccidentesSQLiteHelper(myContext, Constantes.TABLA_ACCIDENTES, null, 1);
-            if(accidente.getIdDetalleAccidente() == null)
-                resultado = accidentesHelper.insertarAccidente(accidente);
-            else
-                resultado = accidentesHelper.actualizarAccidente(accidente);
-
-            String texto = new String();
-            if(resultado)
-                texto = "Datos guardados correctamente";
-            else
-                texto = "Error al guardar los datos";
-
-            actualizaListaAccidentes();
-            Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
-
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     private boolean eliminarAccidente(DetalleAccidente da) {

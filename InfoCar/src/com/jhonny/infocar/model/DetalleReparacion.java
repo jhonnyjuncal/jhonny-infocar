@@ -13,6 +13,7 @@ public class DetalleReparacion {
 	private String taller;
 	private String observaciones;
 	private Integer idVehiculo;
+	private Integer posicion;
 	
 	
 	public Integer getIdDetalleReparacion() {
@@ -77,5 +78,13 @@ public class DetalleReparacion {
 	
 	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
+	}
+
+	public Integer getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(Integer posicion) {
+		this.posicion = posicion;
 	}
 }

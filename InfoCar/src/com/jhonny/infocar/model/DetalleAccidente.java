@@ -11,6 +11,7 @@ public class DetalleAccidente {
 	private Double kilometros;
 	private String observaciones;
 	private Integer idVehiculo;
+	private Integer posicion;
 	
 	
 	public Integer getIdDetalleAccidente() {
@@ -59,5 +60,13 @@ public class DetalleAccidente {
 	
 	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
+	}
+
+	public Integer getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(Integer posicion) {
+		this.posicion = posicion;
 	}
 }

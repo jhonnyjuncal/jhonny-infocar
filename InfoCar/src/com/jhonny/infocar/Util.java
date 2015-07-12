@@ -1,5 +1,11 @@
 package com.jhonny.infocar;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
+import android.widget.ImageView;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,6 +41,38 @@ public class Util {
 		}
 		return fechaConvertida;
 	}
-	
-	
+
+	public static synchronized void cargaFondoDePantalla(FragmentActivity myContext) {
+		try {
+			SharedPreferences prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
+			int fondoSeleccionado = 1;
+			if(prop != null) {
+				SharedPreferences.Editor editor = prop.edit();
+				if(editor != null) {
+					if(prop.contains(Constantes.FONDO_PANTALLA)) {
+						fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
+					}
+				}
+			}
+
+			String imagen = Constantes.FONDO_1;
+			switch(fondoSeleccionado) {
+				case 1:
+					imagen = Constantes.FONDO_1;
+					break;
+				case 2:
+					imagen = Constantes.FONDO_2;
+					break;
+				case 3:
+					imagen = Constantes.FONDO_3;
+					break;
+			}
+			int imageResource1 = myContext.getApplicationContext().getResources().getIdentifier(imagen, "drawable", myContext.getApplicationContext().getPackageName());
+			Drawable image = myContext.getResources().getDrawable(imageResource1);
+			ImageView imageView = (ImageView)myContext.findViewById(R.id.fondo_principal);
+			imageView.setImageDrawable(image);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

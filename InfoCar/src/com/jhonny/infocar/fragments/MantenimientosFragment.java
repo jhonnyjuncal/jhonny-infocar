@@ -44,7 +44,6 @@ public class MantenimientosFragment extends Fragment {
 	}
 
 
-
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
@@ -81,7 +80,7 @@ public class MantenimientosFragment extends Fragment {
 		menu.clear();
 		inflater.inflate(R.menu.mantenimiento, menu);
 	}
-	
+
 	private ArrayList<DetalleMantenimiento> recuperaDatosMantenimiento() {
 		ArrayList<DetalleMantenimiento> detalles = new ArrayList<DetalleMantenimiento>();
 		try {
@@ -150,15 +149,6 @@ public class MantenimientosFragment extends Fragment {
 					FragmentManager fragmentManager = myContext.getSupportFragmentManager();
 					fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 				}
-				return true;
-
-			case R.id.action_ordenar:
-				return true;
-
-			case R.id.action_borrar_todo:
-				return true;
-
-			case R.id.action_ayuda:
 				return true;
 
 			default:

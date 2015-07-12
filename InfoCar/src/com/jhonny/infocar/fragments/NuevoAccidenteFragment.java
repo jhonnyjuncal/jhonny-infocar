@@ -18,6 +18,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,12 +51,47 @@ public class NuevoAccidenteFragment extends Fragment {
 	private AccidentesSQLiteHelper accidentesHelper;
 	private SQLiteDatabase baseDatos;
 	private ArrayList<DetalleVehiculo> listaVehiculos;
-	
+	private DetalleAccidente detalleEnEdicion = null;
+
+
+	public NuevoAccidenteFragment() {
+
+	}
+
+	public static NuevoAccidenteFragment newInstance(DetalleAccidente da) {
+		Bundle args = new Bundle();
+		args.putInt("IdDetalleAccidente", da.getIdDetalleAccidente());
+		args.putString("Fecha", Util.convierteDateEnString(da.getFecha()));
+		args.putString("Lugar", da.getLugar());
+		args.putDouble("Kilometros", da.getKilometros());
+		args.putString("Observaciones", da.getObservaciones());
+		args.putInt("IdVehiculo", da.getIdVehiculo());
+		args.putInt("position", da.getPosicion());
+
+		NuevoAccidenteFragment frag = new NuevoAccidenteFragment();
+		frag.setArguments(args);
+		return frag;
+	}
+
+
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
+
 		try {
+			Bundle arguments = getArguments();
+			if(arguments != null) {
+				detalleEnEdicion = new DetalleAccidente();
+				detalleEnEdicion.setIdDetalleAccidente(arguments.getInt("IdDetalleAccidente"));
+				detalleEnEdicion.setFecha(Util.convierteStringEnDate(arguments.getString("Fecha")));
+				detalleEnEdicion.setLugar(arguments.getString("Lugar"));
+				detalleEnEdicion.setKilometros(arguments.getDouble("Kilometros"));
+				detalleEnEdicion.setObservaciones(arguments.getString("Observaciones"));
+				detalleEnEdicion.setIdVehiculo(arguments.getInt("IdVehiculo"));
+				detalleEnEdicion.setPosicion(arguments.getInt("position"));
+			}
+
 			rootView = inflater.inflate(R.layout.fragment_nuevo_accidente, container, false);
 			editFecha = (EditText)rootView.findViewById(R.id.nue_acc_edit_fecha);
 			editKilometros = (EditText)rootView.findViewById(R.id.nue_acc_edit_kms);
@@ -69,7 +107,7 @@ public class NuevoAccidenteFragment extends Fragment {
 					int year = c.get(Calendar.YEAR);
 					int month = c.get(Calendar.MONTH);
 					int day = c.get(Calendar.DAY_OF_MONTH);
-					
+
 					DatePickerDialog dp = new DatePickerDialog(rootView.getContext(), new OnDateSetListener() {
 						@Override
 						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -86,72 +124,55 @@ public class NuevoAccidenteFragment extends Fragment {
 				vehiculos.add(dv.getModelo());
 			ArrayAdapter<String> adapterVehiculo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, vehiculos);
 			spinnerVehiculo.setAdapter(adapterVehiculo);
-			/*
-			spinnerVehiculo.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					
-				}
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					
-				}
-			});
-			*/
-			btnGuardar = (Button)rootView.findViewById(R.id.nue_acc_boton_guardar);
-			btnGuardar.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					DetalleAccidente da = new DetalleAccidente();
-					da.setIdDetalleAccidente(null);
-					da.setFecha(Util.convierteStringEnDate(editFecha.getText().toString()));
-					String kms = editKilometros.getText().toString();
-					if(kms != null && kms.length() > 0)
-						da.setKilometros(Double.valueOf(kms));
-					da.setLugar(editLugar.getText().toString());
-					da.setObservaciones(editObservaciones.getText().toString());
-					
-					int seleccionado = spinnerVehiculo.getSelectedItemPosition() - 1;
-					DetalleVehiculo dv = null;
-					if(seleccionado >= 0) {
-						dv = listaVehiculos.get(seleccionado);
-						da.setIdVehiculo(dv.getIdVehiculo());
-					}
-					
-					if(compruebacionDatos(da)) {
-						AccidentesSQLiteHelper accidentesHelper = new AccidentesSQLiteHelper(myContext, Constantes.TABLA_ACCIDENTES, null, 1);
-						boolean resultado = accidentesHelper.insertarAccidente(da);
 
-						String texto = null;
-						if(resultado)
-							texto = "Datos guardados correctamente";
-						else
-							texto = "Error al guardar los datos";
-						Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
+			if(detalleEnEdicion != null) {
+				editFecha.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
+				editKilometros.setText(detalleEnEdicion.getKilometros().toString());
+				editLugar.setText(detalleEnEdicion.getLugar());
+				editObservaciones.setText(detalleEnEdicion.getObservaciones());
+				spinnerVehiculo.setSelection(detalleEnEdicion.getIdVehiculo());
+			}
 
-                        actualizaListaAccidentes();
-					}
-				}
-			});
-			
-			btnCancelar = (Button)rootView.findViewById(R.id.nue_acc_boton_cancelar);
-			btnCancelar.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-                    actualizaListaAccidentes();
-				}
-			});
-			
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return rootView;
+	}
+
+	private void guardaDatosDelAccidente(DetalleAccidente accidente) {
+		try {
+			boolean resultado = false;
+			AccidentesSQLiteHelper accidentesHelper = new AccidentesSQLiteHelper(myContext, Constantes.TABLA_ACCIDENTES, null, 1);
+			if(accidente.getIdDetalleAccidente() == null)
+				resultado = accidentesHelper.insertarAccidente(accidente);
+			else
+				resultado = accidentesHelper.actualizarAccidente(accidente);
+
+			String texto = new String();
+			if(resultado)
+				texto = "Datos guardados correctamente";
+			else
+				texto = "Error al guardar los datos";
+			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
+
+			if(resultado)
+				actualizaListaAccidentes();
+
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
 		super.onAttach(activity);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.nuevo_accidente, menu);
 	}
 	
 	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
@@ -186,9 +207,54 @@ public class NuevoAccidenteFragment extends Fragment {
 		return resp;
 	}
 
-    private void actualizaListaAccidentes() {
-        Fragment fragment = new AccidentesFragment();
-        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Fragment fragment = null;
+
+		switch(item.getItemId()) {
+			case R.id.action_guardar:
+				DetalleAccidente da = null;
+
+				if(detalleEnEdicion != null) {
+					da = detalleEnEdicion;
+
+				}else {
+					da = new DetalleAccidente();
+					da.setIdDetalleAccidente(null);
+					da.setFecha(Util.convierteStringEnDate(editFecha.getText().toString()));
+					String kms = editKilometros.getText().toString();
+					if (kms != null && kms.length() > 0)
+						da.setKilometros(Double.valueOf(kms));
+					da.setLugar(editLugar.getText().toString());
+					da.setObservaciones(editObservaciones.getText().toString());
+
+					int seleccionado = spinnerVehiculo.getSelectedItemPosition() - 1;
+					DetalleVehiculo dv = null;
+					if (seleccionado >= 0) {
+						dv = listaVehiculos.get(seleccionado);
+						da.setIdVehiculo(dv.getIdVehiculo());
+					}
+				}
+
+				if(compruebacionDatos(da)) {
+					guardaDatosDelAccidente(da);
+				}
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		Util.cargaFondoDePantalla(myContext);
+	}
+
+	private void actualizaListaAccidentes() {
+		Fragment fragment = new AccidentesFragment();
+		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+	}
 }

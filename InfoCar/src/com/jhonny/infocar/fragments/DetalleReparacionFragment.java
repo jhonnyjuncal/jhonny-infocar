@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,8 +26,10 @@ import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleMantenimiento;
 import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
@@ -96,29 +101,30 @@ public class DetalleReparacionFragment extends Fragment {
                             listaVehiculos.add(marca + " " + dv.getModelo());
                         }
 
-                        DetalleReparacion dr = reparaciones.get(position);
+                        detalleEnEdicion = reparaciones.get(position);
+                        detalleEnEdicion.setPosicion(position);
 
                         String marcaymodelo = null;
                         for (DetalleVehiculo dv : misVehiculos) {
-                            if (dv.getIdVehiculo().equals(dr.getIdVehiculo())) {
+                            if (dv.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
                                 marcaymodelo = arrayMarcas.getString(dv.getMarca()) + " " + dv.getModelo();
                                 break;
                             }
                         }
-                        TextView tv1 = (TextView) rootView.findViewById(R.id.det_rep_textView1);
-                        tv1.setText(marcaymodelo);
-                        TextView tv2 = (TextView) rootView.findViewById(R.id.det_rep_textView3);
-                        tv2.setText(Util.convierteDateEnString(dr.getFecha()));
-                        TextView tv3 = (TextView) rootView.findViewById(R.id.det_rep_textView5);
-                        tv3.setText(dr.getKilometros().toString());
-                        TextView tv4 = (TextView) rootView.findViewById(R.id.det_rep_textView7);
-                        tv4.setText(dr.getPrecio().toString());
-                        TextView tv5 = (TextView) rootView.findViewById(R.id.det_rep_textView9);
-                        String tipoReparacionSeleccionada = listaReparaciones.get(dr.getIdTipoReparacion());
-                        tv5.setText(tipoReparacionSeleccionada);
-                        TextView tv6 = (TextView) rootView.findViewById(R.id.det_rep_textView11);
-                        tv6.setText(dr.getTaller());
 
+                        TextView tv2 = (TextView)rootView.findViewById(R.id.det_rep_textView2);
+                        tv2.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
+                        TextView tv3 = (TextView)rootView.findViewById(R.id.det_rep_textView4);
+                        tv3.setText(detalleEnEdicion.getKilometros().toString());
+                        TextView tv4 = (TextView)rootView.findViewById(R.id.det_rep_textView6);
+                        tv4.setText(detalleEnEdicion.getPrecio().toString());
+                        TextView tv5 = (TextView)rootView.findViewById(R.id.det_rep_textView8);
+                        String tipoReparacionSeleccionada = listaReparaciones.get(detalleEnEdicion.getIdTipoReparacion());
+                        tv5.setText(tipoReparacionSeleccionada);
+                        TextView tv6 = (TextView)rootView.findViewById(R.id.det_rep_textView10);
+                        tv6.setText(detalleEnEdicion.getTaller());
+
+                        /*
                         ImageView imgEditar = (ImageView) rootView.findViewById(R.id.imageView_editar);
                         imgEditar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -202,8 +208,8 @@ public class DetalleReparacionFragment extends Fragment {
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                                     builder.setCancelable(true);
-                                    builder.setTitle("Eliminar reparaci�n");
-                                    builder.setMessage("�Seguro que desea borrar esta reparaci�n?");
+                                    builder.setTitle("Eliminar reparación");
+                                    builder.setMessage("¿Seguro que desea borrar esta reparación?");
                                     builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -213,9 +219,9 @@ public class DetalleReparacionFragment extends Fragment {
 
                                                 String texto = "";
                                                 if (resultado) {
-                                                    texto = "La reparaci�n ha sido borrada con exito";
+                                                    texto = "La reparación ha sido borrada con exito";
                                                 } else {
-                                                    texto = "Ha ocurrido un error al intentar eliminar los datos de la reparaci�n";
+                                                    texto = "Ha ocurrido un error al intentar eliminar los datos de la reparación";
                                                 }
                                                 Toast.makeText(myContext, texto, Toast.LENGTH_SHORT).show();
                                                 actualizaListaReparaciones();
@@ -238,6 +244,7 @@ public class DetalleReparacionFragment extends Fragment {
                                 }
                             }
                         });
+                        */
                     }
                 }
             }
@@ -251,6 +258,56 @@ public class DetalleReparacionFragment extends Fragment {
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.detalle_reparacion, menu);
+
+        if(reparaciones != null && reparaciones.size() == 0) {
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+
+        }else {
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
+        switch(item.getItemId()) {
+            case R.id.action_nuevo:
+                fragment = new NuevaReparacionFragment();
+                if(fragment != null) {
+                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                }
+                return true;
+
+            case R.id.action_editar:
+                if(reparaciones != null) {
+                    detalleEnEdicion = reparaciones.get(detalleEnEdicion.getPosicion());
+                    fragment = NuevaReparacionFragment.newInstance(detalleEnEdicion);
+                    if (fragment != null) {
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
+                    return true;
+                }else {
+                    return false;
+                }
+
+            case R.id.action_eliminar:
+                eliminarReparacion(detalleEnEdicion);
+                actualizaListaReparaciones();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private ArrayList<DetalleReparacion> recuperaDatosReparaciones() {
@@ -279,5 +336,10 @@ public class DetalleReparacionFragment extends Fragment {
         Fragment fragment = new ReparacionesFragment();
         FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
+
+    private boolean eliminarReparacion(DetalleReparacion dr) {
+        ReparacionesSQLiteHelper repHelper = new ReparacionesSQLiteHelper(myContext, Constantes.TABLA_REPARACIONES, null, 1);
+        return repHelper.borrarReparacion(dr);
     }
 }

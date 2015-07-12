@@ -2,9 +2,13 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleMantenimiento;
+import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
@@ -21,6 +25,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,6 +42,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	
 	private View rootView = null;
 	private boolean mostrarBotonDespues = false;
+	private DetalleVehiculo detalleEnEdicion;
 	
 	private Spinner spinnerMarcas = null;
 	private EditText editModelo = null;
@@ -66,6 +72,24 @@ public class NuevoVehiculoFragment extends Fragment {
         }
         return f;
     }
+
+	public static NuevoVehiculoFragment newInstance(DetalleVehiculo dv) {
+		Bundle args = new Bundle();
+		args.putInt("IdVehiculo", dv.getIdVehiculo());
+		args.putInt("Marca", dv.getMarca());
+		args.putString("Modelo", dv.getModelo());
+		args.putDouble("Kilometros", dv.getKilometros());
+		args.putString("FechaCompra", Util.convierteDateEnString(dv.getFechaCompra()));
+		args.putString("Matricula", dv.getMatricula());
+		args.putInt("TipoVehiculo", dv.getTipoVehiculo());
+		args.putInt("TipoCarburante", dv.getTipoCarburante());
+		//args.putInt("IdSeguro", dv.getIdSeguro());
+		//args.putInt("IdItv", dv.getIdItv());
+
+		NuevoVehiculoFragment frag = new NuevoVehiculoFragment();
+		frag.setArguments(args);
+		return frag;
+	}
 	
 	public NuevoVehiculoFragment() {
 		
@@ -82,7 +106,29 @@ public class NuevoVehiculoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		try {
+			Bundle arguments = getArguments();
+			if(arguments != null) {
+				if(arguments.containsKey("IdVehiculo") && arguments.containsKey("Marca") && arguments.containsKey("Modelo")) {
+					detalleEnEdicion = new DetalleVehiculo();
+					detalleEnEdicion.setIdVehiculo(arguments.getInt("IdVehiculo"));
+					detalleEnEdicion.setMarca(arguments.getInt("Marca"));
+					detalleEnEdicion.setModelo(arguments.getString("Modelo"));
+					detalleEnEdicion.setKilometros(arguments.getDouble("Kilometros"));
+					detalleEnEdicion.setFechaCompra(Util.convierteStringEnDate(arguments.getString("FechaCompra")));
+					detalleEnEdicion.setMatricula(arguments.getString("Matricula"));
+					detalleEnEdicion.setTipoVehiculo(arguments.getInt("TipoVehiculo"));
+					detalleEnEdicion.setTipoCarburante(arguments.getInt("TipoCarburante"));
+					//detalleEnEdicion.setIdSeguro(arguments.getInt("IdSeguro"));
+					//detalleEnEdicion.setIdItv(arguments.getInt("IdItv"));
+
+				}else if(arguments.containsKey("mostrarBotonDespues")) {
+					Bundle bundle = getArguments();
+					mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
+				}
+			}
+
 			rootView = inflater.inflate(R.layout.fragment_nuevo_vehiculo, container, false);
+
 			spinnerMarcas = (Spinner)rootView.findViewById(R.id.nue_veh_spinner1);
 			editModelo = (EditText)rootView.findViewById(R.id.nue_veh_editText1);
 			editKms = (EditText)rootView.findViewById(R.id.nue_veh_editText2);
@@ -108,11 +154,6 @@ public class NuevoVehiculoFragment extends Fragment {
 					dp.show();
 				}
 			});
-			
-			if(getArguments() != null) {
-				Bundle bundle = getArguments();
-				mostrarBotonDespues = bundle.getBoolean("mostrarBotonDespues");
-			}
 			
 			/** Spinner de marcas de vehiculos */
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
@@ -143,7 +184,7 @@ public class NuevoVehiculoFragment extends Fragment {
 			adapterCarburante = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaCarburantes);
 			spinnerCombustible.setAdapter(adapterCarburante);
 			
-			/** Boton guardar */
+			/*
 			Button botonGuardar = (Button)rootView.findViewById(R.id.btn_nuevo_veh);
 			botonGuardar.setOnClickListener(new OnClickListener() {
 				@Override
@@ -167,8 +208,8 @@ public class NuevoVehiculoFragment extends Fragment {
 					}
 				}
 			});
-			
-			/** Boton guardar despues */
+			*/
+
 			Button botonDespues = (Button)rootView.findViewById(R.id.btn_nuevo_despues);
 			if(mostrarBotonDespues) {
 				botonDespues.setOnClickListener(new OnClickListener() {
@@ -195,6 +236,17 @@ public class NuevoVehiculoFragment extends Fragment {
 			}else {
 				botonDespues.setVisibility(View.INVISIBLE);
 			}
+
+			if(detalleEnEdicion != null) {
+				spinnerMarcas.setSelection(detalleEnEdicion.getMarca());
+				editModelo.setText(detalleEnEdicion.getModelo());
+				editKms.setText(detalleEnEdicion.getKilometros().toString());
+				editFecha.setText(Util.convierteDateEnString(detalleEnEdicion.getFechaCompra()));
+				editMatricula.setText(detalleEnEdicion.getMatricula());
+				spinnerTipo.setSelection(detalleEnEdicion.getTipoVehiculo());
+				spinnerCombustible.setSelection(detalleEnEdicion.getTipoCarburante());
+			}
+
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -218,7 +270,7 @@ public class NuevoVehiculoFragment extends Fragment {
 				resultado = false;
 				mostrarTexto("Debe introducir el modelo del vehiculo");
 			}else if(dv.getKilometros() == null || dv.getKilometros() <= 0) {
-				mostrarTexto("Debe introducir los kil�metros del vehiculo");
+				mostrarTexto("Debe introducir los kilómetros del vehiculo");
 				resultado = false;
 			}else if(dv.getFechaCompra() == null) {
 				mostrarTexto("Debe introducir la fecha de compra del vehiculo");
@@ -277,6 +329,38 @@ public class NuevoVehiculoFragment extends Fragment {
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Fragment fragment = null;
+
+		switch(item.getItemId()) {
+			case R.id.action_guardar:
+				try {
+					if(detalleEnEdicion == null) {
+						detalleEnEdicion = new DetalleVehiculo();
+						detalleEnEdicion.setIdVehiculo(null);
+					}
+					detalleEnEdicion.setMarca(spinnerMarcas.getSelectedItemPosition());
+					detalleEnEdicion.setModelo(editModelo.getText().toString());
+					detalleEnEdicion.setKilometros(Double.valueOf(editKms.getText().toString()));
+					detalleEnEdicion.setFechaCompra(Util.convierteStringEnDate(editFecha.getText().toString()));
+					detalleEnEdicion.setMatricula(editMatricula.getText().toString());
+					detalleEnEdicion.setTipoVehiculo(spinnerTipo.getSelectedItemPosition());
+					detalleEnEdicion.setTipoCarburante(spinnerCombustible.getSelectedItemPosition());
+
+					if(comprobacionDatos(detalleEnEdicion)) {
+						guardaDatosDelVehiculo(detalleEnEdicion);
+					}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 }

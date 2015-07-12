@@ -179,26 +179,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="20dp">
-
-            <Button
-                android:id="@+id/boton_mant_guardar"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Guardar" />
-
-            <Button
-                android:id="@+id/boton_mant_cancelar"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Cancelar" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout

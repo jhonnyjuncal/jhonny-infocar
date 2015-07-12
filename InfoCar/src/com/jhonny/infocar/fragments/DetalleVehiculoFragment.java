@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,7 +27,10 @@ import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
+import com.jhonny.infocar.model.DetalleMantenimiento;
+import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
 
@@ -37,6 +43,7 @@ public class DetalleVehiculoFragment extends Fragment {
     private View rootView = null;
     private FragmentActivity myContext;
     private Dialog editDialog;
+    private Integer position = null;
 
     private ArrayList<String> listaMarcas = new ArrayList<String>();
     private ArrayList<String> listaTiposVeh = new ArrayList<String>();
@@ -52,6 +59,7 @@ public class DetalleVehiculoFragment extends Fragment {
     private Spinner spinnerMarcas = null;
     private Spinner spinnerCarburantes = null;
     private Spinner spinnerTiposVeh = null;
+    private DetalleVehiculo detalleEnEdicion;
 
 
     public static DetalleVehiculoFragment newInstance(Bundle arguments) {
@@ -76,9 +84,10 @@ public class DetalleVehiculoFragment extends Fragment {
 
             Bundle arguments = getArguments();
             if(arguments != null) {
-                Integer position = arguments.getInt("position");
+                position = arguments.getInt("position");
                 if(position != null) {
                     vehiculos = recuperaDatosVehiculos();
+                    myContext.invalidateOptionsMenu();
 
                     if(vehiculos != null) {
                         arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
@@ -96,26 +105,28 @@ public class DetalleVehiculoFragment extends Fragment {
                         for (int i = 0; i < arrayCarburantes.length(); i++)
                             listaCarburantes.add(arrayCarburantes.getString(i));
 
-                        DetalleVehiculo dv = vehiculos.get(position);
+                        detalleEnEdicion = vehiculos.get(position);
+                        detalleEnEdicion.setPosicion(position);
 
-                        TextView tv1 = (TextView) rootView.findViewById(R.id.det_veh_textView1);
-                        tv1.setText(dv.getFechaCompra().toString());
-                        TextView tv2 = (TextView) rootView.findViewById(R.id.det_veh_textView3);
-                        String marcaVehiculo = listaMarcas.get(dv.getMarca());
-                        tv2.setText(marcaVehiculo);
-                        TextView tv3 = (TextView) rootView.findViewById(R.id.det_veh_textView5);
-                        tv3.setText(dv.getModelo());
-                        TextView tv4 = (TextView) rootView.findViewById(R.id.det_veh_textView7);
-                        tv4.setText(dv.getFechaCompra().toString());
-                        TextView tv5 = (TextView) rootView.findViewById(R.id.det_veh_textView9);
-                        String tipoVehiculo = listaTiposVeh.get(dv.getTipoVehiculo());
+                        TextView tv1 = (TextView)rootView.findViewById(R.id.det_veh_textView2);
+                        String marcaVehiculo = listaMarcas.get(detalleEnEdicion.getMarca());
+                        tv1.setText(marcaVehiculo);
+                        TextView tv2 = (TextView)rootView.findViewById(R.id.det_veh_textView4);
+                        tv2.setText(detalleEnEdicion.getModelo());
+                        TextView tv3 = (TextView)rootView.findViewById(R.id.det_veh_textView6);
+                        tv3.setText(detalleEnEdicion.getKilometros().toString());
+                        TextView tv4 = (TextView)rootView.findViewById(R.id.det_veh_textView8);
+                        tv4.setText(detalleEnEdicion.getFechaCompra().toString());
+                        TextView tv5 = (TextView)rootView.findViewById(R.id.det_veh_textView10);
+                        String tipoVehiculo = listaTiposVeh.get(detalleEnEdicion.getTipoVehiculo());
                         tv5.setText(tipoVehiculo);
-                        TextView tv6 = (TextView) rootView.findViewById(R.id.det_veh_textView11);
-                        tv6.setText(dv.getMatricula());
-                        TextView tv7 = (TextView) rootView.findViewById(R.id.det_veh_textView13);
-                        String tipoCarburante = listaCarburantes.get(dv.getTipoCarburante());
+                        TextView tv6 = (TextView)rootView.findViewById(R.id.det_veh_textView12);
+                        tv6.setText(detalleEnEdicion.getMatricula());
+                        TextView tv7 = (TextView)rootView.findViewById(R.id.det_veh_textView14);
+                        String tipoCarburante = listaCarburantes.get(detalleEnEdicion.getTipoCarburante());
                         tv7.setText(tipoCarburante);
 
+                        /*
                         ImageView imgItv = (ImageView) rootView.findViewById(R.id.imageView2);
                         imgItv.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -260,6 +271,7 @@ public class DetalleVehiculoFragment extends Fragment {
                                 }
                             }
                         });
+                        */
                     }
                 }
             }
@@ -276,6 +288,56 @@ public class DetalleVehiculoFragment extends Fragment {
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.detalle_vehiculo, menu);
+
+        if(vehiculos != null && vehiculos.size() == 0) {
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+
+        }else {
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
+        switch(item.getItemId()) {
+            case R.id.action_nuevo:
+                fragment = new NuevoVehiculoFragment();
+                if(fragment != null) {
+                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                }
+                return true;
+
+            case R.id.action_editar:
+                if(vehiculos != null) {
+                    detalleEnEdicion = vehiculos.get(detalleEnEdicion.getPosicion());
+                    fragment = NuevoVehiculoFragment.newInstance(detalleEnEdicion);
+                    if (fragment != null) {
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
+                    return true;
+                }else {
+                    return false;
+                }
+
+            case R.id.action_eliminar:
+                eliminarVehiculo(detalleEnEdicion);
+                actualizarListadoDeVehiculos();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
@@ -303,5 +365,10 @@ public class DetalleVehiculoFragment extends Fragment {
         Fragment fragment = new VehiculoFragment();
         FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+    }
+
+    private boolean eliminarVehiculo(DetalleVehiculo dv) {
+        VehiculosSQLiteHelper vehHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
+        return vehHelper.borrarVehiculo(dv);
     }
 }

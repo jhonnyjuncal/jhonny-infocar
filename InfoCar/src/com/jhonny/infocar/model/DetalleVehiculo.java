@@ -15,6 +15,7 @@ public class DetalleVehiculo {
 	private Integer tipoCarburante;
 	private Integer idSeguro;
 	private Integer idItv;
+	private Integer posicion;
 	
 	
 	public Integer getIdVehiculo() {
@@ -95,5 +96,13 @@ public class DetalleVehiculo {
 	
 	public void setIdItv(Integer idItv) {
 		this.idItv = idItv;
+	}
+
+	public Integer getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(Integer posicion) {
+		this.posicion = posicion;
 	}
 }
