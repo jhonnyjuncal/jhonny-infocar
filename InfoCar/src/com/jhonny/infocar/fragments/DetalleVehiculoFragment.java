@@ -43,7 +43,7 @@ public class DetalleVehiculoFragment extends Fragment {
     private View rootView = null;
     private FragmentActivity myContext;
     private Dialog editDialog;
-    private Integer position = null;
+    private static Integer positionEnLaLista = null;
 
     private ArrayList<String> listaMarcas = new ArrayList<String>();
     private ArrayList<String> listaTiposVeh = new ArrayList<String>();
@@ -65,6 +65,8 @@ public class DetalleVehiculoFragment extends Fragment {
     public static DetalleVehiculoFragment newInstance(Bundle arguments) {
         DetalleVehiculoFragment f = new DetalleVehiculoFragment();
         if(arguments != null){
+            Integer position = (Integer)arguments.get("position");
+            positionEnLaLista = position;
             f.setArguments(arguments);
         }
         return f;
@@ -84,7 +86,7 @@ public class DetalleVehiculoFragment extends Fragment {
 
             Bundle arguments = getArguments();
             if(arguments != null) {
-                position = arguments.getInt("position");
+                Integer position = arguments.getInt("position");
                 if(position != null) {
                     vehiculos = recuperaDatosVehiculos();
                     myContext.invalidateOptionsMenu();
@@ -311,16 +313,17 @@ public class DetalleVehiculoFragment extends Fragment {
         FragmentManager fragmentManager = myContext.getSupportFragmentManager();
 
         switch(item.getItemId()) {
-            case R.id.action_nuevo:
+            case R.id.menu_det_veh_nuevo:
                 fragment = new NuevoVehiculoFragment();
                 if(fragment != null) {
                     fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
-            case R.id.action_editar:
+            case R.id.menu_det_veh_editar:
                 if(vehiculos != null) {
-                    detalleEnEdicion = vehiculos.get(detalleEnEdicion.getPosicion());
+                    int actual = VehiculoFragment.paginadorVehiculos.getCurrentItem();
+                    detalleEnEdicion = vehiculos.get(actual);
                     fragment = NuevoVehiculoFragment.newInstance(detalleEnEdicion);
                     if (fragment != null) {
                         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
@@ -330,7 +333,7 @@ public class DetalleVehiculoFragment extends Fragment {
                     return false;
                 }
 
-            case R.id.action_eliminar:
+            case R.id.menu_det_veh_eliminar:
                 eliminarVehiculo(detalleEnEdicion);
                 actualizarListadoDeVehiculos();
                 return true;

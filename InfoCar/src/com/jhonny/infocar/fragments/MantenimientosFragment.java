@@ -36,7 +36,7 @@ public class MantenimientosFragment extends Fragment {
 	private ArrayList<DetalleMantenimientoFragment> listaDetalles;
 
 	private MyAdapter mAdapter;
-	private ViewPager mPager;
+	public static ViewPager paginadorMantenimientos;
 	
 	
 	public MantenimientosFragment() {
@@ -62,12 +62,12 @@ public class MantenimientosFragment extends Fragment {
 			}
 
 			mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
-			mPager = (ViewPager)rootView.findViewById(R.id.mant_pager);
-			mPager.setAdapter(mAdapter);
-			mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+			paginadorMantenimientos = (ViewPager)rootView.findViewById(R.id.mant_pager);
+			paginadorMantenimientos.setAdapter(mAdapter);
+			paginadorMantenimientos.setPageTransformer(true, new ZoomOutPageTransformer());
 
 			CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.mant_indicator);
-			cIndicator.setViewPager(mPager);
+			cIndicator.setViewPager(paginadorMantenimientos);
 
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -143,7 +143,7 @@ public class MantenimientosFragment extends Fragment {
 		Fragment fragment = null;
 
 		switch(item.getItemId()) {
-			case R.id.action_nuevo:
+			case R.id.menu_mant_nuevo:
 				fragment = new NuevoMantenimientoFragment();
 				if(fragment != null) {
 					FragmentManager fragmentManager = myContext.getSupportFragmentManager();

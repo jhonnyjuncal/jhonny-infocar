@@ -301,16 +301,17 @@ public class DetalleAccidenteFragment extends Fragment {
         FragmentManager fragmentManager = myContext.getSupportFragmentManager();
 
         switch(item.getItemId()) {
-            case R.id.action_nuevo:
+            case R.id.menu_det_acc_nuevo:
                 fragment = new NuevoMantenimientoFragment();
                 if(fragment != null) {
                     fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
-            case R.id.action_editar:
+            case R.id.menu_det_acc_editar:
                 if(accidentes != null) {
-                    detalleEnEdicion = accidentes.get(detalleEnEdicion.getPosicion());
+                    int actual = AccidentesFragment.paginadorAccidentes.getCurrentItem();
+                    detalleEnEdicion = accidentes.get(actual);
                     fragment = NuevoAccidenteFragment.newInstance(detalleEnEdicion);
                     if (fragment != null) {
                         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
@@ -320,7 +321,7 @@ public class DetalleAccidenteFragment extends Fragment {
                     return false;
                 }
 
-            case R.id.action_eliminar:
+            case R.id.menu_det_acc_eliminar:
                 eliminarAccidente(detalleEnEdicion);
                 actualizaListaAccidentes();
                 return true;

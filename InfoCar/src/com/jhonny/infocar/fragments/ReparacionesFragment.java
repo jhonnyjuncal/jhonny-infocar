@@ -69,7 +69,7 @@ public class ReparacionesFragment extends Fragment {
 	private EditText textObservaciones;
 
 	private MyAdapter mAdapter;
-	private ViewPager mPager;
+	public static ViewPager paginadorReparaciones;
 	
 	
 	public ReparacionesFragment() {
@@ -96,12 +96,12 @@ public class ReparacionesFragment extends Fragment {
 			}
 
 			mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
-			mPager = (ViewPager)rootView.findViewById(R.id.rep_pager);
-			mPager.setAdapter(mAdapter);
-			mPager.setPageTransformer(true, new DepthPageTransformer());
+			paginadorReparaciones = (ViewPager)rootView.findViewById(R.id.rep_pager);
+			paginadorReparaciones.setAdapter(mAdapter);
+			paginadorReparaciones.setPageTransformer(true, new DepthPageTransformer());
 
 			CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.rep_indicator);
-			cIndicator.setViewPager(mPager);
+			cIndicator.setViewPager(paginadorReparaciones);
 
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -194,7 +194,7 @@ public class ReparacionesFragment extends Fragment {
 		Fragment fragment = null;
 
 		switch(item.getItemId()) {
-			case R.id.action_nuevo:
+			case R.id.menu_rep_nuevo:
 				fragment = new NuevaReparacionFragment();
 				if(fragment != null) {
 					FragmentManager fragmentManager = myContext.getSupportFragmentManager();

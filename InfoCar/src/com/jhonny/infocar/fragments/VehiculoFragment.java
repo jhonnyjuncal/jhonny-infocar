@@ -9,7 +9,6 @@ import com.jhonny.infocar.animations.ZoomOutPageTransformer;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import com.viewpagerindicator.CirclePageIndicator;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -67,7 +66,7 @@ public class VehiculoFragment extends Fragment {
 	private ArrayList<String> listaCarburantes = new ArrayList<String>();
 
 	private MyAdapter mAdapter;
-	private ViewPager mPager;
+	public static ViewPager paginadorVehiculos;
 
 	
 	public VehiculoFragment() {
@@ -93,12 +92,12 @@ public class VehiculoFragment extends Fragment {
 			}
 
 			mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
-			mPager = (ViewPager)rootView.findViewById(R.id.veh_pager);
-			mPager.setAdapter(mAdapter);
-			mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+			paginadorVehiculos = (ViewPager)rootView.findViewById(R.id.veh_pager);
+			paginadorVehiculos.setAdapter(mAdapter);
+			paginadorVehiculos.setPageTransformer(true, new ZoomOutPageTransformer());
 
 			CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.veh_indicator);
-			cIndicator.setViewPager(mPager);
+			cIndicator.setViewPager(paginadorVehiculos);
 
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -192,7 +191,7 @@ public class VehiculoFragment extends Fragment {
 		Fragment fragment = null;
 
 		switch(item.getItemId()) {
-			case R.id.action_nuevo:
+			case R.id.menu_veh_nuevo:
 				fragment = new NuevoVehiculoFragment();
 				if(fragment != null) {
 					FragmentManager fragmentManager = myContext.getSupportFragmentManager();

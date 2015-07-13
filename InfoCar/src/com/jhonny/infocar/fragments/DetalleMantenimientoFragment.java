@@ -282,16 +282,17 @@ public class DetalleMantenimientoFragment extends Fragment {
         FragmentManager fragmentManager = myContext.getSupportFragmentManager();
 
         switch(item.getItemId()) {
-            case R.id.action_nuevo:
+            case R.id.menu_det_mant_nuevo:
                 fragment = new NuevoMantenimientoFragment();
                 if(fragment != null) {
                     fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
-            case R.id.action_editar:
+            case R.id.menu_det_mant_editar:
                 if(mantenimientos != null) {
-                    detalleEnEdicion = mantenimientos.get(detalleEnEdicion.getPosicion());
+                    int actual = MantenimientosFragment.paginadorMantenimientos.getCurrentItem();
+                    detalleEnEdicion = mantenimientos.get(actual);
                     fragment = NuevoMantenimientoFragment.newInstance(detalleEnEdicion);
                     if (fragment != null) {
                         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
@@ -301,7 +302,7 @@ public class DetalleMantenimientoFragment extends Fragment {
                     return false;
                 }
 
-            case R.id.action_eliminar:
+            case R.id.menu_det_mant_eliminar:
                 eliminarMantenimiento(detalleEnEdicion);
                 actualizaListaMantenimientos();
                 return true;

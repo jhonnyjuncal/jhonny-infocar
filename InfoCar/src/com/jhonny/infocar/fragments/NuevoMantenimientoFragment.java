@@ -114,7 +114,8 @@ public class NuevoMantenimientoFragment extends Fragment {
 			spinnerTipo = (Spinner)rootView.findViewById(R.id.spinner_mant_tipo);
 			ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposMantenimientos);
 			spinnerTipo.setAdapter(adapterTipo);
-			
+
+			listaVehiculos.add("Seleccione un vehiculo");
 			vehiculos = recuperaDatosVehiculos();
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 			for(DetalleVehiculo vehiculo : vehiculos) {

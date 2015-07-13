@@ -41,7 +41,7 @@ public class AccidentesFragment extends Fragment {
 
 
     private MyAdapter mAdapter;
-    private ViewPager mPager;
+    public static ViewPager paginadorAccidentes;
 
 	
 	public AccidentesFragment() {
@@ -66,12 +66,12 @@ public class AccidentesFragment extends Fragment {
             }
 
             mAdapter = new MyAdapter(getFragmentManager(), listaDetalles);
-            mPager = (ViewPager)rootView.findViewById(R.id.acc_pager);
-            mPager.setAdapter(mAdapter);
-            mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+            paginadorAccidentes = (ViewPager)rootView.findViewById(R.id.acc_pager);
+            paginadorAccidentes.setAdapter(mAdapter);
+            paginadorAccidentes.setPageTransformer(true, new ZoomOutPageTransformer());
 
             CirclePageIndicator cIndicator = (CirclePageIndicator)rootView.findViewById(R.id.acc_indicator);
-            cIndicator.setViewPager(mPager);
+            cIndicator.setViewPager(paginadorAccidentes);
 
         }catch(Exception ex) {
             ex.printStackTrace();
@@ -158,7 +158,7 @@ public class AccidentesFragment extends Fragment {
         Fragment fragment = null;
 
         switch(item.getItemId()) {
-            case R.id.action_nuevo:
+            case R.id.menu_acc_nuevo:
                 fragment = new NuevoAccidenteFragment();
                 if(fragment != null) {
                 FragmentManager fragmentManager = myContext.getSupportFragmentManager();

@@ -110,7 +110,7 @@ public class NuevaReparacionFragment extends Fragment {
 			spinnerTipo = (Spinner)rootView.findViewById(R.id.nue_rep_spinner_tipo);
 			ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposReparacion);
 			spinnerTipo.setAdapter(adapterTipo);
-			
+
 			vehiculos = recuperaDatosVehiculos();
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 			arrayMarcas.recycle();
@@ -178,7 +178,7 @@ public class NuevaReparacionFragment extends Fragment {
 				editTaller.setText(detalleEnEdicion.getTaller());
 				editObservaciones.setText(detalleEnEdicion.getObservaciones());
 				spinnerTipo.setSelection(detalleEnEdicion.getIdTipoReparacion());
-				spinnerVehiculo.setSelection(detalleEnEdicion.getIdTipoReparacion());
+				spinnerVehiculo.setSelection(detalleEnEdicion.getIdVehiculo());
 			}
 			
 		}catch(Exception ex) {
