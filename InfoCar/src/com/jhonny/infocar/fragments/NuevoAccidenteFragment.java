@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -250,6 +251,19 @@ public class NuevoAccidenteFragment extends Fragment {
 	public void onResume(){
 		super.onResume();
 		Util.cargaFondoDePantalla(myContext);
+
+		getView().setFocusableInTouchMode(true);
+		getView().requestFocus();
+		getView().setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+					actualizaListaAccidentes();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	private void actualizaListaAccidentes() {

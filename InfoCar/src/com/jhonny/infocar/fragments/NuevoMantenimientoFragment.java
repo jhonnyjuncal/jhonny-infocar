@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +44,7 @@ import android.widget.Toast;
 public class NuevoMantenimientoFragment extends Fragment {
 	
 	private View rootView;
-	private Context myContext;
+	private FragmentActivity myContext;
 	private DetalleMantenimiento detalleEnEdicion;
 	
 	private EditText editFecha;
@@ -272,7 +273,7 @@ public class NuevoMantenimientoFragment extends Fragment {
 					detalleEnEdicion.setTaller(editTaller.getText().toString());
 					detalleEnEdicion.setObservaciones(editObservaciones.getText().toString());
 					detalleEnEdicion.setTipoMantenimiento(spinnerTipo.getSelectedItemPosition());
-					detalleEnEdicion.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()).getIdVehiculo());
+					detalleEnEdicion.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()-1).getIdVehiculo());
 
 					if(comprobacionDatosMantenimiento(detalleEnEdicion)) {
 						MantenimientosSQLiteHelper mantHelper = new MantenimientosSQLiteHelper(myContext, Constantes.TABLA_MANTENIMIENTOS, null, 1);
@@ -300,5 +301,24 @@ public class NuevoMantenimientoFragment extends Fragment {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Util.cargaFondoDePantalla(myContext);
+
+		getView().setFocusableInTouchMode(true);
+		getView().requestFocus();
+		getView().setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+					actualizarListadoDeMantenimientos();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 }

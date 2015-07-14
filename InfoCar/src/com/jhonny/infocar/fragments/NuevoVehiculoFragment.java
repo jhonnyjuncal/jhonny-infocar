@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -362,5 +363,30 @@ public class NuevoVehiculoFragment extends Fragment {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Util.cargaFondoDePantalla(myContext);
+
+		getView().setFocusableInTouchMode(true);
+		getView().requestFocus();
+		getView().setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+					actualizaListaDeVehiculos();
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	private void actualizaListaDeVehiculos() {
+		Fragment fragment = new VehiculoFragment();
+		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 	}
 }

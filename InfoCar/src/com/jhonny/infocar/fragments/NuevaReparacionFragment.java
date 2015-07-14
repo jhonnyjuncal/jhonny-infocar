@@ -8,22 +8,27 @@ import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleAccidente;
+import com.jhonny.infocar.model.DetalleMantenimiento;
 import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
+import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -114,6 +119,7 @@ public class NuevaReparacionFragment extends Fragment {
 			vehiculos = recuperaDatosVehiculos();
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 			arrayMarcas.recycle();
+			listaMisVehiculos.add("Seleccione un vehiculo");
 			for(DetalleVehiculo vehiculo : vehiculos) {
 				String marca = arrayMarcas.getString(vehiculo.getMarca());
 				listaMisVehiculos.add(marca + " " + vehiculo.getModelo());
@@ -121,7 +127,8 @@ public class NuevaReparacionFragment extends Fragment {
 			spinnerVehiculo = (Spinner)rootView.findViewById(R.id.nue_rep_spinner_vehiculo);
 			ArrayAdapter<String> adapterVehiculos = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaMisVehiculos);
 			spinnerVehiculo.setAdapter(adapterVehiculos);
-			
+
+			/*
 			botonGuardar = (Button)rootView.findViewById(R.id.nue_rep_boton_guardar);
 			botonGuardar.setOnClickListener(new OnClickListener() {
 				@Override
@@ -133,7 +140,7 @@ public class NuevaReparacionFragment extends Fragment {
 					dr.setPrecio(Double.valueOf(editPrecio.getText().toString()));
 					dr.setTaller(editTaller.getText().toString());
 					dr.setObservaciones(editObservaciones.getText().toString());
-					dr.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()).getIdVehiculo());
+					dr.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()-1).getIdVehiculo());
 					dr.setIdTipoReparacion(spinnerTipo.getSelectedItemPosition());
 					
 					if(comprobacionDatos(dr)) {
@@ -142,7 +149,9 @@ public class NuevaReparacionFragment extends Fragment {
 					}
 				}
 			});
-			
+			*/
+
+			/*
 			botonCancelar = (Button)rootView.findViewById(R.id.nue_rep_boton_cancelar);
 			botonCancelar.setOnClickListener(new OnClickListener() {
 				@Override
@@ -150,6 +159,7 @@ public class NuevaReparacionFragment extends Fragment {
                     actualizaListaReparaciones();
 				}
 			});
+			*/
 			
 			imagenCalendar = (ImageView)rootView.findViewById(R.id.nue_rep_imageView1);
 			imagenCalendar.setOnClickListener(new OnClickListener() {
@@ -180,7 +190,7 @@ public class NuevaReparacionFragment extends Fragment {
 				spinnerTipo.setSelection(detalleEnEdicion.getIdTipoReparacion());
 				spinnerVehiculo.setSelection(detalleEnEdicion.getIdVehiculo());
 			}
-			
+
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -248,4 +258,54 @@ public class NuevaReparacionFragment extends Fragment {
         FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
     }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Fragment fragment = null;
+
+		switch(item.getItemId()) {
+			case R.id.action_guardar:
+				try {
+					DetalleReparacion dr = new DetalleReparacion();
+					dr.setIdDetalleReparacion(null);
+					dr.setFecha(Util.convierteStringEnDate(editFecha.getText().toString()));
+					dr.setKilometros(Double.valueOf(editKms.getText().toString()));
+					dr.setPrecio(Double.valueOf(editPrecio.getText().toString()));
+					dr.setTaller(editTaller.getText().toString());
+					dr.setObservaciones(editObservaciones.getText().toString());
+					dr.setIdVehiculo(vehiculos.get(spinnerVehiculo.getSelectedItemPosition()-1).getIdVehiculo());
+					dr.setIdTipoReparacion(spinnerTipo.getSelectedItemPosition());
+
+					if(comprobacionDatos(dr)) {
+						guardaDatosDeLaReparacion(dr);
+						actualizaListaReparaciones();
+					}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Util.cargaFondoDePantalla(myContext);
+
+		getView().setFocusableInTouchMode(true);
+		getView().requestFocus();
+		getView().setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+					actualizaListaReparaciones();
+					return true;
+				}
+				return false;
+			}
+		});
+	}
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -284,7 +285,10 @@ public class DetalleReparacionFragment extends Fragment {
             case R.id.menu_det_rep_nuevo:
                 fragment = new NuevaReparacionFragment();
                 if(fragment != null) {
-                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
