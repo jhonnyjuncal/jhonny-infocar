@@ -77,9 +77,9 @@ public class PrincipalActivity extends FragmentActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1), true, "+50"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
+        //navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1), true, "+50"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(7, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(8, -1)));
         
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -241,16 +241,18 @@ public class PrincipalActivity extends FragmentActivity {
                     fragment = new DatosFragment();
                 }
     			break;
+            /*
     		case 6:
     			fragment = new EstadisticasFragment();
     			break;
-    		case 7:
+    		*/
+    		case 6:
     			fragment = new OpcionesFragment();
     			break;
-            case 8:
+            case 7:
                 fragment = new AcercaFragment();
                 break;
-    		case 9:
+    		case 8:
                 if(dPersonales == false) {
                     Bundle arguments2 = new Bundle();
                     arguments2.putBoolean("mostrarBotonDespues", true);

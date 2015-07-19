@@ -85,6 +85,7 @@ public class ReparacionesFragment extends Fragment {
 			rootView = inflater.inflate(R.layout.fragment_reparaciones, container, false);
 			myContext.invalidateOptionsMenu();
 			reparaciones = recuperaDatosReparaciones();
+			misVehiculos = recuperaDatosVehiculos();
 
 			if(reparaciones != null) {
 				listaDetalles = new ArrayList<DetalleReparacionFragment>();
@@ -195,16 +196,26 @@ public class ReparacionesFragment extends Fragment {
 
 		switch(item.getItemId()) {
 			case R.id.menu_rep_nuevo:
-				fragment = new NuevaReparacionFragment();
-				if(fragment != null) {
-					FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-					fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+				if(existeVehilo()) {
+					fragment = new NuevaReparacionFragment();
+					if(fragment != null) {
+						FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+						fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+					}
+				}else {
+					Toast.makeText(myContext, "Para crear una nueva reparación antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
 				}
 				return true;
 
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean existeVehilo() {
+		if(misVehiculos != null && misVehiculos.size() > 0)
+			return true;
+		return false;
 	}
 
 

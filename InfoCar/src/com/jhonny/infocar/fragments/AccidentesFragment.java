@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class AccidentesFragment extends Fragment {
@@ -55,6 +56,7 @@ public class AccidentesFragment extends Fragment {
         try {
             rootView = inflater.inflate(R.layout.fragment_accidentes, container, false);
             accidentes = recuperaDatosAccidentes();
+            listaVehiculos = recuperaDatosVehiculos();
 
             if(accidentes != null) {
                 listaDetalles = new ArrayList<DetalleAccidenteFragment>();
@@ -159,16 +161,26 @@ public class AccidentesFragment extends Fragment {
 
         switch(item.getItemId()) {
             case R.id.menu_acc_nuevo:
-                fragment = new NuevoAccidenteFragment();
-                if(fragment != null) {
-                FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-            }
+                if(existeVehilo()) {
+                    fragment = new NuevoAccidenteFragment();
+                    if(fragment != null) {
+                        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    }
+                }else {
+                    Toast.makeText(myContext, "Para crear un nuevo accidente antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
+                }
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean existeVehilo() {
+        if(listaVehiculos != null && listaVehiculos.size() > 0)
+            return true;
+        return false;
     }
 
 

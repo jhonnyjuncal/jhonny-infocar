@@ -92,9 +92,9 @@ public class DetalleReparacionFragment extends Fragment {
 
                     if(reparaciones != null && reparaciones.size() > 0) {
                         arrayTiposReparaciones = getResources().obtainTypedArray(R.array.TIPOS_REPARACIONES);
-                        arrayTiposReparaciones.recycle();
                         for(int i=0; i<arrayTiposReparaciones.length(); i++)
                             listaReparaciones.add(arrayTiposReparaciones.getString(i));
+                        arrayTiposReparaciones.recycle();
 
                         arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
                         for(DetalleVehiculo dv : misVehiculos) {
@@ -112,6 +112,7 @@ public class DetalleReparacionFragment extends Fragment {
                                 break;
                             }
                         }
+                        arrayMarcas.recycle();
 
                         TextView tv2 = (TextView)rootView.findViewById(R.id.det_rep_textView2);
                         tv2.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
@@ -285,7 +286,6 @@ public class DetalleReparacionFragment extends Fragment {
             case R.id.menu_det_rep_nuevo:
                 fragment = new NuevaReparacionFragment();
                 if(fragment != null) {
-
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.addToBackStack(null);
                     transaction.replace(R.id.container_principal, fragment).commit();
@@ -306,8 +306,37 @@ public class DetalleReparacionFragment extends Fragment {
                 }
 
             case R.id.menu_det_rep_eliminar:
-                eliminarReparacion(detalleEnEdicion);
-                actualizaListaReparaciones();
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setCancelable(true);
+                builder.setTitle("Eliminar reparación");
+                builder.setMessage("¿Seguro que desea borrar esta reparación?");
+                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            int actual = ReparacionesFragment.paginadorReparaciones.getCurrentItem();
+                            detalleEnEdicion = reparaciones.get(actual);
+                            if(eliminarReparacion(detalleEnEdicion)) {
+                                actualizaListaReparaciones();
+                                dialog.dismiss();
+                                Toast.makeText(myContext, "Reparación eliminada correctamente", Toast.LENGTH_SHORT).show();
+
+                            }else {
+                                Toast.makeText(myContext, "Ha ocurrido un error al eliminar la reparación", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
                 return true;
 
             default:

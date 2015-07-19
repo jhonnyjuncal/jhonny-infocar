@@ -7,6 +7,8 @@ import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
 import com.jhonny.infocar.model.DetalleDatos;
 import com.jhonny.infocar.sql.DatosSQLiteHelper;
+
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,6 +44,8 @@ public class DatosFragment extends Fragment {
     private LinearLayout linearSexoMujer = null;
 	private EditText editEmail = null;
 	private Boolean esHombre = null;
+	private TextView labelMujer = null;
+	private TextView labelHombre = null;
 	
 	private View rootView = null;
 	private FragmentActivity myContext;
@@ -84,6 +89,8 @@ public class DatosFragment extends Fragment {
 			linearSexoHombre = (LinearLayout)rootView.findViewById(R.id.linearLayout_hombre);
 			linearSexoMujer = (LinearLayout)rootView.findViewById(R.id.linearLayout_mujer);
 	        editEmail = (EditText)rootView.findViewById(R.id.datos_editText3);
+			labelHombre = (TextView)rootView.findViewById(R.id.textView34);
+			labelMujer = (TextView)rootView.findViewById(R.id.textView35);
 
 	        boolean mostrarBotonDespues = false;
 	        if(getArguments() != null) {
@@ -105,12 +112,20 @@ public class DatosFragment extends Fragment {
 	        	editTelefono.setText(datos.getTelefono());
 	        	spinnerEdades.setSelection(datos.getEdad() - 1);
                 if(datos.isHombre()) {
-					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.gris_claro));
+					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.azul_oscuro));
+					labelHombre.setTextColor(getResources().getColor(R.color.blanco));
+					labelHombre.setTypeface(null, Typeface.BOLD);
 					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.blanco));
+					labelMujer.setTextColor(getResources().getColor(R.color.negro));
+					labelMujer.setTypeface(null, Typeface.NORMAL);
 					esHombre = true;
                 }else {
 					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.blanco));
-					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.gris_claro));
+					labelHombre.setTextColor(getResources().getColor(R.color.negro));
+					labelHombre.setTypeface(null, Typeface.NORMAL);
+					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.azul_oscuro));
+					labelMujer.setTextColor(getResources().getColor(R.color.blanco));
+					labelMujer.setTypeface(null, Typeface.BOLD);
 					esHombre = false;
                 }
 	        	editEmail.setText(datos.getEmail());
@@ -119,8 +134,12 @@ public class DatosFragment extends Fragment {
 			linearSexoHombre.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.gris_claro));
+					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.azul_oscuro));
+					labelHombre.setTextColor(getResources().getColor(R.color.blanco));
+					labelHombre.setTypeface(null, Typeface.BOLD);
 					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.blanco));
+					labelMujer.setTextColor(getResources().getColor(R.color.negro));
+					labelMujer.setTypeface(null, Typeface.NORMAL);
 					esHombre = true;
 				}
 			});
@@ -129,7 +148,11 @@ public class DatosFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					linearSexoHombre.setBackgroundColor(getResources().getColor(R.color.blanco));
-					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.gris_claro));
+					labelHombre.setTextColor(getResources().getColor(R.color.negro));
+					labelHombre.setTypeface(null, Typeface.NORMAL);
+					linearSexoMujer.setBackgroundColor(getResources().getColor(R.color.azul_oscuro));
+					labelMujer.setTextColor(getResources().getColor(R.color.blanco));
+					labelMujer.setTypeface(null, Typeface.BOLD);
 					esHombre = false;
 				}
 			});

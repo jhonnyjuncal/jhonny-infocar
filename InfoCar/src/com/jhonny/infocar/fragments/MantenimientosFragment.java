@@ -5,7 +5,9 @@ import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.animations.ZoomOutPageTransformer;
 import com.jhonny.infocar.model.DetalleMantenimiento;
+import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
+import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import android.app.Activity;
@@ -25,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MantenimientosFragment extends Fragment {
@@ -34,6 +37,7 @@ public class MantenimientosFragment extends Fragment {
 	
 	private ArrayList<DetalleMantenimiento> mantenimientos;
 	private ArrayList<DetalleMantenimientoFragment> listaDetalles;
+	private ArrayList<DetalleVehiculo> misVehiculos = new ArrayList<DetalleVehiculo>();
 
 	private MyAdapter mAdapter;
 	public static ViewPager paginadorMantenimientos;
@@ -51,6 +55,7 @@ public class MantenimientosFragment extends Fragment {
 		try {
 			rootView = inflater.inflate(R.layout.fragment_mantenimiento, container, false);
 			mantenimientos = recuperaDatosMantenimiento();
+			misVehiculos = recuperaDatosVehiculos();
 
 			if(mantenimientos != null) {
 				listaDetalles = new ArrayList<DetalleMantenimientoFragment>();
@@ -144,16 +149,37 @@ public class MantenimientosFragment extends Fragment {
 
 		switch(item.getItemId()) {
 			case R.id.menu_mant_nuevo:
-				fragment = new NuevoMantenimientoFragment();
-				if(fragment != null) {
-					FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-					fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+				if(existeVehilo()) {
+					fragment = new NuevoMantenimientoFragment();
+					if(fragment != null) {
+						FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+						fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+					}
+				}else {
+					Toast.makeText(myContext, "Para crear un nuevo mantenimiento antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
 				}
 				return true;
 
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean existeVehilo() {
+		if(misVehiculos != null && misVehiculos.size() > 0)
+			return true;
+		return false;
+	}
+
+	private ArrayList<DetalleVehiculo> recuperaDatosVehiculos() {
+		ArrayList<DetalleVehiculo> lista = new ArrayList<DetalleVehiculo>();
+		try {
+			VehiculosSQLiteHelper vehiculosHelper = new VehiculosSQLiteHelper(myContext, Constantes.TABLA_VEHICULOS, null, 1);
+			lista.addAll(vehiculosHelper.getVehiculos());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return lista;
 	}
 
 

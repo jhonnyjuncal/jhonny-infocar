@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,13 +98,13 @@ public class DetalleMantenimientoFragment extends Fragment {
 
                     if(mantenimientos != null) {
                         arrayTiposMantenimientos = getResources().obtainTypedArray(R.array.TIPOS_MANTENIMIENTOS);
-                        arrayTiposMantenimientos.recycle();
-                        for (int i = 0; i < arrayTiposMantenimientos.length(); i++)
+                        for(int i = 0; i < arrayTiposMantenimientos.length(); i++)
                             listaTiposMantenimientos.add(arrayTiposMantenimientos.getString(i));
+                        arrayTiposMantenimientos.recycle();
 
                         arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
                         misVehiculos = recuperaDatosVehiculos();
-                        for (DetalleVehiculo dv : misVehiculos) {
+                        for(DetalleVehiculo dv : misVehiculos) {
                             String marca = arrayMarcas.getString(dv.getMarca());
                             listaVehiculos.add(marca + " " + dv.getModelo());
                         }
@@ -112,12 +113,13 @@ public class DetalleMantenimientoFragment extends Fragment {
                         detalleEnEdicion.setPosicion(position);
 
                         String marcaymodelo = null;
-                        for (DetalleVehiculo dv : misVehiculos) {
-                            if (dv.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
+                        for(DetalleVehiculo dv : misVehiculos) {
+                            if(dv.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
                                 marcaymodelo = arrayMarcas.getString(dv.getMarca()) + " " + dv.getModelo();
                                 break;
                             }
                         }
+                        arrayMarcas.recycle();
 
                         TextView tv2 = (TextView) rootView.findViewById(R.id.det_mant_textView1);
                         DateFormat df = DateFormat.getDateInstance();
@@ -285,7 +287,9 @@ public class DetalleMantenimientoFragment extends Fragment {
             case R.id.menu_det_mant_nuevo:
                 fragment = new NuevoMantenimientoFragment();
                 if(fragment != null) {
-                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
@@ -303,8 +307,32 @@ public class DetalleMantenimientoFragment extends Fragment {
                 }
 
             case R.id.menu_det_mant_eliminar:
-                eliminarMantenimiento(detalleEnEdicion);
-                actualizaListaMantenimientos();
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setCancelable(true);
+                builder.setTitle("Eliminar mantenimiento");
+                builder.setMessage("¿Seguro que desea borrar este mantenimiento?");
+                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int actual = MantenimientosFragment.paginadorMantenimientos.getCurrentItem();
+                        detalleEnEdicion = mantenimientos.get(actual);
+                        if(eliminarMantenimiento(detalleEnEdicion)) {
+                            actualizaListaMantenimientos();
+                            dialog.dismiss();
+                            Toast.makeText(myContext, "Mantenimiento eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            Toast.makeText(myContext, "Ha ocurrido un error al eliminar el mantenimiento", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
                 return true;
 
             default:

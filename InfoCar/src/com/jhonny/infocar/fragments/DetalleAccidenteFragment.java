@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -304,7 +305,9 @@ public class DetalleAccidenteFragment extends Fragment {
             case R.id.menu_det_acc_nuevo:
                 fragment = new NuevoMantenimientoFragment();
                 if(fragment != null) {
-                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.container_principal, fragment).commit();
                 }
                 return true;
 
@@ -322,8 +325,32 @@ public class DetalleAccidenteFragment extends Fragment {
                 }
 
             case R.id.menu_det_acc_eliminar:
-                eliminarAccidente(detalleEnEdicion);
-                actualizaListaAccidentes();
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setCancelable(true);
+                builder.setTitle("Eliminar accidente");
+                builder.setMessage("¿Seguro que desea borrar este accidente?");
+                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int actual = AccidentesFragment.paginadorAccidentes.getCurrentItem();
+                        detalleEnEdicion = accidentes.get(actual);
+                        if(eliminarAccidente(detalleEnEdicion)) {
+                            actualizaListaAccidentes();
+                            dialog.dismiss();
+                            Toast.makeText(myContext, "Accidente eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(myContext, "Ha ocurrido un error al eliminar el accidente", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
                 return true;
 
             default:

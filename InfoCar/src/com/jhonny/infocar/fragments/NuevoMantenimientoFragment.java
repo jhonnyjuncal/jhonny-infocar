@@ -109,9 +109,9 @@ public class NuevoMantenimientoFragment extends Fragment {
 			editObservaciones = (EditText)rootView.findViewById(R.id.edit_mant_observaciones);
 			
 			arrayTiposMantenimientos = getResources().obtainTypedArray(R.array.TIPOS_MANTENIMIENTOS);
-			arrayTiposMantenimientos.recycle();
 	        for(int i=0; i<arrayTiposMantenimientos.length(); i++)
 	        	listaTiposMantenimientos.add(arrayTiposMantenimientos.getString(i));
+			arrayTiposMantenimientos.recycle();
 			spinnerTipo = (Spinner)rootView.findViewById(R.id.spinner_mant_tipo);
 			ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposMantenimientos);
 			spinnerTipo.setAdapter(adapterTipo);
