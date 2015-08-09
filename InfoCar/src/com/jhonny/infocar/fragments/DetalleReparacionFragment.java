@@ -105,26 +105,34 @@ public class DetalleReparacionFragment extends Fragment {
                         detalleEnEdicion = reparaciones.get(position);
                         detalleEnEdicion.setPosicion(position);
 
-                        String marcaymodelo = null;
+                        String marca = "";
+                        String modelo = "";
                         for (DetalleVehiculo dv : misVehiculos) {
                             if (dv.getIdVehiculo().equals(detalleEnEdicion.getIdVehiculo())) {
-                                marcaymodelo = arrayMarcas.getString(dv.getMarca()) + " " + dv.getModelo();
+                                marca = arrayMarcas.getString(dv.getMarca());
+                                modelo = dv.getModelo();
                                 break;
                             }
                         }
                         arrayMarcas.recycle();
 
-                        TextView tv2 = (TextView)rootView.findViewById(R.id.det_rep_textView2);
-                        tv2.setText(Util.convierteDateEnString(detalleEnEdicion.getFecha()));
-                        TextView tv3 = (TextView)rootView.findViewById(R.id.det_rep_textView4);
-                        tv3.setText(detalleEnEdicion.getKilometros().toString());
-                        TextView tv4 = (TextView)rootView.findViewById(R.id.det_rep_textView6);
-                        tv4.setText(detalleEnEdicion.getPrecio().toString());
-                        TextView tv5 = (TextView)rootView.findViewById(R.id.det_rep_textView8);
+                        TextView textMarca = (TextView)rootView.findViewById(R.id.det_rep_textView2);
+                        textMarca.setText(marca);
+                        TextView textModelo = (TextView)rootView.findViewById(R.id.det_rep_textView4);
+                        textModelo.setText(modelo);
+                        TextView textFecha = (TextView)rootView.findViewById(R.id.det_rep_textView6);
+                        textFecha.setText(Util.formateaFechaParaMostrar(detalleEnEdicion.getFecha()));
+                        TextView textKms = (TextView)rootView.findViewById(R.id.det_rep_textView8);
+                        textKms.setText(detalleEnEdicion.getKilometros().toString());
+                        TextView textPrecio = (TextView)rootView.findViewById(R.id.det_rep_textView10);
+                        textPrecio.setText(detalleEnEdicion.getPrecio().toString());
+                        TextView textTipoRep = (TextView)rootView.findViewById(R.id.det_rep_textView12);
                         String tipoReparacionSeleccionada = listaReparaciones.get(detalleEnEdicion.getIdTipoReparacion());
-                        tv5.setText(tipoReparacionSeleccionada);
-                        TextView tv6 = (TextView)rootView.findViewById(R.id.det_rep_textView10);
-                        tv6.setText(detalleEnEdicion.getTaller());
+                        textTipoRep.setText(tipoReparacionSeleccionada);
+                        TextView textTaller = (TextView)rootView.findViewById(R.id.det_rep_textView14);
+                        textTaller.setText(detalleEnEdicion.getTaller());
+                        TextView textObservaciones = (TextView)rootView.findViewById(R.id.det_rep_textView16);
+                        textObservaciones.setText(detalleEnEdicion.getObservaciones());
 
                         /*
                         ImageView imgEditar = (ImageView) rootView.findViewById(R.id.imageView_editar);

@@ -16,79 +16,191 @@
 	<RelativeLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
-	    
-	    <Button
-	        android:id="@+id/btnMantenimientos"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="20dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraMantenimientos"
-	        android:text="@string/lbl_mantenimiento" />
-	
-	    <Button
-	        android:id="@+id/button2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginRight="5dp"
-	        android:layout_marginTop="20dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraReparaciones"
-	        android:text="@string/lbl_reparaciones" />
-	
-	    <Button
-	        android:id="@+id/button3"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/btnMantenimientos"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="30dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraAccidentes"
-	        android:text="@string/lbl_accidentes" />
-	
-	    <Button
-	        android:id="@+id/button4"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_below="@+id/button2"
-	        android:layout_marginRight="5dp"
-	        android:layout_marginTop="30dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraDatos"
-	        android:text="@string/lbl_datos" />
-	
-	    <Button
-	        android:id="@+id/button5"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_below="@+id/button3"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="30dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraEstadisticas"
-	        android:text="@string/lbl_estadisticas" />
-	
-	    <Button
-	        android:id="@+id/button6"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_below="@+id/button4"
-	        android:layout_marginRight="5dp"
-	        android:layout_marginTop="30dp"
-	        android:minHeight="42dp"
-	        android:onClick="muestraOpciones"
-	        android:text="@string/lbl_opciones" />
-	
-	    <LinearLayout
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp">
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="100dp"
+				android:gravity="center">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/imageView2"
+					android:src="@drawable/ic_launcher_trans"
+					android:adjustViewBounds="false" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="60dp">
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="60dp"
+					android:gravity="center_vertical">
+
+					<Button
+						android:layout_width="50dp"
+						android:layout_height="50dp"
+						android:text=""
+						android:id="@+id/btn_vehiculos"
+						android:layout_marginLeft="10dp"
+						android:background="@drawable/im_ferrari" />
+
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="50dp"
+						android:text="Vehiculos"
+						android:id="@+id/textView1"
+						android:layout_marginLeft="10dp"
+						android:textSize="@dimen/fuente_size"
+						android:gravity="center_vertical" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="60dp">
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="60dp"
+					android:gravity="center_vertical">
+
+					<Button
+						android:layout_width="50dp"
+						android:layout_height="50dp"
+						android:text=""
+						android:id="@+id/btn_mantenimientos"
+						android:layout_marginLeft="30dp"
+						android:background="@drawable/im_bujia" />
+
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="50dp"
+						android:text="Mantenimientos"
+						android:id="@+id/textView2"
+						android:layout_marginLeft="10dp"
+						android:textSize="@dimen/fuente_size"
+						android:gravity="center_vertical" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="60dp">
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="60dp"
+					android:gravity="center_vertical">
+
+					<Button
+						android:layout_width="50dp"
+						android:layout_height="50dp"
+						android:text=""
+						android:id="@+id/btn_reparaciones"
+						android:layout_marginLeft="50dp"
+						android:background="@drawable/im_caja_herramientas" />
+
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="50dp"
+						android:text="Reparaciones"
+						android:id="@+id/textView3"
+						android:layout_marginLeft="10dp"
+						android:textSize="@dimen/fuente_size"
+						android:gravity="center_vertical" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="60dp">
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="60dp"
+					android:gravity="center_vertical">
+
+					<Button
+						android:layout_width="50dp"
+						android:layout_height="50dp"
+						android:text=""
+						android:id="@+id/btn_accidentes"
+						android:layout_marginLeft="70dp"
+						android:background="@drawable/im_accidente" />
+
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="50dp"
+						android:text="Accidentes"
+						android:id="@+id/textView4"
+						android:layout_marginLeft="10dp"
+						android:textSize="@dimen/fuente_size"
+						android:gravity="center_vertical" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="60dp">
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="60dp"
+					android:gravity="center_vertical">
+
+					<Button
+						android:layout_width="50dp"
+						android:layout_height="50dp"
+						android:text=""
+						android:id="@+id/btn_opciones"
+						android:layout_marginLeft="90dp"
+						android:background="@drawable/im_opciones" />
+
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="50dp"
+						android:text="Opciones"
+						android:id="@+id/textView5"
+						android:layout_marginLeft="10dp"
+						android:textSize="@dimen/fuente_size"
+						android:gravity="center_vertical" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
 			android:id="@+id/linearLayout2"
 			android:layout_width="fill_parent"
 			android:layout_height="50dp"

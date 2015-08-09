@@ -43,7 +43,6 @@
                 android:inputType="date"
                 android:editable="false">
 
-                <requestFocus />
             </EditText>
 
             <ImageView
@@ -143,7 +142,8 @@
                 android:id="@+id/nue_rep_spinner_tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp" />
 
         </LinearLayout>
 
@@ -165,7 +165,8 @@
                 android:id="@+id/nue_rep_spinner_vehiculo"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp" />
 
         </LinearLayout>
 

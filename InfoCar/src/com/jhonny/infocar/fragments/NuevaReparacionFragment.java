@@ -67,18 +67,19 @@ public class NuevaReparacionFragment extends Fragment {
 
 
 	public static NuevaReparacionFragment newInstance(DetalleReparacion dr) {
-		Bundle args = new Bundle();
-		args.putInt("IdDetalleReparacion", dr.getIdDetalleReparacion());
-		args.putString("Fecha", Util.convierteDateEnString(dr.getFecha()));
-		args.putDouble("Kilometros", dr.getKilometros());
-		args.putDouble("Precio", dr.getPrecio());
-		args.putInt("IdTipoReparacion", dr.getIdTipoReparacion());
-		args.putString("Taller", dr.getTaller());
-		args.putString("Observaciones", dr.getObservaciones());
-		args.putInt("IdVehiculo", dr.getIdVehiculo());
-
 		NuevaReparacionFragment frag = new NuevaReparacionFragment();
-		frag.setArguments(args);
+		if(dr != null) {
+			Bundle args = new Bundle();
+			args.putInt("IdDetalleReparacion", dr.getIdDetalleReparacion());
+			args.putString("Fecha", Util.convierteDateEnString(dr.getFecha()));
+			args.putDouble("Kilometros", dr.getKilometros());
+			args.putDouble("Precio", dr.getPrecio());
+			args.putInt("IdTipoReparacion", dr.getIdTipoReparacion());
+			args.putString("Taller", dr.getTaller());
+			args.putString("Observaciones", dr.getObservaciones());
+			args.putInt("IdVehiculo", dr.getIdVehiculo());
+			frag.setArguments(args);
+		}
 		return frag;
 	}
 	

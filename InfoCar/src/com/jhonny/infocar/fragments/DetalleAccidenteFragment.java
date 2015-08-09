@@ -98,18 +98,18 @@ public class DetalleAccidenteFragment extends Fragment {
                             }
                         }
 
-                        TextView textViewKms = (TextView) rootView.findViewById(R.id.det_acc_textView3);
+                        TextView textViewKms = (TextView) rootView.findViewById(R.id.det_acc_textView2);
                         textViewKms.setText(detalleEnEdicion.getKilometros().toString());
-                        TextView textViewLugar = (TextView) rootView.findViewById(R.id.det_acc_textView5);
+                        TextView textViewLugar = (TextView) rootView.findViewById(R.id.det_acc_textView4);
                         textViewLugar.setText(detalleEnEdicion.getLugar());
-                        TextView textViewMarca = (TextView) rootView.findViewById(R.id.det_acc_textView7);
+                        TextView textViewMarca = (TextView) rootView.findViewById(R.id.det_acc_textView6);
                         Integer numMarca = dv.getMarca();
                         String marcaSeleccionada = arrayMarcas.getString(numMarca);
                         arrayMarcas.recycle();
                         textViewMarca.setText(marcaSeleccionada);
-                        TextView textViewModelo = (TextView) rootView.findViewById(R.id.det_acc_textView9);
+                        TextView textViewModelo = (TextView) rootView.findViewById(R.id.det_acc_textView8);
                         textViewModelo.setText(dv.getModelo());
-                        TextView textViewObservaciones = (TextView) rootView.findViewById(R.id.det_acc_textView11);
+                        TextView textViewObservaciones = (TextView) rootView.findViewById(R.id.det_acc_textView10);
                         textViewObservaciones.setText(detalleEnEdicion.getObservaciones());
 
                         /*

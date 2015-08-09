@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -74,5 +76,17 @@ public class Util {
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public static String formateaFechaParaMostrar(Date fecha) {
+		String result = "";
+		try {
+			DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
+			result = format.format(fecha);
+
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return result;
 	}
 }

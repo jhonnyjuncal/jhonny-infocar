@@ -118,7 +118,7 @@ public class DetalleVehiculoFragment extends Fragment {
                         TextView tv3 = (TextView)rootView.findViewById(R.id.det_veh_textView6);
                         tv3.setText(detalleEnEdicion.getKilometros().toString());
                         TextView tv4 = (TextView)rootView.findViewById(R.id.det_veh_textView8);
-                        tv4.setText(detalleEnEdicion.getFechaCompra().toString());
+                        tv4.setText(Util.formateaFechaParaMostrar(detalleEnEdicion.getFechaCompra()));
                         TextView tv5 = (TextView)rootView.findViewById(R.id.det_veh_textView10);
                         String tipoVehiculo = listaTiposVeh.get(detalleEnEdicion.getTipoVehiculo());
                         tv5.setText(tipoVehiculo);
@@ -127,6 +127,52 @@ public class DetalleVehiculoFragment extends Fragment {
                         TextView tv7 = (TextView)rootView.findViewById(R.id.det_veh_textView14);
                         String tipoCarburante = listaCarburantes.get(detalleEnEdicion.getTipoCarburante());
                         tv7.setText(tipoCarburante);
+
+                        ImageView imgItv = (ImageView)rootView.findViewById(R.id.img1);
+                        imgItv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Fragment fragment = new ItvFragment();
+                                    FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+
+                                }catch(Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
+
+                        ImageView imgFichaTecnica = (ImageView)rootView.findViewById(R.id.img2);
+                        imgFichaTecnica.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Fragment fragment = new FichaTecnicaFragment();
+                                    FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+
+                                }catch(Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
+
+                        ImageView imgSeguro = (ImageView)rootView.findViewById(R.id.img3);
+                        imgSeguro.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Fragment fragment = new SeguroFragment();
+                                    FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
+
+                                }catch(Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
+
 
                         /*
                         ImageView imgItv = (ImageView) rootView.findViewById(R.id.imageView2);

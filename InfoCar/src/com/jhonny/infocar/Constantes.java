@@ -18,11 +18,14 @@ public class Constantes {
 	public static final String NOTIFICACIONES = "notificaciones";
 	
 	/** TABLA DATOS **/
-	public static final String TABLA_DATOS = "datos";
-	public static final String TABLA_VEHICULOS = "vehiculos";
-	public static final String TABLA_ACCIDENTES = "accidentes";
-	public static final String TABLA_MANTENIMIENTOS = "mantenimientos";
-	public static final String TABLA_REPARACIONES = "reparaciones";
+	public static final String TABLA_DATOS = "Datos";
+	public static final String TABLA_VEHICULOS = "Vehiculos";
+	public static final String TABLA_ACCIDENTES = "Accidentes";
+	public static final String TABLA_MANTENIMIENTOS = "Mantenimientos";
+	public static final String TABLA_REPARACIONES = "Reparaciones";
+	public static final String TABLA_FICHA_TECNICA = "FichaTecnica";
+	public static final String TABLA_ITV = "DatosItv";
+	public static final String TABLA_SEGURO = "DatosSeguro";
 
 	/** FONDOS DE PANTALLA **/
 	public static final String FONDO_1 = "fondo1";
