@@ -207,6 +207,7 @@ public class NuevaReparacionFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
+		myContext.setTitle("Nueva reparación");
 		super.onAttach(activity);
 	}
 	

@@ -212,6 +212,7 @@ public class NuevoMantenimientoFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
+		myContext.setTitle("Nuevo mantenimiento");
 		super.onAttach(activity);
 	}
 	

@@ -100,6 +100,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
+		myContext.setTitle("Nuevo vehiculo");
 		super.onAttach(activity);
 	}
 	
