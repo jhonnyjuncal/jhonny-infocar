@@ -89,4 +89,23 @@ public class Util {
 		}
 		return result;
 	}
+
+	public static String getDescripcionTipoSeguro(Integer tipoSeguro) {
+		if(tipoSeguro != null) {
+			switch (tipoSeguro) {
+				case 1:
+					return "Terceros básico";
+				case 2:
+					return "Terceros ampliado";
+				case 3:
+					return "Todo riesgo con franquicia";
+				case 4:
+					return "Todo riesgo";
+				default:
+					return "";
+			}
+		}else {
+			return "";
+		}
+	}
 }

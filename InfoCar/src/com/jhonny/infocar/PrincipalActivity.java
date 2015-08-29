@@ -5,7 +5,6 @@ import com.jhonny.infocar.adapters.NavDrawerListAdapter;
 import com.jhonny.infocar.fragments.AccidentesFragment;
 import com.jhonny.infocar.fragments.AcercaFragment;
 import com.jhonny.infocar.fragments.DatosFragment;
-import com.jhonny.infocar.fragments.EstadisticasFragment;
 import com.jhonny.infocar.fragments.MantenimientosFragment;
 import com.jhonny.infocar.fragments.NuevoVehiculoFragment;
 import com.jhonny.infocar.fragments.OpcionesFragment;
@@ -18,7 +17,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -27,11 +25,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 
@@ -319,42 +315,9 @@ public class PrincipalActivity extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
-        cargaFondoDePantalla();
+        Util.cargaFondoDePantalla(this);
     }
 
-    private synchronized void cargaFondoDePantalla() {
-        try {
-            SharedPreferences prop = getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
-            int fondoSeleccionado = 1;
-            if(prop != null) {
-                SharedPreferences.Editor editor = prop.edit();
-                if(editor != null) {
-                    if(prop.contains(Constantes.FONDO_PANTALLA)) {
-                        fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
-                    }
-                }
-            }
-
-            String imagen = Constantes.FONDO_1;
-            switch(fondoSeleccionado) {
-                case 1:
-                    imagen = Constantes.FONDO_1;
-                    break;
-                case 2:
-                    imagen = Constantes.FONDO_2;
-                    break;
-                case 3:
-                    imagen = Constantes.FONDO_3;
-                    break;
-            }
-            int imageResource1 = getApplicationContext().getResources().getIdentifier(imagen, "drawable", getApplicationContext().getPackageName());
-            Drawable image = getResources().getDrawable(imageResource1);
-            ImageView imageView = (ImageView)findViewById(R.id.fondo_principal);
-            imageView.setImageDrawable(image);
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     
     

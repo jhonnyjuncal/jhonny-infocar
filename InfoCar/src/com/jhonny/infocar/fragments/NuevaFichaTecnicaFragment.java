@@ -82,7 +82,6 @@ public class NuevaFichaTecnicaFragment extends Fragment {
                 fichaTecnica.setIdVehiculo(vehiculoActual.getIdVehiculo());
             }
 
-
             editFecha = (EditText)rootView.findViewById(R.id.edit_ficha_fecha);
             editLugar = (EditText)rootView.findViewById(R.id.edit_ficha_lugar);
             editNeumaticos = (EditText)rootView.findViewById(R.id.edit_ficha_neumaticos);

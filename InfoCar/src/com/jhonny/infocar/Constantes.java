@@ -24,8 +24,8 @@ public class Constantes {
 	public static final String TABLA_MANTENIMIENTOS = "Mantenimientos";
 	public static final String TABLA_REPARACIONES = "Reparaciones";
 	public static final String TABLA_FICHA_TECNICA = "FichaTecnica";
-	public static final String TABLA_ITV = "DatosItv";
-	public static final String TABLA_SEGURO = "DatosSeguro";
+	public static final String TABLA_ITV = "Itv";
+	public static final String TABLA_SEGURO = "Seguro";
 
 	/** FONDOS DE PANTALLA **/
 	public static final String FONDO_1 = "fondo1";
