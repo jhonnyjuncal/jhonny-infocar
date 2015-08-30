@@ -7,7 +7,6 @@ import com.jhonny.infocar.R;
 import com.jhonny.infocar.listener.CustomOnItemSelectedListener;
 import com.jhonny.infocar.model.DetalleDatos;
 import com.jhonny.infocar.sql.DatosSQLiteHelper;
-
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -212,7 +211,7 @@ public class DatosFragment extends Fragment {
 
 			String texto = new String();
 			if(resultado) {
-				texto = "Datos guardados correctamente";
+				texto = getResources().getString(R.string.mensaje_guardar_ok);
 				SharedPreferences prop = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
 				if(prop != null) {
 					SharedPreferences.Editor editor = prop.edit();
@@ -220,7 +219,7 @@ public class DatosFragment extends Fragment {
 					editor.commit();
 				}
 			}else {
-				texto = "Error al guardar los datos";
+				texto = getResources().getString(R.string.mensaje_guardar_error);
 			}
 
 			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_SHORT).show();
@@ -257,18 +256,18 @@ public class DatosFragment extends Fragment {
 		String texto = null;
 		boolean resp = true;
 		if(dd.getNombre() == null || dd.getNombre().length() == 0) {
-			texto = new String("Debe introducir un nombre");
+			texto = new String(getResources().getString(R.string.mensaje_validacion_falta_nombre));
 			resp = false;
 
 		}else if(dd.getTelefono() == null || dd.getTelefono().length() == 0) {
-			texto = new String("Debe introducir el telefono");
+			texto = new String(getResources().getString(R.string.mensaje_validacion_falta_telefono));
 			resp = false;
 
 		}else if(dd.getEmail() == null || dd.getEmail().length() == 0) {
-			texto = new String("Debe introducir el e-mail");
+			texto = new String(getResources().getString(R.string.mensaje_validacion_falta_email));
 			resp = false;
 		}else if(dd.isHombre() == null) {
-			texto = new String("Debe seleccionar el sexo");
+			texto = new String(getResources().getString(R.string.mensaje_validacion_falta_sexo));
 			resp = false;
 		}
 

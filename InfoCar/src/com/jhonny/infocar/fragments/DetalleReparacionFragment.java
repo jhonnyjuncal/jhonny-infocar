@@ -316,21 +316,21 @@ public class DetalleReparacionFragment extends Fragment {
             case R.id.menu_det_rep_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar reparación");
-                builder.setMessage("¿Seguro que desea borrar esta reparación?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_reparacion));
+                builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_reparacion));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             int actual = ReparacionesFragment.paginadorReparaciones.getCurrentItem();
                             detalleEnEdicion = reparaciones.get(actual);
-                            if(eliminarReparacion(detalleEnEdicion)) {
+                            if (eliminarReparacion(detalleEnEdicion)) {
                                 actualizaListaReparaciones();
                                 dialog.dismiss();
-                                Toast.makeText(myContext, "Reparación eliminada correctamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
 
-                            }else {
-                                Toast.makeText(myContext, "Ha ocurrido un error al eliminar la reparación", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception ex) {
@@ -338,7 +338,7 @@ public class DetalleReparacionFragment extends Fragment {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

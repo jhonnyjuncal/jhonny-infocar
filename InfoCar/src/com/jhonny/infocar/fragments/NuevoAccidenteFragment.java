@@ -119,7 +119,7 @@ public class NuevoAccidenteFragment extends Fragment {
 				}
 			});
 			
-			vehiculos.add("Seleccione un vehiculo");
+			vehiculos.add(getResources().getString(R.string.label_add_vehiculo));
 			listaVehiculos = recuperaDatosVehiculos();
 			for(DetalleVehiculo dv : listaVehiculos)
 				vehiculos.add(dv.getModelo());
@@ -144,6 +144,7 @@ public class NuevoAccidenteFragment extends Fragment {
 		try {
 			boolean resultado = false;
 			AccidentesSQLiteHelper accidentesHelper = new AccidentesSQLiteHelper(myContext, Constantes.TABLA_ACCIDENTES, null, 1);
+
 			if(accidente.getIdDetalleAccidente() == null)
 				resultado = accidentesHelper.insertarAccidente(accidente);
 			else
@@ -151,9 +152,9 @@ public class NuevoAccidenteFragment extends Fragment {
 
 			String texto = new String();
 			if(resultado)
-				texto = "Datos guardados correctamente";
+				texto = getResources().getString(R.string.mensaje_guardar_ok);
 			else
-				texto = "Error al guardar los datos";
+				texto = getResources().getString(R.string.mensaje_guardar_error);
 			Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 
 			if(resultado)
@@ -167,7 +168,7 @@ public class NuevoAccidenteFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
-		myContext.setTitle("Nuevo accidente");
+		myContext.setTitle(getResources().getString(R.string.title_activity_nuevo_accidente));
 		super.onAttach(activity);
 	}
 
@@ -190,18 +191,18 @@ public class NuevoAccidenteFragment extends Fragment {
 	
 	private boolean compruebacionDatos(DetalleAccidente da) {
 		boolean resp = true;
-		String mensaje = null;
+		String mensaje = "";
 		if(da == null) {
-			mensaje = "Debe introducir los datos a guardar";
+			mensaje = getResources().getString(R.string.mensaje_validacion_datos_vacios);
 			resp = false;
 		}else if(da.getFecha() == null) {
-			mensaje = "Debe introducir la fecha del accidente";
+			mensaje = getResources().getString(R.string.mensaje_validacion_fecha_acc_valido);
 			resp = false;
 		}else if(da.getKilometros() == null || da.getKilometros() <= 0) {
-			mensaje = "Debe introducir los kilometros";
+			mensaje = getResources().getString(R.string.mensaje_validacion_kilom_acc_valido);
 			resp = false;
 		}else if(da.getIdVehiculo() == null) {
-			mensaje = "Debe seleccionar una de sus vehiculos";
+			mensaje = getResources().getString(R.string.mensaje_validacion_seleccione_veh);
 			resp = false;
 		}
 		if(resp == false)

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,20 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
-import com.jhonny.infocar.model.DetalleMantenimiento;
-import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
-import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
 
@@ -382,26 +375,26 @@ public class DetalleVehiculoFragment extends Fragment {
             case R.id.menu_det_veh_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar vehiculo");
-                builder.setMessage("¿Seguro que desea borrar este vehiculo?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_vehiculo));
+                builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_vehiculo));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int actual = VehiculoFragment.paginadorVehiculos.getCurrentItem();
                         detalleEnEdicion = vehiculos.get(actual);
-                        if(eliminarVehiculo(detalleEnEdicion)) {
+                        if (eliminarVehiculo(detalleEnEdicion)) {
                             actualizarListadoDeVehiculos();
                             dialog.dismiss();
-                            Toast.makeText(myContext, "Vehiculo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
 
-                        }else {
-                            Toast.makeText(myContext, "Ha ocurrido un error al eliminar el vehiculo", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                         }
 
                         actualizarListadoDeVehiculos();
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

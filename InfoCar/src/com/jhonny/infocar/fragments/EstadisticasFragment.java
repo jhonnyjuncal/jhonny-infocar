@@ -2,7 +2,6 @@ package com.jhonny.infocar.fragments;
 
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;

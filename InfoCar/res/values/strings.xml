@@ -18,10 +18,20 @@
     <string name="title_activity_reparaciones">Reparaciones</string>
     <string name="title_activity_configuracion">Configuracion</string>
     <string name="title_activity_vehiculo">Vehiculo</string>
-    <string name="title_activity_nuevo_vehiculo">Nuevo Vehiculo</string>
+    <string name="title_activity_nuevo_vehiculo">Nuevo Vehículo</string>
+    <string name="title_activity_ficha_tecnica">Ficha Técnica</string>
+    <string name="title_activity_itv">ITV</string>
+    <string name="title_activity_nueva_ficha_tecnica">Nueva ficha técnica</string>
+    <string name="title_activity_nueva_itv">Nueva ITV</string>
+    <string name="title_activity_nueva_reparacion">Nueva reparación</string>
+    <string name="title_activity_nuevo_accidente">Nuevo accidente</string>
+    <string name="title_activity_nuevo_mantenimiento">Nuevo mantenimiento</string>
+    <string name="title_activity_nuevo_seguro">Nuevo seguro</string>
+    <string name="title_activity_seguro">Seguro</string>
     <string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
     <string name="label_creador"><a href="https://plus.google.com/+jhonnyjuncal/">Jhonny Juncal Gonzalez</a></string>
+    <string name="label_add_vehiculo">Seleccione un vehiculo</string>
 	<string-array name="menu_array">
 	    <item>InfoCar</item>
         <item>Vehiculos</item>
@@ -187,4 +197,48 @@
 		<item>Reparacion de cristal</item>
 		<item>Otros</item>
 	</string-array>
+    <string name="mensaje_crear_vehiculo_acc">Para crear un nuevo accidente antes debe crear un vehículo</string>
+    <string name="mensaje_crear_vehiculo_man">Para crear un nuevo mantenimiento antes debe crear un vehículo</string>
+    <string name="mensaje_crear_vehiculo_rep">Para crear una nueva reparación antes debe crear un vehículo</string>
+    <string name="mensaje_guardar_ok">Datos guardados correctamente</string>
+    <string name="mensaje_guardar_error">Error al guardar los datos</string>
+    <string name="mensaje_borrar_ok">Datos eliminados correctamente</string>
+    <string name="mensaje_borrar_error">Ha ocurrido un error al eliminar los datos</string>
+    <string name="mensaje_validacion_falta_nombre">Debe introducir un nombre</string>
+    <string name="mensaje_validacion_falta_telefono">Debe introducir el teléfono</string>
+    <string name="mensaje_validacion_falta_email">Debe introducir el e-mail</string>
+    <string name="mensaje_validacion_falta_sexo">Debe seleccionar el sexo</string>
+    <string name="mensaje_validacion_fecha_rep_valida">Debe introducir una fecha de reparación válida</string>
+    <string name="mensaje_validacion_precio_valido">Debe introducir un precio válido</string>
+    <string name="mensaje_validacion_tipo_rep_valido">Debe seleccionar un tipo de reparación</string>
+    <string name="mensaje_validacion_seleccione_veh">Debe seleccionar uno de sus vehículos</string>
+    <string name="mensaje_validacion_datos_vacios">Debe introducir los datos a guardar</string>
+    <string name="mensaje_validacion_fecha_acc_valido">Debe introducir la fecha del accidente</string>
+    <string name="mensaje_validacion_kilom_acc_valido">Debe introducir los kilómetros cuando se produjo el accidente</string>
+    <string name="mensaje_validacion_fecha_man_valido">Debe introducir la fecha del mantenimiento</string>
+    <string name="mensaje_validacion_kilom_man_valido">Debe introducir los kilómetros cuando se realizo el mantenimiento</string>
+    <string name="mensaje_validacion_marca_valido">Debe seleccionar la marca del vehículo</string>
+    <string name="mensaje_validacion_modelo_veh_valido">Debe introducir el modelo del vehículo</string>
+    <string name="mensaje_validacion_fecha_veh_valido">Debe introducir la fecha de compra del vehículo</string>
+    <string name="mensaje_validacion_tipo_veh_valido">Debe seleccionar el tipo de vehículo</string>
+    <string name="mensaje_validacion_comb_veh_valido">Debe seleccionar el tipo de combustible</string>
+    <string name="mensaje_validacion_kilom_veh_valido">Debe introducir los kilómetros del vehículo cuando lo compro</string>
+    <string name="mensaje_pregunta_borrar_accidente">¿Seguro que desea borrar este accidente?</string>
+    <string name="mensaje_pregunta_borrar_mantenimiento">¿Seguro que desea borrar este mantenimiento?</string>
+    <string name="mensaje_pregunta_borrar_reparacion">¿Seguro que desea borrar esta reparación?</string>
+    <string name="mensaje_pregunta_borrar_vehiculo">¿Seguro que desea borrar este vehículo?</string>
+    <string name="mensaje_pregunta_borrar_ficha">¿Seguro que desea borrar los datos de la ficha técnica?</string>
+    <string name="mensaje_pregunta_borrar_itv">¿Seguro que desea borrar los datos de la ITV?</string>
+    <string name="mensaje_pregunta_borrar_seguro">¿Seguro que desea borrar los datos del seguro?</string>
+    <string name="titulo_eliminar_accidente">Eliminar accidente</string>
+    <string name="titulo_eliminar_mantenimiento">Eliminar mantenimiento</string>
+    <string name="titulo_eliminar_reparacion">Eliminar reparación</string>
+    <string name="titulo_eliminar_vehiculo">Eliminar vehículo</string>
+    <string name="titulo_eliminar_ficha">Eliminar ficha técnica</string>
+    <string name="titulo_eliminar_itv">Eliminar ITV</string>
+    <string name="titulo_eliminar_seguro">Eliminar seguro</string>
+    <string name="texto_boton_eliminar">Eliminar</string>
+    <string name="texto_boton_cancelar">Cancelar</string>
+    <string name="label_activada">Activada</string>
+    <string name="label_desactivada">Desactivada</string>
 </resources>

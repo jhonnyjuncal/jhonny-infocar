@@ -2,24 +2,17 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
-import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleMantenimiento;
-import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -87,6 +80,8 @@ public class NuevoMantenimientoFragment extends Fragment {
 		setHasOptionsMenu(true);
 		
 		try {
+			rootView = inflater.inflate(R.layout.fragment_nuevo_mantenimiento, container, false);
+
 			Bundle arguments = getArguments();
 			if(arguments != null) {
 				detalleEnEdicion = new DetalleMantenimiento();
@@ -99,8 +94,6 @@ public class NuevoMantenimientoFragment extends Fragment {
 				detalleEnEdicion.setObservaciones(arguments.getString("Observaciones"));
 				detalleEnEdicion.setIdVehiculo(arguments.getInt("IdVehiculo"));
 			}
-
-			rootView = inflater.inflate(R.layout.fragment_nuevo_mantenimiento, container, false);
 
 			editFecha = (EditText)rootView.findViewById(R.id.edit_mant_fecha);
 			editKms = (EditText)rootView.findViewById(R.id.edit_mant_kms);
@@ -116,7 +109,7 @@ public class NuevoMantenimientoFragment extends Fragment {
 			ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, listaTiposMantenimientos);
 			spinnerTipo.setAdapter(adapterTipo);
 
-			listaVehiculos.add("Seleccione un vehiculo");
+			listaVehiculos.add(getResources().getString(R.string.label_add_vehiculo));
 			vehiculos = recuperaDatosVehiculos();
 			arrayMarcas = getResources().obtainTypedArray(R.array.MARCAS_VEHICULO);
 			for(DetalleVehiculo vehiculo : vehiculos) {
@@ -212,21 +205,25 @@ public class NuevoMantenimientoFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
-		myContext.setTitle("Nuevo mantenimiento");
+		myContext.setTitle(getResources().getString(R.string.title_activity_nuevo_mantenimiento));
 		super.onAttach(activity);
 	}
 	
 	private boolean comprobacionDatosMantenimiento(DetalleMantenimiento dm) {
 		boolean resp = true;
 		String mensaje = new String();
-		if(dm.getFecha() == null) {
-			mensaje = "Debe introducir la fecha del mantenimiento";
+
+		if(dm == null) {
+			mensaje = getResources().getString(R.string.mensaje_validacion_datos_vacios);
 			resp = false;
-		}else if(dm.getKilometros() == null || dm.getKilometros() <= 0) {
-			mensaje = "Debe introducir los kilometros cuando se realizo el mantenimiento";
+		}else if(dm.getFecha() == null) {
+			mensaje = getResources().getString(R.string.mensaje_validacion_fecha_man_valido);
 			resp = false;
-		}else if(dm.getPrecio() == null || dm.getPrecio() <= 0) {
-			mensaje = "Debe introducir el precio del mantenimiento";
+		}else if(dm.getKilometros() == null || dm.getKilometros() < 0) {
+			mensaje = getResources().getString(R.string.mensaje_validacion_kilom_man_valido);
+			resp = false;
+		}else if(dm.getPrecio() == null || dm.getPrecio() < 0) {
+			mensaje = getResources().getString(R.string.mensaje_validacion_precio_valido);
 			resp = false;
 		}
 		if(resp == false)
@@ -287,9 +284,9 @@ public class NuevoMantenimientoFragment extends Fragment {
 
 						String texto = "";
 						if(resultado)
-							texto = "Datos guardados correctamente";
+							texto = getResources().getString(R.string.mensaje_guardar_ok);
 						else
-							texto = "Error al guardar los datos";
+							texto = getResources().getString(R.string.mensaje_guardar_error);
 						Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 
 						actualizarListadoDeMantenimientos();

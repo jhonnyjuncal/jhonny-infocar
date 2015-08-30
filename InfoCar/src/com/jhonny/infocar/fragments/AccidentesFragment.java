@@ -168,7 +168,7 @@ public class AccidentesFragment extends Fragment {
                         fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
                     }
                 }else {
-                    Toast.makeText(myContext, "Para crear un nuevo accidente antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
+                    Toast.makeText(myContext, R.string.mensaje_crear_vehiculo_acc, Toast.LENGTH_LONG).show();
                 }
                 return true;
 

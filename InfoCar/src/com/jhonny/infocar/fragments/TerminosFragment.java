@@ -11,8 +11,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import com.jhonny.infocar.R;
+
 
 /**
  * Created by jhonny on 09/05/2015.

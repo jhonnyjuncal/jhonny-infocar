@@ -9,7 +9,6 @@ import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import com.viewpagerindicator.CirclePageIndicator;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -156,7 +155,7 @@ public class MantenimientosFragment extends Fragment {
 						fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 					}
 				}else {
-					Toast.makeText(myContext, "Para crear un nuevo mantenimiento antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
+					Toast.makeText(myContext, getResources().getString(R.string.mensaje_crear_vehiculo_man), Toast.LENGTH_LONG).show();
 				}
 				return true;
 

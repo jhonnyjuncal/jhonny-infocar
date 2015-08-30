@@ -2,13 +2,9 @@ package com.jhonny.infocar.fragments;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
-import com.jhonny.infocar.model.DetalleMantenimiento;
-import com.jhonny.infocar.model.DetalleReparacion;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import android.app.Activity;
@@ -100,7 +96,7 @@ public class NuevoVehiculoFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		myContext = (FragmentActivity)activity;
-		myContext.setTitle("Nuevo vehiculo");
+		myContext.setTitle(getResources().getString(R.string.title_activity_nuevo_vehiculo));
 		super.onAttach(activity);
 	}
 	
@@ -266,22 +262,22 @@ public class NuevoVehiculoFragment extends Fragment {
 		boolean resultado = true;
 		try {
 			if(dv.getMarca() == null || dv.getMarca() == 0) {
-				mostrarTexto("Debe seleccionar la marca del vehiculo");
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_marca_valido));
 				resultado = false;
 			}else if(dv.getModelo() == null || dv.getModelo().length() == 0) {
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_modelo_veh_valido));
 				resultado = false;
-				mostrarTexto("Debe introducir el modelo del vehiculo");
-			}else if(dv.getKilometros() == null || dv.getKilometros() <= 0) {
-				mostrarTexto("Debe introducir los kilómetros del vehiculo");
+			}else if(dv.getKilometros() == null || dv.getKilometros() < 0) {
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_kilom_veh_valido));
 				resultado = false;
 			}else if(dv.getFechaCompra() == null) {
-				mostrarTexto("Debe introducir la fecha de compra del vehiculo");
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_fecha_veh_valido));
 				resultado = false;
 			}else if(dv.getTipoVehiculo() == null || dv.getTipoVehiculo() == 0) {
-				mostrarTexto("Debe seleccionar el tipo de vehiculo");
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_tipo_veh_valido));
 				resultado = false;
 			}else if(dv.getTipoCarburante() == null || dv.getTipoCarburante() == 0) {
-				mostrarTexto("Debe seleccionar el tipo de combustible");
+				mostrarTexto(getResources().getString(R.string.mensaje_validacion_comb_veh_valido));
 				resultado = false;
 			}
 		}catch(Exception ex) {
@@ -305,9 +301,9 @@ public class NuevoVehiculoFragment extends Fragment {
             else
                 resultado = vehiculosHelper.actualizarVehiculo(dv);
 
-			String texto = new String();
+			String texto = "";
 			if(resultado) {
-				texto = "Datos guardados correctamente";
+				texto = getResources().getString(R.string.mensaje_guardar_ok);
 				SharedPreferences prop = rootView.getContext().getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
 				if(prop != null) {
 					SharedPreferences.Editor editor = prop.edit();
@@ -315,7 +311,7 @@ public class NuevoVehiculoFragment extends Fragment {
 					editor.commit();
 				}
 			}else {
-				texto = "Error al guardar los datos";
+				texto = getResources().getString(R.string.mensaje_guardar_error);
 			}
             mostrarTexto(texto);
 			

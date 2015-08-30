@@ -25,6 +25,7 @@ import com.jhonny.infocar.sql.SeguroSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
 
+
 /**
  * Created by jhonny on 03/08/2015.
  */
@@ -53,8 +54,10 @@ public class SeguroFragment extends Fragment {
             int posicion = VehiculoFragment.paginadorVehiculos.getCurrentItem();
             DetalleVehiculo veh = listaVehiculos.get(posicion);
 
-            if(detalleSeguro == null)
+            if(detalleSeguro == null) {
                 detalleSeguro = new DetalleSeguro();
+                detalleSeguro.setIdVehiculo(veh.getIdVehiculo());
+            }
 
             TextView textFecha = (TextView)rootView.findViewById(R.id.det_seg_textView2);
             textFecha.setText(Util.convierteDateEnString(detalleSeguro.getFecha()));
@@ -66,9 +69,9 @@ public class SeguroFragment extends Fragment {
             textPoliza.setText(detalleSeguro.getNumeroPoliza());
             TextView textAlerta = (TextView)rootView.findViewById(R.id.det_seg_textView10);
             if(detalleSeguro.getAlerta())
-                textAlerta.setText("Activada");
+                textAlerta.setText(getResources().getString(R.string.label_activada));
             else
-                textAlerta.setText("Desactivada");
+                textAlerta.setText(getResources().getString(R.string.label_desactivada));
 
         }catch(Exception ex) {
             ex.printStackTrace();
@@ -96,7 +99,7 @@ public class SeguroFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
-        myContext.setTitle("Seguro");
+        myContext.setTitle(getResources().getString(R.string.title_activity_seguro));
         super.onAttach(activity);
     }
 
@@ -157,19 +160,19 @@ public class SeguroFragment extends Fragment {
             case R.id.menu_seguro_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar ITV");
-                builder.setMessage("¿Seguro que desea borrar los datos de la ITV?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_seguro));
+                        builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_seguro));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            if(eliminarDatosDelSeguro(detalleSeguro)) {
+                            if (eliminarDatosDelSeguro(detalleSeguro)) {
                                 dialog.dismiss();
-                                Toast.makeText(myContext, "Datos de la ITV eliminados correctamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
                                 volver();
 
-                            }else {
-                                Toast.makeText(myContext, "Ha ocurrido un error al eliminar los datos de la ITV", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception ex) {
@@ -177,7 +180,7 @@ public class SeguroFragment extends Fragment {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

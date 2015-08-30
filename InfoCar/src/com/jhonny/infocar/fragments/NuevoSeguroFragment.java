@@ -159,7 +159,7 @@ public class NuevoSeguroFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
-        myContext.setTitle("Nuevo seguro");
+        myContext.setTitle(getResources().getString(R.string.title_activity_nuevo_seguro));
         super.onAttach(activity);
     }
 
@@ -205,9 +205,9 @@ public class NuevoSeguroFragment extends Fragment {
 
             String texto = null;
             if(resp)
-                texto = "Datos guardados correctamente";
+                texto = getResources().getString(R.string.mensaje_guardar_ok);
             else
-                texto = "Error al guardar los datos";
+                texto = getResources().getString(R.string.mensaje_guardar_error);
             Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 
         }catch(Exception ex) {

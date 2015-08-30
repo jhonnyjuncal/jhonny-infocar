@@ -25,6 +25,7 @@ import com.jhonny.infocar.sql.FichaTecnicaSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
 
+
 /**
  * Created by jhonny on 03/08/2015.
  */
@@ -99,6 +100,7 @@ public class FichaTecnicaFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
+        myContext.setTitle(getResources().getString(R.string.title_activity_ficha_tecnica));
         super.onAttach(activity);
     }
 
@@ -137,19 +139,19 @@ public class FichaTecnicaFragment extends Fragment {
             case R.id.menu_ficha_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar ficha técnica");
-                builder.setMessage("¿Seguro que desea borrar los datos de la ficha técnica?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_ficha));
+                builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_ficha));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            if(eliminarFichaTecnica(fichaTecnica)) {
-                                //actualizaFichaTecnica();
+                            if (eliminarFichaTecnica(fichaTecnica)) {
                                 dialog.dismiss();
-                                Toast.makeText(myContext, "Datos de la ficha técnica eliminados correctamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
+                                volver();
 
-                            }else {
-                                Toast.makeText(myContext, "Ha ocurrido un error al eliminar los datos de la ficha técnica", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception ex) {
@@ -157,7 +159,7 @@ public class FichaTecnicaFragment extends Fragment {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -203,5 +205,11 @@ public class FichaTecnicaFragment extends Fragment {
             ex.printStackTrace();
         }
         return result;
+    }
+
+    private void volver() {
+        Fragment fragment = new VehiculoFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
     }
 }

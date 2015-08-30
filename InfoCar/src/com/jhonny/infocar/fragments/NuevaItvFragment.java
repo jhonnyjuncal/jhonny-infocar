@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+
 /**
  * Created by jhonny on 09/08/2015.
  */
@@ -181,7 +182,7 @@ public class NuevaItvFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity)activity;
-        myContext.setTitle("Nueva ITV");
+        myContext.setTitle(getResources().getString(R.string.title_activity_nueva_itv));
         super.onAttach(activity);
     }
 
@@ -223,9 +224,9 @@ public class NuevaItvFragment extends Fragment {
 
             String texto = null;
             if(resp)
-                texto = "Datos guardados correctamente";
+                texto = getResources().getString(R.string.mensaje_guardar_ok);
             else
-                texto = "Error al guardar los datos";
+                texto = getResources().getString(R.string.mensaje_guardar_error);
             Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 
         }catch(Exception ex) {

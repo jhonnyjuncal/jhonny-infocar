@@ -10,18 +10,10 @@ import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.ReparacionesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import com.viewpagerindicator.CirclePageIndicator;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -30,45 +22,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class ReparacionesFragment extends Fragment {
 	
 	private View rootView;
-	private Dialog editDialog;
-	private ArrayAdapter<String> adapterReparaciones;
-	private Spinner spinnerTipo;
-	private DetalleReparacion detalleEnEdicion;
-	private ArrayList<DetalleReparacionFragment> listaDetalles;
-	
-	private TypedArray arrayTiposReparaciones;
-	private TypedArray arrayMarcas;
-	private FragmentActivity myContext;
-	
-	private ArrayList<DetalleReparacion> reparaciones;
-	private ArrayList<String> listaReparaciones = new ArrayList<String>();
-	private ArrayList<String> listaVehiculos = new ArrayList<String>();
-	private ArrayList<DetalleVehiculo> misVehiculos = new ArrayList<DetalleVehiculo>();
-	
-	private EditText textFecha;
-	private EditText textKms;
-	private EditText textPrecio;
-	private EditText textTaller;
-	private EditText textObservaciones;
-
 	private MyAdapter mAdapter;
+	private FragmentActivity myContext;
+
+	private ArrayList<DetalleReparacionFragment> listaDetalles;
+	private ArrayList<DetalleReparacion> reparaciones;
+	private ArrayList<DetalleVehiculo> misVehiculos = new ArrayList<DetalleVehiculo>();
 	public static ViewPager paginadorReparaciones;
 	
 	
@@ -143,51 +109,11 @@ public class ReparacionesFragment extends Fragment {
 		super.onAttach(activity);
 		myContext = (FragmentActivity)activity;
 	}
-	
-	private void actualizaListaReparaciones() {
-		Fragment fragment = new ReparacionesFragment();
-		FragmentManager fragmentManager = ((FragmentActivity) myContext).getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
-	}
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		cargaFondoDePantalla();
-	}
-
-	private synchronized void cargaFondoDePantalla() {
-		try {
-			SharedPreferences prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
-			int fondoSeleccionado = 1;
-			if(prop != null) {
-				SharedPreferences.Editor editor = prop.edit();
-				if(editor != null) {
-					if(prop.contains(Constantes.FONDO_PANTALLA)) {
-						fondoSeleccionado = prop.getInt(Constantes.FONDO_PANTALLA, 1);
-					}
-				}
-			}
-
-			String imagen = Constantes.FONDO_1;
-			switch(fondoSeleccionado) {
-				case 1:
-					imagen = Constantes.FONDO_1;
-					break;
-				case 2:
-					imagen = Constantes.FONDO_2;
-					break;
-				case 3:
-					imagen = Constantes.FONDO_3;
-					break;
-			}
-			int imageResource1 = myContext.getApplicationContext().getResources().getIdentifier(imagen, "drawable", myContext.getApplicationContext().getPackageName());
-			Drawable image = myContext.getResources().getDrawable(imageResource1);
-			ImageView imageView = (ImageView)myContext.findViewById(R.id.fondo_principal);
-			imageView.setImageDrawable(image);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
+		Util.cargaFondoDePantalla(myContext);
 	}
 
 	@Override
@@ -196,14 +122,14 @@ public class ReparacionesFragment extends Fragment {
 
 		switch(item.getItemId()) {
 			case R.id.menu_rep_nuevo:
-				if(existeVehilo()) {
+				if(existeVehiculo()) {
 					fragment = new NuevaReparacionFragment();
 					if(fragment != null) {
 						FragmentManager fragmentManager = myContext.getSupportFragmentManager();
 						fragmentManager.beginTransaction().replace(R.id.container_principal, fragment).commit();
 					}
 				}else {
-					Toast.makeText(myContext, "Para crear una nueva reparación antes debe crear un vehiculo", Toast.LENGTH_LONG).show();
+					Toast.makeText(myContext, getResources().getString(R.string.mensaje_crear_vehiculo_rep), Toast.LENGTH_LONG).show();
 				}
 				return true;
 
@@ -212,7 +138,7 @@ public class ReparacionesFragment extends Fragment {
 		}
 	}
 
-	private boolean existeVehilo() {
+	private boolean existeVehiculo() {
 		if(misVehiculos != null && misVehiculos.size() > 0)
 			return true;
 		return false;

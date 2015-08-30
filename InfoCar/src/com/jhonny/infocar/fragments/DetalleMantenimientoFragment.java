@@ -2,7 +2,6 @@ package com.jhonny.infocar.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
@@ -18,25 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
 import com.jhonny.infocar.Util;
-import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleMantenimiento;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.MantenimientosSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 /**
@@ -316,24 +309,24 @@ public class DetalleMantenimientoFragment extends Fragment {
             case R.id.menu_det_mant_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar mantenimiento");
-                builder.setMessage("¿Seguro que desea borrar este mantenimiento?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_mantenimiento));
+                builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_mantenimiento));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int actual = MantenimientosFragment.paginadorMantenimientos.getCurrentItem();
                         detalleEnEdicion = mantenimientos.get(actual);
-                        if(eliminarMantenimiento(detalleEnEdicion)) {
+                        if (eliminarMantenimiento(detalleEnEdicion)) {
                             actualizaListaMantenimientos();
                             dialog.dismiss();
-                            Toast.makeText(myContext, "Mantenimiento eliminado correctamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
 
-                        }else {
-                            Toast.makeText(myContext, "Ha ocurrido un error al eliminar el mantenimiento", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -416,9 +409,9 @@ public class DetalleMantenimientoFragment extends Fragment {
 
             String texto = new String();
             if(resultado)
-                texto = "Datos guardados correctamente";
+                texto = getResources().getString(R.string.mensaje_guardar_ok);
             else
-                texto = "Error al guardar los datos";
+                texto = getResources().getString(R.string.mensaje_guardar_error);
             Toast.makeText(rootView.getContext(), texto, Toast.LENGTH_LONG).show();
 
         }catch(Exception ex) {

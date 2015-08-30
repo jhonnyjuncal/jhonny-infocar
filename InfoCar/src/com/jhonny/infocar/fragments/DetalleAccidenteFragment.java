@@ -2,7 +2,6 @@ package com.jhonny.infocar.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
@@ -17,24 +16,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jhonny.infocar.Constantes;
 import com.jhonny.infocar.R;
-import com.jhonny.infocar.Util;
 import com.jhonny.infocar.model.DetalleAccidente;
 import com.jhonny.infocar.model.DetalleVehiculo;
 import com.jhonny.infocar.sql.AccidentesSQLiteHelper;
 import com.jhonny.infocar.sql.VehiculosSQLiteHelper;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 /**
@@ -327,24 +319,24 @@ public class DetalleAccidenteFragment extends Fragment {
             case R.id.menu_det_acc_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 builder.setCancelable(true);
-                builder.setTitle("Eliminar accidente");
-                builder.setMessage("¿Seguro que desea borrar este accidente?");
-                builder.setPositiveButton("Eliminar", new android.content.DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.titulo_eliminar_accidente));
+                builder.setMessage(getResources().getString(R.string.mensaje_pregunta_borrar_accidente));
+                builder.setPositiveButton(getResources().getString(R.string.texto_boton_eliminar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int actual = AccidentesFragment.paginadorAccidentes.getCurrentItem();
                         detalleEnEdicion = accidentes.get(actual);
-                        if(eliminarAccidente(detalleEnEdicion)) {
+                        if (eliminarAccidente(detalleEnEdicion)) {
                             actualizaListaAccidentes();
                             dialog.dismiss();
-                            Toast.makeText(myContext, "Accidente eliminado correctamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_ok), Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(myContext, "Ha ocurrido un error al eliminar el accidente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(myContext, getResources().getString(R.string.mensaje_borrar_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                builder.setNegativeButton("Cancelar", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.texto_boton_cancelar), new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
