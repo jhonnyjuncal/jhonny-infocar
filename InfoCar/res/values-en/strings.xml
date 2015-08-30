@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InfoCar</string>
+    <string name="action_settings">Settings</string>
+    <string name="lbl_mantenimiento">Maintenance</string>
+    <string name="lbl_reparaciones">Repairs</string>
+    <string name="lbl_accidentes">Accidents</string>
+    <string name="lbl_datos">Data</string>
+    <string name="lbl_estadisticas">Statistics</string>
+    <string name="lbl_opciones">Options</string>
+    <string name="title_activity_accidentes">Accidents</string>
+    <string name="title_activity_datos">Data</string>
+    <string name="title_activity_estadisticas">Statistics</string>
+    <string name="title_activity_mantenimiento">Maintenance</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_opciones">Options</string>
+    <string name="title_activity_principal">Start</string>
+    <string name="title_activity_reparaciones">Repairs</string>
+    <string name="title_activity_configuracion">Settings</string>
+    <string name="title_activity_vehiculo">Vehicle</string>
+    <string name="title_activity_nuevo_vehiculo">New vehicle</string>
+    <string name="title_activity_ficha_tecnica">Data sheet</string>
+    <string name="title_activity_itv">ITV</string>
+    <string name="title_activity_nueva_ficha_tecnica">New data sheet</string>
+    <string name="title_activity_nueva_itv">New ITV</string>
+    <string name="title_activity_nueva_reparacion">New repair</string>
+    <string name="title_activity_nuevo_accidente">New accident</string>
+    <string name="title_activity_nuevo_mantenimiento">New maintenance</string>
+    <string name="title_activity_nuevo_seguro">New car insurance</string>
+    <string name="title_activity_seguro">Car insurance</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="label_creador"><a href="https://plus.google.com/+jhonnyjuncal/">Jhonny Juncal Gonzalez</a></string>
+    <string name="label_add_vehiculo">Select a vehicle</string>
+    <string-array name="menu_array">
+        <item>InfoCar</item>
+        <item>Vehicles</item>
+        <item>Maintenance</item>
+        <item>Repairs</item>
+        <item>Accidents</item>
+        <item>Data</item>
+        <!--<item>Estadisticas</item>-->
+        <item>Options</item>
+        <item>About...</item>
+        <item>New vehicle</item>
+    </string-array>
+    <string-array name="menu_iconos">
+        <item>@drawable/im_network</item>
+        <item>@drawable/im_ferrari</item>
+        <item>@drawable/im_bujia</item>
+        <item>@drawable/im_caja_herramientas</item>
+        <item>@drawable/im_accidente</item>
+        <item>@drawable/im_datos</item>
+        <item>@drawable/im_estadisticas</item>
+        <item>@drawable/im_opciones</item>
+        <item>@drawable/ic_launcher</item>
+    </string-array>
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="sexo_hombre">Man</string>
+    <string name="sexo_mujer">Woman</string>
+    <string name="boton_guardar">Save</string>
+    <string name="boton_guardar_desp">SAVE AFTER</string>
+    <string name="boton_cancelar">Cancel</string>
+    <string name="boton_aceptar">Accept</string>
+    <string name="lbl_edad">Age</string>
+    <string name="lbl_sexo">Gender</string>
+    <string name="lbl_nombre">Name</string>
+    <string name="lbl_telefono">Phone</string>
+    <string name="lbl_marca">Brand</string>
+    <string name="lbl_modelo">Model</string>
+    <string name="lbl_kms">Miles</string>
+    <string name="lbl_compra">Purchase date</string>
+    <string name="lbl_tipo">Type</string>
+    <string name="lbl_combustible">Fuel</string>
+    <string name="lbl_menu_nuevo">New vehicle</string>
+    <string name="lbl_menu_eliminar">Delete</string>
+    <string-array name="MARCAS_VEHICULO">
+        <item>Select a vehicle</item>
+        <item>Alfa Romeo</item>
+        <item>Aston Martin</item>
+        <item>Audi</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Citroën</item>
+        <item>Dacia</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
+        <item>Ford</item>
+        <item>Honda</item>
+        <item>Hyundai</item>
+        <item>Kia</item>
+        <item>Lexus</item>
+        <item>Mazda</item>
+        <item>Mercedes-Benz</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Opel</item>
+        <item>Peugeot</item>
+        <item>Porsche</item>
+        <item>Renault</item>
+        <item>SEAT</item>
+        <item>Skoda</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+        <item>Volkswagen</item>
+        <item>Volvo</item>
+        <item>Abarth</item>
+        <item>Alpina</item>
+        <item>Ariel</item>
+        <item>Arrinera</item>
+        <item>Artega</item>
+        <item>Belumbury</item>
+        <item>Bentley</item>
+        <item>Bugatti</item>
+        <item>BYD</item>
+        <item>Cadillac</item>
+        <item>Carver</item>
+        <item>Caterham</item>
+        <item>Chrysler</item>
+        <item>Corvette</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>DS</item>
+        <item>Fisker</item>
+        <item>Fornasari</item>
+        <item>GTA</item>
+        <item>Hennessey</item>
+        <item>Hummer</item>
+        <item>Hurtan</item>
+        <item>Infiniti</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Koenigsegg</item>
+        <item>KTM</item>
+        <item>LADA</item>
+        <item>Lamborghini</item>
+        <item>Lancia</item>
+        <item>Land Rover</item>
+        <item>Lotus</item>
+        <item>Mahindra</item>
+        <item>Maserati</item>
+        <item>Maybach</item>
+        <item>McLaren</item>
+        <item>Melkus</item>
+        <item>MINI</item>
+        <item>Morgan</item>
+        <item>Pagani</item>
+        <item>PGO</item>
+        <item>Roding</item>
+        <item>Rolls Royce</item>
+        <item>Saab</item>
+        <item>Santana</item>
+        <item>Smart</item>
+        <item>Spyker</item>
+        <item>SsangYong</item>
+        <item>Subaru</item>
+        <item>Tata</item>
+        <item>Tazzari</item>
+        <item>Tesla</item>
+        <item>Think</item>
+        <item>W-motors</item>
+        <item>Wiesmann</item>
+        <item>Zenvo</item>
+    </string-array>
+    <string-array name="TIPOS_VEHICULO">
+        <item>Select a type</item>
+        <item>Coche</item>
+        <item>Moto</item>
+        <item>Camion</item>
+        <item>Bus</item>
+    </string-array>
+    <string-array name="TIPOS_CARBURANTE">
+        <item>Select a fuel</item>
+        <item>Gasolina</item>
+        <item>Diesel</item>
+        <item>Gas/Gasolina</item>
+        <item>Hibrido</item>
+        <item>Eléctrico</item>
+    </string-array>
+    <string-array name="TIPOS_MANTENIMIENTOS">
+        <item>Select a type</item>
+        <item>Oil change</item>
+        <item>Filters change</item>
+        <item>Change oil and filters</item>
+        <item>Plug change</item>
+        <item>Battery change</item>
+        <item>Tires change</item>
+        <item>Brushes change</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="TIPOS_REPARACIONES">
+        <item>Select a type</item>
+        <item>Paint repair</item>
+        <item>Interior repair</item>
+        <item>Rim repair</item>
+        <item>Glass repair</item>
+        <item>Others</item>
+    </string-array>
+    <string name="mensaje_crear_vehiculo_acc">To create a new accident you must create a vehicle</string>
+    <string name="mensaje_crear_vehiculo_man">To create a new maintenance you must create a vehicle</string>
+    <string name="mensaje_crear_vehiculo_rep">To create a new repair you must create a vehicle</string>
+    <string name="mensaje_guardar_ok">Data saved correctly</string>
+    <string name="mensaje_guardar_error">Error saving data</string>
+    <string name="mensaje_borrar_ok">Deleted data correctly</string>
+    <string name="mensaje_borrar_error">An error has occurred when deleting data</string>
+    <string name="mensaje_validacion_falta_nombre">You must enter a name</string>
+    <string name="mensaje_validacion_falta_telefono">You must enter the phone</string>
+    <string name="mensaje_validacion_falta_email">You must enter the e-mail</string>
+    <string name="mensaje_validacion_falta_sexo">You must select the gender</string>
+    <string name="mensaje_validacion_fecha_rep_valida">You must enter a valid date of repair</string>
+    <string name="mensaje_validacion_precio_valido">You must enter a valid price</string>
+    <string name="mensaje_validacion_tipo_rep_valido">You must select a type of repair</string>
+    <string name="mensaje_validacion_seleccione_veh">You must select one of their vehicles</string>
+    <string name="mensaje_validacion_datos_vacios">You must enter the data to save</string>
+    <string name="mensaje_validacion_fecha_acc_valido">You must enter the date of the accident</string>
+    <string name="mensaje_validacion_kilom_acc_valido">You must enter the miles when the accident occurred</string>
+    <string name="mensaje_validacion_fecha_man_valido">You must enter the maintenance Date</string>
+    <string name="mensaje_validacion_kilom_man_valido">You must enter the miles when maintenance is performed</string>
+    <string name="mensaje_validacion_marca_valido">You must select the brand vehicle</string>
+    <string name="mensaje_validacion_modelo_veh_valido">You must enter the model vehicle</string>
+    <string name="mensaje_validacion_fecha_veh_valido">You must enter the date of purchase of the vehicle</string>
+    <string name="mensaje_validacion_tipo_veh_valido">You must select the type of vehicle</string>
+    <string name="mensaje_validacion_comb_veh_valido">You must select the type of fuel</string>
+    <string name="mensaje_validacion_kilom_veh_valido">You must enter vehicle miles when it was bought</string>
+    <string name="mensaje_pregunta_borrar_accidente">Are you sure you want to delete this accident?</string>
+    <string name="mensaje_pregunta_borrar_mantenimiento">Are you sure you want to delete this maintenance?</string>
+    <string name="mensaje_pregunta_borrar_reparacion">Are you sure you want to delete this repair?</string>
+    <string name="mensaje_pregunta_borrar_vehiculo">Are you sure you want to delete this vehicle?</string>
+    <string name="mensaje_pregunta_borrar_ficha">Are you sure you want to delete the data sheet?</string>
+    <string name="mensaje_pregunta_borrar_itv">Are you sure you want to delete the data of the ITV?</string>
+    <string name="mensaje_pregunta_borrar_seguro">Are you sure you want to delete the data of car insurance?</string>
+    <string name="titulo_eliminar_accidente">Delete accident</string>
+    <string name="titulo_eliminar_mantenimiento">Delete maintenance</string>
+    <string name="titulo_eliminar_reparacion">Delete repair</string>
+    <string name="titulo_eliminar_vehiculo">Delete vehicle</string>
+    <string name="titulo_eliminar_ficha">Delete data sheet</string>
+    <string name="titulo_eliminar_itv">Delete ITV</string>
+    <string name="titulo_eliminar_seguro">Delete car insurence</string>
+    <string name="texto_boton_eliminar">Delete</string>
+    <string name="texto_boton_cancelar">Cancel</string>
+    <string name="label_activada">Enabled</string>
+    <string name="label_desactivada">Disabled</string>
+</resources>
