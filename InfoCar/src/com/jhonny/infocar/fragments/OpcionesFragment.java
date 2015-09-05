@@ -25,7 +25,6 @@ public class OpcionesFragment extends Fragment {
 	private FragmentActivity myContext;
 	private int fondoSeleccionado = 1;
 	private SharedPreferences prop = null;
-	private CheckBox checkNotificaciones = null;
 	private CheckBox checkFondo1 = null;
 	private CheckBox checkFondo2 = null;
 	private CheckBox checkFondo3 = null;
@@ -48,21 +47,9 @@ public class OpcionesFragment extends Fragment {
         setHasOptionsMenu(true);
 		prop = myContext.getSharedPreferences(Constantes.CONFIGURACION, Context.MODE_PRIVATE);
 
-		checkNotificaciones = (CheckBox)rootView.findViewById(R.id.checkBoxNotificaciones);
 		checkFondo1 = (CheckBox)rootView.findViewById(R.id.checkBoxFondo1);
 		checkFondo2 = (CheckBox)rootView.findViewById(R.id.checkBoxFondo2);
 		checkFondo3 = (CheckBox)rootView.findViewById(R.id.checkBoxFondo3);
-
-		checkNotificaciones.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(checkNotificaciones.isChecked()) {
-
-				}else {
-
-				}
-			}
-		});
 
 		checkFondo1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -154,12 +141,14 @@ public class OpcionesFragment extends Fragment {
 					checkFondo2.setChecked(false);
 					checkFondo3.setChecked(false);
 					break;
+
 				case 2:
 					imagen = Constantes.FONDO_2;
 					checkFondo1.setChecked(false);
 					checkFondo2.setChecked(true);
 					checkFondo3.setChecked(false);
 					break;
+
 				case 3:
 					imagen = Constantes.FONDO_3;
 					checkFondo1.setChecked(false);

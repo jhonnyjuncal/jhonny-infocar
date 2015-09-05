@@ -1,13 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">InfoCar</string>
-    <string name="action_settings">Settings</string>
+    <string name="label_cargando">Loading...</string>
+    <string name="lbl_vehiculo">Vehicles</string>
     <string name="lbl_mantenimiento">Maintenance</string>
     <string name="lbl_reparaciones">Repairs</string>
     <string name="lbl_accidentes">Accidents</string>
     <string name="lbl_datos">Data</string>
     <string name="lbl_estadisticas">Statistics</string>
     <string name="lbl_opciones">Options</string>
+    <string name="label_fecha">DATE</string>
+    <string name="label_fecha_itv">DATE ITV</string>
+    <string name="label_vehiculo">VEHICLE</string>
+    <string name="label_kilometros">MILES</string>
+    <string name="label_lugar">PLACE</string>
+    <string name="label_observaciones">NOTES</string>
+    <string name="label_version">VERSION</string>
+    <string name="label_creacion">CREATION</string>
+    <string name="label_pais">COUNTRY</string>
+    <string name="label_espana">Spain</string>
+    <string name="label_desarrollado_por">Developed by:</string>
+    <string name="label_precio">PRICE</string>
+    <string name="label_tipo_mant">MAINT. TYPE</string>
+    <string name="label_tipo_repa">REPAIR TYPE</string>
+    <string name="label_tipo_vehi">VEHICLE TYPE</string>
+    <string name="label_tipo_segu">INSURANCE TYPE</string>
+    <string name="label_taller">WORKSHOP</string>
+    <string name="label_matricula">PLATE</string>
+    <string name="label_neumaticos">TIRES</string>
+    <string name="label_potencia">FISCAL POWER</string>
+    <string name="label_bastidor">SERIAL Nº</string>
+    <string name="label_prox_rev">NEXT REVISION</string>
+    <string name="label_compania">COMPANY</string>
+    <string name="label_poliza">INSURANCE Nº</string>
+    <string name="label_alerta">ALARM</string>
+    <string name="label_si">YES</string>
+    <string name="label_no">NO</string>
+    <string name="label_notificaciones">NOTIFICATIONS</string>
+    <string name="label_datos">DATA</string>
+    <string name="label_exportar">Export vehicle data</string>
+    <string name="label_datos_correo">Send information by email</string>
+    <string name="label_borrar_todo">Clear all data</string>
+    <string name="label_reinicio">RESTART</string>
+    <string name="label_fondo_pantalla">WALLPAPER</string>
+    <string name="label_fondo_1">Wallpaper 1</string>
+    <string name="label_fondo_2">Wallpaper 2</string>
+    <string name="label_fondo_3">Wallpaper 3</string>
+    <string name="label_contacto">CONTACT</string>
+    <string name="label_contacta">Contact the developer</string>
+    <string name="label_politica">PRIVACY POLICY</string>
+    <string name="label_leer_politica">Read privacy policy</string>
+    <string name="label_politica_mod">MODIFY</string>
+    <string name="label_politica_contenido_1">
+        By using Infocar, you agree to adhere to the Terms of Use and Privacy Policy.\n
+        The data entered by the user will not be disclosed or divulged to third parties or published on websites other than Infocar.\n
+        Infocar Juncal is owned by Jhonny Gonzalez, and no changes are allowed, or duplicates, or selling it.\n
+        Infocar is committed to respecting your privacy and your need to protect the personal information you share with Infocar.\n
+        If we have any notice about the service, we will inform you by posting a notice on the application.\n
+        If you have any comments or questions about the application or service, you should contact us by email.
+        By using Infocar you acknowledge and agree that we may use your mobile phone number or email address, to suggest connections, to verify your identity and to prevent unauthorized use.\n
+        All information provided by you will be stored internally in your mobile.\n
+    </string>
+    <string name="label_politica_contenido_2">
+        This Privacy Policy may be updated from time to time for any reason. We will notify you of any changes in our privacy policy by posting a new privacy policy on this page.
+    </string>
+    <string name="label_terminos">TERMS OF USE</string>
+    <string name="label_leer_terminos">Read terms of use</string>
+    <string name="label_terminos_uso_1">
+        Infocar is a free application nonprofit whose sole purpose is to help users to sort information on their vehicles and have this information in your mobile phone and you can access it quickly.\n
+        You agree not to use the service, under false names or impersonate someone else.\n
+        We reserve the right, at our sole discretion to modify or cancel any and all services without notice.\n
+        Any use in violation of any law, regulation, governmental request, or court order.\n
+        Use to promote or provide instructional information about illegal activities is prohibited, promote physical harm or injury against any group or individual, or promote any act that violates the common good.\n
+        Any use that violates or infringes any patent, copyright, trademark, right of privacy or publicity, or any other industrial or intellectual property of any person or entity.\n
+        It is prohibited to impersonate any person or entity or misrepresenting affiliation, connection or association with it, including, without limitation, any of the entities Infocar.\n
+        Sell or attempt to resell any service or content Infocar prohibited.\n
+        It is prohibited to obtain or attempt to obtain unauthorized access to any service, profile or account information, for business purposes (without authorization Infocar), unlawful, libelous, or scandalous.\n
+        Any use that promotes or solicits involvement in or support of worship, religion or sect.\n
+        You acknowledge and agree that you bear all risks associated with use of or reliance on the service and contents.\n
+    </string>
+    <string name="label_volver">BACK</string>
+    <string name="sexo_hombre">Male</string>
+    <string name="sexo_mujer">Female</string>
+    <string name="boton_guardar_desp">SAVE AFTER</string>
+    <string name="lbl_edad">Age</string>
+    <string name="lbl_sexo">Gender</string>
+    <string name="lbl_nombre">Name</string>
+    <string name="lbl_telefono">Phone</string>
+    <string name="lbl_marca">BRAND</string>
+    <string name="lbl_modelo">MODEL</string>
+    <string name="lbl_compra">PURCHASE DATE</string>
+    <string name="lbl_fecha_mat">REGISTRATION DATE</string>
+    <string name="label_tipo_veh">VEH. TYPE</string>
+    <string name="lbl_combustible">Fuel</string>
+    <string name="lbl_menu_nuevo">New vehicle</string>
+    <string name="lbl_email">E-Mail</string>
     <string name="title_activity_accidentes">Accidents</string>
     <string name="title_activity_datos">Data</string>
     <string name="title_activity_estadisticas">Statistics</string>
@@ -56,24 +143,6 @@
         <item>@drawable/ic_launcher</item>
     </string-array>
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="sexo_hombre">Man</string>
-    <string name="sexo_mujer">Woman</string>
-    <string name="boton_guardar">Save</string>
-    <string name="boton_guardar_desp">SAVE AFTER</string>
-    <string name="boton_cancelar">Cancel</string>
-    <string name="boton_aceptar">Accept</string>
-    <string name="lbl_edad">Age</string>
-    <string name="lbl_sexo">Gender</string>
-    <string name="lbl_nombre">Name</string>
-    <string name="lbl_telefono">Phone</string>
-    <string name="lbl_marca">Brand</string>
-    <string name="lbl_modelo">Model</string>
-    <string name="lbl_kms">Miles</string>
-    <string name="lbl_compra">Purchase date</string>
-    <string name="lbl_tipo">Type</string>
-    <string name="lbl_combustible">Fuel</string>
-    <string name="lbl_menu_nuevo">New vehicle</string>
-    <string name="lbl_menu_eliminar">Delete</string>
     <string-array name="MARCAS_VEHICULO">
         <item>Select a vehicle</item>
         <item>Alfa Romeo</item>
@@ -237,8 +306,10 @@
     <string name="titulo_eliminar_ficha">Delete data sheet</string>
     <string name="titulo_eliminar_itv">Delete ITV</string>
     <string name="titulo_eliminar_seguro">Delete car insurence</string>
+    <string name="texto_boton_guardar">Save</string>
     <string name="texto_boton_eliminar">Delete</string>
     <string name="texto_boton_cancelar">Cancel</string>
+    <string name="texto_boton_aceptar">Accept</string>
     <string name="label_activada">Enabled</string>
     <string name="label_desactivada">Disabled</string>
 </resources>

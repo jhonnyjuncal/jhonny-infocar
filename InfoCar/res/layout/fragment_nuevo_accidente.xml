@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Fecha:"
+                android:text="@string/label_fecha"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -62,10 +62,10 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Kilometros:"
+                android:text="@string/label_kilometros"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -86,10 +86,10 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Lugar:"
+                android:text="@string/label_lugar"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -110,9 +110,9 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="100dp"
+                android:layout_width="118dp"
                 android:layout_height="40dp"
-                android:text="Vehiculo:"
+                android:text="@string/label_vehiculo"
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical" />
 
@@ -132,10 +132,10 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Observaciones:"
+                android:text="@string/label_observaciones"
                 android:textColor="@color/blanco" />
 
             <EditText

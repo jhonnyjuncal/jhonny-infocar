@@ -47,7 +47,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MARCA"
+                android:text="@string/lbl_marca"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MODELO"
+                android:text="@string/lbl_modelo"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -99,7 +99,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FECHA"
+                android:text="@string/label_fecha"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size" />
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -124,7 +124,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="KILÓMETROS"
+                android:text="@string/label_kilometros"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
                 android:textStyle="bold" />
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
-                android:text="TextView" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -150,7 +150,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PRECIO"
+                android:text="@string/label_precio"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
-                android:text="TextView" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -176,7 +176,7 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TIPO MANT."
+                android:text="@string/label_tipo_mant"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
                 android:textStyle="bold" />
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
-                android:text="TextView" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -202,7 +202,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TALLER"
+                android:text="@string/label_taller"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold" />
@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
-                android:text="TextView" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -228,7 +228,7 @@
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OBSERVACIONES"
+                android:text="@string/label_observaciones"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold" />
@@ -247,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/fuente_size"
-                android:text="TextView"
+                android:text=""
                 android:layout_marginRight="10dp" />
 
         </LinearLayout>

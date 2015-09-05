@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
         android:layout_marginLeft="200dp"
-        android:text="Cargando..."
+        android:text="@string/label_cargando"
         android:textSize="20sp" />
 
     <TextView

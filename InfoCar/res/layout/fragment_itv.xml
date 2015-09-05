@@ -39,7 +39,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FECHA"
+                android:text="@string/label_fecha_itv"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -65,7 +65,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PROXIMA REV."
+                android:text="@string/label_prox_rev"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -91,7 +91,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LUGAR"
+                android:text="@string/label_lugar"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="@dimen/fuente_size" />
 
         </LinearLayout>
@@ -117,7 +117,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OBSERVACIONES"
+                android:text="@string/label_observaciones"
                 android:textStyle="bold"
                 android:textSize="@dimen/fuente_size"
                 android:layout_marginLeft="10dp" />

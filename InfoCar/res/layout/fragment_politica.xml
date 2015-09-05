@@ -27,26 +27,53 @@
 			android:layout_alignParentTop="true"
 			android:layout_marginBottom="100dp">
 
-
 			<LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="POLITICA DE PRIVACIDAD"
-                    android:id="@+id/textView32" />
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:padding="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Aqui toda la politica de privacidad que se incluira en la aplicacion y que sera aceptada si se usa la aplicacion. En caso contrario debera ser desinstalada"
-                    android:id="@+id/textView33" />
+					<TextView
+						android:id="@+id/textView1"
+						android:layout_width="wrap_content"
+						android:layout_height="25dp"
+						android:text="@string/label_politica" />
 
-            </LinearLayout>
+					<TextView
+						android:id="@+id/poli_textView2"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/label_politica_contenido_1" />
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:padding="10dp">
+
+					<TextView
+						android:id="@+id/textView3"
+						android:layout_width="wrap_content"
+						android:layout_height="25dp"
+						android:text="@string/label_politica_mod" />
+
+					<TextView
+						android:id="@+id/poli_textView4"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/label_politica_contenido_2" />
+
+				</LinearLayout>
+
+			</LinearLayout>
+
 		</ScrollView>
 
 		<LinearLayout
@@ -60,7 +87,7 @@
 			<Button
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:text="VOLVER"
+				android:text="@string/label_volver"
 				android:id="@+id/botonVolver" />
 		</LinearLayout>
 
@@ -74,5 +101,5 @@
 		</LinearLayout>
 
 	</RelativeLayout>
-	
+
 </FrameLayout>

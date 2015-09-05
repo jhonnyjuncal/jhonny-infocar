@@ -37,72 +37,31 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|top"
                     android:layout_margin="10dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="NOTIFICACIONES"
-                        android:id="@+id/textView11" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="30dp"
-                                android:text="Activar notificaciones"
-                                android:id="@+id/textView14"
-                                android:gravity="center_vertical" />
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/checkBoxNotificaciones" />
-
-
-                        </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="DATOS"
+                        android:text="@string/label_datos"
                         android:id="@+id/textView17" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Exportar datos del vehiculo"
+                        android:text="@string/label_exportar"
                         android:id="@+id/textView18"
                         android:gravity="center_vertical" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Enviar datos por correo"
+                        android:text="@string/label_datos_correo"
                         android:id="@+id/textView19"
                         android:gravity="center_vertical" />
                 </LinearLayout>
@@ -116,19 +75,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="REINICIO"
+                        android:text="@string/label_reinicio"
                         android:id="@+id/textView20" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Borrar todos los datos"
+                        android:text="@string/label_borrar_todo"
                         android:id="@+id/textView21"
                         android:gravity="center_vertical" />
                 </LinearLayout>
@@ -142,14 +101,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="FONDO DE PANTALLA"
+                        android:text="@string/label_fondo_pantalla"
                         android:id="@+id/textView22" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -157,9 +116,9 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:text="Fondo 1"
+                            android:text="@string/label_fondo_1"
                             android:id="@+id/textView23"
                             android:gravity="center_vertical" />
 
@@ -175,9 +134,9 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:text="Fondo 2"
+                            android:text="@string/label_fondo_2"
                             android:id="@+id/textView24"
                             android:gravity="center_vertical" />
 
@@ -193,9 +152,9 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:text="Fondo 3"
+                            android:text="@string/label_fondo_3"
                             android:id="@+id/textView25"
                             android:gravity="center_vertical" />
 
@@ -216,19 +175,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="CONTACTO"
+                        android:text="@string/label_contacto"
                         android:id="@+id/textView26" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Contacta con el desarrollador"
+                        android:text="@string/label_contacta"
                         android:id="@+id/textView27"
                         android:gravity="center_vertical" />
                 </LinearLayout>
@@ -242,19 +201,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="POLITICA DE PRIVACIDAD"
+                        android:text="@string/label_politica"
                         android:id="@+id/textView28" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Leer politica de privacidad"
+                        android:text="@string/label_leer_politica"
                         android:id="@+id/textView29"
                         android:gravity="center_vertical" />
                 </LinearLayout>
@@ -268,19 +227,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TERMINOS DE USO"
+                        android:text="@string/label_terminos"
                         android:id="@+id/textView30" />
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/negro"></LinearLayout>
+                        android:background="@color/negro" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Leer terminos de uso"
+                        android:text="@string/label_leer_terminos"
                         android:id="@+id/textView31"
                         android:gravity="center_vertical" />
                 </LinearLayout>

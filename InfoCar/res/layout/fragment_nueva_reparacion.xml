@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Fecha:"
+                android:text="@string/label_fecha"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -61,10 +61,10 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Kilometros:"
+                android:text="@string/label_kilometros"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -85,10 +85,10 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Precio:"
+                android:text="@string/label_precio"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -109,10 +109,10 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Taller:"
+                android:text="@string/label_taller"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -133,9 +133,9 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="Tipo reparacion:"
+                android:text="@string/label_tipo_repa"
                 android:textColor="@color/blanco" />
 
             <Spinner
@@ -156,9 +156,9 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="Vehiculo:"
+                android:text="@string/label_vehiculo"
                 android:textColor="@color/blanco" />
 
             <Spinner
@@ -178,10 +178,10 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="105dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="Observaciones:"
+                android:text="@string/label_observaciones"
                 android:textColor="@color/blanco" />
 
             <EditText

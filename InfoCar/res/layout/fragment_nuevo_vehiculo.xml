@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="@string/lbl_marca"
@@ -50,7 +50,7 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_modelo"
                 android:textColor="@color/blanco" />
@@ -72,9 +72,9 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lbl_kms"
+                android:text="@string/label_kilometros"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -95,7 +95,7 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_compra"
                 android:textColor="@color/blanco" />
@@ -126,9 +126,9 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
-                android:text="Matricula:"
+                android:text="@string/label_matricula"
                 android:textColor="@color/blanco" />
 
             <EditText
@@ -148,10 +148,10 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="@string/lbl_tipo"
+                android:text="@string/label_tipo_vehi"
                 android:textColor="@color/blanco" />
 
             <Spinner
@@ -169,7 +169,7 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="@string/lbl_combustible"

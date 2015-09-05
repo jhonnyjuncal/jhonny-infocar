@@ -36,6 +36,7 @@
 					android:id="@+id/imageView2"
 					android:src="@drawable/ic_launcher_trans"
 					android:adjustViewBounds="false" />
+
 			</LinearLayout>
 
 			<LinearLayout
@@ -60,7 +61,7 @@
 					<TextView
 						android:layout_width="fill_parent"
 						android:layout_height="50dp"
-						android:text="Vehiculos"
+						android:text="@string/lbl_vehiculo"
 						android:id="@+id/textView1"
 						android:layout_marginLeft="10dp"
 						android:textSize="@dimen/fuente_size"
@@ -92,7 +93,7 @@
 					<TextView
 						android:layout_width="fill_parent"
 						android:layout_height="50dp"
-						android:text="Mantenimientos"
+						android:text="@string/lbl_mantenimiento"
 						android:id="@+id/textView2"
 						android:layout_marginLeft="10dp"
 						android:textSize="@dimen/fuente_size"
@@ -124,7 +125,7 @@
 					<TextView
 						android:layout_width="fill_parent"
 						android:layout_height="50dp"
-						android:text="Reparaciones"
+						android:text="@string/lbl_reparaciones"
 						android:id="@+id/textView3"
 						android:layout_marginLeft="10dp"
 						android:textSize="@dimen/fuente_size"
@@ -156,7 +157,7 @@
 					<TextView
 						android:layout_width="fill_parent"
 						android:layout_height="50dp"
-						android:text="Accidentes"
+						android:text="@string/lbl_accidentes"
 						android:id="@+id/textView4"
 						android:layout_marginLeft="10dp"
 						android:textSize="@dimen/fuente_size"
@@ -188,7 +189,7 @@
 					<TextView
 						android:layout_width="fill_parent"
 						android:layout_height="50dp"
-						android:text="Opciones"
+						android:text="@string/lbl_opciones"
 						android:id="@+id/textView5"
 						android:layout_marginLeft="10dp"
 						android:textSize="@dimen/fuente_size"

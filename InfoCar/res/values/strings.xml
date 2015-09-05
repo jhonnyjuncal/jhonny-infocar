@@ -1,13 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">InfoCar</string>
-    <string name="action_settings">Settings</string>
+    <string name="label_cargando">Cargando...</string>
+    <string name="lbl_vehiculo">Vehiculos</string>
     <string name="lbl_mantenimiento">Mantenimientos</string>
     <string name="lbl_reparaciones">Reparaciones</string>
     <string name="lbl_accidentes">Accidentes</string>
     <string name="lbl_datos">Datos</string>
     <string name="lbl_estadisticas">Estadisticas</string>
     <string name="lbl_opciones">Opciones</string>
+    <string name="label_fecha">FECHA</string>
+    <string name="label_fecha_itv">FECHA ITV</string>
+    <string name="label_vehiculo">VEHICULO</string>
+    <string name="label_kilometros">KILÓMETROS</string>
+    <string name="label_lugar">LUGAR</string>
+    <string name="label_observaciones">OBSERVACIONES</string>
+    <string name="label_version">VERSIÓN</string>
+    <string name="label_creacion">CREACIÓN</string>
+    <string name="label_pais">PAÍS</string>
+    <string name="label_espana">España</string>
+    <string name="label_desarrollado_por">Desarrollado por:</string>
+    <string name="label_precio">PRECIO</string>
+    <string name="label_tipo_mant">TIPO MANT.</string>
+    <string name="label_tipo_repa">TIPO REPARACIÓN</string>
+    <string name="label_tipo_vehi">TIPO VEHICULO</string>
+    <string name="label_tipo_segu">TIPO SEGURO</string>
+    <string name="label_taller">TALLER</string>
+    <string name="label_matricula">MATRÍCULA</string>
+    <string name="label_neumaticos">NEUMÁTICOS</string>
+    <string name="label_potencia">POT. FISCAL</string>
+    <string name="label_bastidor">BASTIDOR</string>
+    <string name="label_prox_rev">PROXIMA REV.</string>
+    <string name="label_compania">COMPAÑIA</string>
+    <string name="label_poliza">POLIZA</string>
+    <string name="label_alerta">ALERTA</string>
+    <string name="label_si">SI</string>
+    <string name="label_no">NO</string>
+    <string name="label_notificaciones">NOTIFICACIONES</string>
+    <string name="label_datos">DATOS</string>
+    <string name="label_exportar">Exportar datos del vehiculo</string>
+    <string name="label_datos_correo">Enviar datos por correo</string>
+    <string name="label_borrar_todo">Borrar todos los datos</string>
+    <string name="label_reinicio">REINICIO</string>
+    <string name="label_fondo_pantalla">FONDO DE PANTALLA</string>
+    <string name="label_fondo_1">Fondo 1</string>
+    <string name="label_fondo_2">Fondo 2</string>
+    <string name="label_fondo_3">Fondo 3</string>
+    <string name="label_contacto">CONTACTO</string>
+    <string name="label_contacta">Contacta con el desarrollador</string>
+    <string name="label_politica">POLITICA DE PRIVACIDAD</string>
+    <string name="label_leer_politica">Leer politica de privacidad</string>
+    <string name="label_politica_mod">MODIFICACIÓN</string>
+    <string name="label_politica_contenido_1">
+        Al usar InfoCar, usted acepta adherirse a los Términos de Uso y su Política de privacidad.\n
+        Los datos introducidos por el usuario no serán cedidos, ni divulgados a terceros, ni publicados en sitios web distintos a InfoCar.\n
+        InfoCar es propiedad de Jhonny Juncal Gonzalez, y no se permiten modificaciones, ni duplicados, ni la venta de la misma.\n
+        InfoCar se avoca a respetar su privacidad y su necesidad de proteger la información personal que comparte con InfoCar.\n
+        Si tenemos algún aviso sobre el servicio, le informaremos fijando un aviso en la aplicación.\n
+        Si usted tiene algún comentario o pregunta sobre la aplicación o servicio, usted deberá comunicarse con nosotros enviando un correo electrónico.\n
+        Al usar InfoCar usted reconoce y conviene que podemos utilizar su número de teléfono móvil o su dirección de correo electrónico, para sugerir conexiones, para verificar su identidad y para evitar el uso no autorizado.\n
+        Toda la información suministrada por usted se almacenara internamente en su móvil.\n
+    </string>
+    <string name="label_politica_contenido_2">
+        Esta Política de Privacidad puede ser actualizada de vez en cuando por cualquier razón. Le notificaremos de cualquier cambio en nuestra política de privacidad mediante la publicación de la nueva política de privacidad en esta página.
+    </string>
+    <string name="label_terminos">TERMINOS DE USO</string>
+    <string name="label_leer_terminos">Leer terminos de uso</string>
+    <string name="label_terminos_uso_1">
+        InfoCar es una aplicación gratuita sin ánimos de lucro cuyo único propósito es ayudar a los usuarios a ordenar información relativa a sus vehículos y tener dicha información en su teléfono móvil y poder acceder a ella de forma rápida.\n
+        Usted conviene en no utilizar el servicio, con nombres falsos o suplantar la identidad de otra persona.\n
+        Nos reservamos el derecho, a nuestra entera discreción, de modificar o cancelar cualquier y todos los servicios, sin aviso previo.\n
+        Queda prohibido cualquier uso que viole cualquier ley, reglamento, solicitud gubernamental, u orden judicial.\n
+        Queda prohibido el uso que promueva o proporcione información instructiva respecto a actividades ilegales, promueva daño físico o lesión en contra de cualquier grupo o individuo, o promueva cualquier acto que viole el bien común.\n
+        Queda prohibido cualquier uso que infrinja o viole cualquier patente, derecho de autor, marca, derecho de privacidad o publicidad, o cualquier otro derecho de propiedad industrial o intelectual de cualquier persona o entidad.\n
+        Queda prohibido hacerse pasar por cualquier persona o entidad, o declarar falsamente una afiliación, relación o asociación con la misma, incluyendo de manera enunciativa más no limitativa, con cualquiera de las entidades de InfoCar.\n
+        Queda prohibido vender o intentar revender cualquier servicio o contenido de InfoCar.\n
+        Queda prohibido obtener o intentar obtener acceso no autorizado a cualquier servicio, perfil o información sobre cuentas, para fines comerciales (sin autorización de InfoCar), ilícitos, calumniantes, o escandalosa.\n
+        Queda prohibido cualquier uso que promueva o solicite la participación o apoyo de culto, religión o secta.\n
+        Usted reconoce y conviene que usted asumirá todos los riesgos relacionados con su uso o confianza en el servicio y los contenidos.\n
+    </string>
+    <string name="label_volver">VOLVER</string>
+    <string name="sexo_hombre">Hombre</string>
+    <string name="sexo_mujer">Mujer</string>
+    <string name="boton_guardar_desp">GUARDAR DESPUES</string>
+    <string name="lbl_edad">Edad</string>
+    <string name="lbl_sexo">Sexo</string>
+    <string name="lbl_nombre">Nombre</string>
+    <string name="lbl_telefono">Telefono</string>
+    <string name="lbl_marca">MARCA</string>
+    <string name="lbl_modelo">MODELO</string>
+    <string name="lbl_compra">FECHA COMPRA</string>
+    <string name="lbl_fecha_mat">FECHA MAT.</string>
+    <string name="label_tipo_veh">TIPO VEH.</string>
+    <string name="lbl_combustible">COMBUSTIBLE</string>
+    <string name="lbl_menu_nuevo">Nuevo vehiculo</string>
+    <string name="lbl_email">E-Mail</string>
     <string name="title_activity_accidentes">Accidentes</string>
     <string name="title_activity_datos">Datos</string>
     <string name="title_activity_estadisticas">Estadisticas</string>
@@ -29,11 +116,11 @@
     <string name="title_activity_nuevo_seguro">Nuevo seguro</string>
     <string name="title_activity_seguro">Seguro</string>
     <string name="drawer_open">Open navigation drawer</string>
-	<string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="label_creador"><a href="https://plus.google.com/+jhonnyjuncal/">Jhonny Juncal Gonzalez</a></string>
     <string name="label_add_vehiculo">Seleccione un vehiculo</string>
-	<string-array name="menu_array">
-	    <item>InfoCar</item>
+    <string-array name="menu_array">
+        <item>InfoCar</item>
         <item>Vehiculos</item>
         <item>Mantenimientos</item>
         <item>Reparaciones</item>
@@ -56,24 +143,6 @@
         <item>@drawable/ic_launcher</item>
     </string-array>
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="sexo_hombre">Hombre</string>
-    <string name="sexo_mujer">Mujer</string>
-    <string name="boton_guardar">Guardar</string>
-    <string name="boton_guardar_desp">GUARDAR DESPUES</string>
-    <string name="boton_cancelar">Cancelar</string>
-    <string name="boton_aceptar">Aceptar</string>
-    <string name="lbl_edad">Edad</string>
-    <string name="lbl_sexo">Sexo</string>
-    <string name="lbl_nombre">Nombre</string>
-    <string name="lbl_telefono">Telefono</string>
-    <string name="lbl_marca">Marca:</string>
-    <string name="lbl_modelo">Modelo:</string>
-    <string name="lbl_kms">Kms:</string>
-    <string name="lbl_compra">Fecha compra:</string>
-    <string name="lbl_tipo">Tipo:</string>
-    <string name="lbl_combustible">Combustible</string>
-    <string name="lbl_menu_nuevo">Nuevo vehiculo</string>
-    <string name="lbl_menu_eliminar">Eliminar</string>
     <string-array name="MARCAS_VEHICULO">
         <item>Seleccione un vehiculo</item>
         <item>Alfa Romeo</item>
@@ -170,33 +239,33 @@
         <item>Camion</item>
         <item>Bus</item>
     </string-array>
-	<string-array name="TIPOS_CARBURANTE">
-		<item>Seleccione un carburante</item>
-		<item>Gasolina</item>
-		<item>Diesel</item>
-		<item>Gas/Gasolina</item>
-		<item>Hibrido</item>
-		<item>Eléctrico</item>
-	</string-array>
-	<string-array name="TIPOS_MANTENIMIENTOS">
-		<item>Seleccione un tipo</item>
-		<item>Cambio de aceite</item>
-		<item>Cambio de filtros</item>
-		<item>Cambio de aceite y filtros</item>
-		<item>Cambio de bujias</item>
-		<item>Cambio de bateria</item>
-		<item>Cambio de neumaticos</item>
-		<item>Cambio de escobillas</item>
-		<item>Otros</item>
-	</string-array>
-	<string-array name="TIPOS_REPARACIONES">
-		<item>Seleccione un tipo</item>
-		<item>Reparacion de chapa</item>
-		<item>Reparacion de interior</item>
-		<item>Reparacion de llantas</item>
-		<item>Reparacion de cristal</item>
-		<item>Otros</item>
-	</string-array>
+    <string-array name="TIPOS_CARBURANTE">
+        <item>Seleccione un carburante</item>
+        <item>Gasolina</item>
+        <item>Diesel</item>
+        <item>Gas/Gasolina</item>
+        <item>Hibrido</item>
+        <item>Eléctrico</item>
+    </string-array>
+    <string-array name="TIPOS_MANTENIMIENTOS">
+        <item>Seleccione un tipo</item>
+        <item>Cambio de aceite</item>
+        <item>Cambio de filtros</item>
+        <item>Cambio de aceite y filtros</item>
+        <item>Cambio de bujias</item>
+        <item>Cambio de bateria</item>
+        <item>Cambio de neumaticos</item>
+        <item>Cambio de escobillas</item>
+        <item>Otros</item>
+    </string-array>
+    <string-array name="TIPOS_REPARACIONES">
+        <item>Seleccione un tipo</item>
+        <item>Reparacion de chapa</item>
+        <item>Reparacion de interior</item>
+        <item>Reparacion de llantas</item>
+        <item>Reparacion de cristal</item>
+        <item>Otros</item>
+    </string-array>
     <string name="mensaje_crear_vehiculo_acc">Para crear un nuevo accidente antes debe crear un vehículo</string>
     <string name="mensaje_crear_vehiculo_man">Para crear un nuevo mantenimiento antes debe crear un vehículo</string>
     <string name="mensaje_crear_vehiculo_rep">Para crear una nueva reparación antes debe crear un vehículo</string>
@@ -237,8 +306,10 @@
     <string name="titulo_eliminar_ficha">Eliminar ficha técnica</string>
     <string name="titulo_eliminar_itv">Eliminar ITV</string>
     <string name="titulo_eliminar_seguro">Eliminar seguro</string>
+    <string name="texto_boton_guardar">Guardar</string>
     <string name="texto_boton_eliminar">Eliminar</string>
     <string name="texto_boton_cancelar">Cancelar</string>
+    <string name="texto_boton_aceptar">Aceptar</string>
     <string name="label_activada">Activada</string>
     <string name="label_desactivada">Desactivada</string>
 </resources>
